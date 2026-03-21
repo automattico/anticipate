@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run on Forerunner 55",
+      "device": "fr55",
+      "prg": "${workspaceFolder}/bin/anticipate.prg",
+      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
+    }
+  ]
+}

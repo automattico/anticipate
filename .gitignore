@@ -1,0 +1,8 @@
+.DS_Store
+.vscode/*.log
+bin/
+build/
+DerivedData/
+private/
+*.prg
+*.prg.debug.xml

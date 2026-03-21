@@ -1,0 +1,26 @@
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <properties>
+        <property id="event1_name" type="string"></property>
+        <property id="event1_target_date" type="number">0</property>
+    </properties>
+
+    <strings>
+        <string id="EventGroupTitle">Countdown</string>
+        <string id="EventNameTitle">Name</string>
+        <string id="EventNamePrompt">Visible label on the watch.</string>
+        <string id="EventTargetDateTitle">Date</string>
+        <string id="EventTargetDatePrompt">Pick the countdown date.</string>
+    </strings>
+
+    <settings>
+        <group id="event_group" title="@Strings.EventGroupTitle">
+            <setting propertyKey="@Properties.event1_name" title="@Strings.EventNameTitle" prompt="@Strings.EventNamePrompt">
+                <settingConfig type="alphaNumeric" />
+            </setting>
+            <setting propertyKey="@Properties.event1_target_date" title="@Strings.EventTargetDateTitle" prompt="@Strings.EventTargetDatePrompt">
+                <settingConfig type="date" />
+            </setting>
+        </group>
+    </settings>
+</resources>
