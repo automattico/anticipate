@@ -1,12 +1,23 @@
 import Toybox.Application.Properties;
 import Toybox.Graphics;
 import Toybox.Lang;
+import Toybox.Timer;
 import Toybox.WatchUi;
 
 class CountdownWidgetView extends WatchUi.View {
 
+    const CENTER_X = 104;
+    const KICKER_Y = 30;
+    const TITLE_Y = 56;
+    const PRIMARY_VALUE_Y = 92;
+    const PRIMARY_DETAIL_Y = 126;
+    const PRIMARY_AUX_Y = 148;
+    const PRIMARY_DATE_Y = 172;
+    var _refreshTimer as Timer.Timer or Null;
+
     function initialize() {
         View.initialize();
+        _refreshTimer = null;
     }
 
     function onLayout(dc as Dc) as Void {
@@ -14,12 +25,12 @@ class CountdownWidgetView extends WatchUi.View {
 
     function onShow() as Void {
         WatchUi.requestUpdate();
+        _startRefreshTimer();
     }
 
     function onUpdate(dc as Dc) as Void {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.clear();
-        _drawStage(dc);
 
         var event = _currentEvent();
         if (event == null) {
@@ -32,88 +43,125 @@ class CountdownWidgetView extends WatchUi.View {
     }
 
     function onHide() as Void {
-    }
-
-    function _drawStage(dc as Dc) as Void {
-        dc.setColor(Graphics.COLOR_DK_BLUE, Graphics.COLOR_BLACK);
-        dc.fillCircle(104, 104, 78);
-
-        dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_DK_BLUE);
-        dc.drawCircle(104, 104, 78);
-        dc.drawCircle(104, 104, 77);
+        _stopRefreshTimer();
     }
 
     function _drawEmptyState(dc as Dc) as Void {
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_DK_BLUE);
-        dc.drawText(104, 84, Graphics.FONT_SMALL, _resourceText(Rez.Strings.FallbackNoEventsTitle), Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(104, 110, Graphics.FONT_XTINY, _resourceText(Rez.Strings.FallbackNoEventsHintLine1), Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(104, 124, Graphics.FONT_XTINY, _resourceText(Rez.Strings.FallbackNoEventsHintLine2), Graphics.TEXT_JUSTIFY_CENTER);
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        dc.drawText(CENTER_X, 42, Graphics.FONT_XTINY, "ANTICIPATE", Graphics.TEXT_JUSTIFY_CENTER);
+
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        dc.drawText(CENTER_X, 88, Graphics.FONT_SMALL, _resourceText(Rez.Strings.FallbackNoEventsTitle), Graphics.TEXT_JUSTIFY_CENTER);
+
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        dc.drawText(CENTER_X, 120, Graphics.FONT_XTINY, _resourceText(Rez.Strings.FallbackNoEventsHintLine1), Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(CENTER_X, 134, Graphics.FONT_XTINY, _resourceText(Rez.Strings.FallbackNoEventsHintLine2), Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function _drawConfiguredState(dc as Dc, event as EventConfig, state as CountdownState) as Void {
-        var title = CountdownFormatter.fitTitleToWidth(dc, event.name, 128);
+        var title = CountdownFormatter.fitTitleToWidth(dc, event.name, 150);
         var dateLine = CountdownFormatter.formatTargetDateLine(event);
-
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_DK_BLUE);
-        dc.drawText(104, 50, Graphics.FONT_SMALL, title, Graphics.TEXT_JUSTIFY_CENTER);
+        _drawTitle(dc, title);
 
         if (state.isDone) {
-            dc.drawText(104, 98, Graphics.FONT_LARGE, "DONE", Graphics.TEXT_JUSTIFY_CENTER);
-            dc.drawText(104, 136, Graphics.FONT_TINY, "Event passed", Graphics.TEXT_JUSTIFY_CENTER);
-            dc.drawText(104, 158, Graphics.FONT_XTINY, dateLine, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(CENTER_X, PRIMARY_VALUE_Y, Graphics.FONT_LARGE, "DONE", Graphics.TEXT_JUSTIFY_CENTER);
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+            dc.drawText(CENTER_X, PRIMARY_DETAIL_Y, Graphics.FONT_TINY, "Event passed", Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(CENTER_X, PRIMARY_DATE_Y, Graphics.FONT_XTINY, dateLine, Graphics.TEXT_JUSTIFY_CENTER);
             return;
         }
 
         if (state.isNow) {
-            dc.drawText(104, 98, Graphics.FONT_LARGE, "TODAY", Graphics.TEXT_JUSTIFY_CENTER);
-            dc.drawText(104, 136, Graphics.FONT_TINY, "It's happening", Graphics.TEXT_JUSTIFY_CENTER);
-            dc.drawText(104, 158, Graphics.FONT_XTINY, dateLine, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(CENTER_X, PRIMARY_VALUE_Y, Graphics.FONT_LARGE, "TODAY", Graphics.TEXT_JUSTIFY_CENTER);
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+            dc.drawText(CENTER_X, PRIMARY_DETAIL_Y, Graphics.FONT_TINY, "It's happening", Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(CENTER_X, PRIMARY_DATE_Y, Graphics.FONT_XTINY, dateLine, Graphics.TEXT_JUSTIFY_CENTER);
             return;
         }
 
         if (state.days > 0) {
             var dayText = state.days.toString();
-            dc.drawText(104, 72, Graphics.FONT_TINY, "Only", Graphics.TEXT_JUSTIFY_CENTER);
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
             _drawDayNumber(dc, dayText);
-            dc.drawText(104, 144, Graphics.FONT_SMALL, _dayLabel(state.days), Graphics.TEXT_JUSTIFY_CENTER);
-            dc.drawText(104, 164, Graphics.FONT_XTINY, dateLine, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+            dc.drawText(CENTER_X, PRIMARY_DETAIL_Y, Graphics.FONT_TINY, _dayLabel(state.days), Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(CENTER_X, PRIMARY_AUX_Y, Graphics.FONT_XTINY, _formatInlineTime(state), Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(CENTER_X, PRIMARY_DATE_Y, Graphics.FONT_XTINY, dateLine, Graphics.TEXT_JUSTIFY_CENTER);
             return;
         }
 
-        var primary = CountdownFormatter.formatMainPrimary(state);
-        var secondary = CountdownFormatter.formatMainSecondary(state);
-        dc.drawText(104, 74, Graphics.FONT_TINY, "Next up", Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(104, 112, Graphics.FONT_LARGE, primary, Graphics.TEXT_JUSTIFY_CENTER);
+        _drawSubdayStrip(dc, state);
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        dc.drawText(CENTER_X, PRIMARY_DATE_Y, Graphics.FONT_XTINY, dateLine, Graphics.TEXT_JUSTIFY_CENTER);
+    }
 
-        if (secondary != "") {
-            dc.drawText(104, 144, Graphics.FONT_SMALL, secondary + " left", Graphics.TEXT_JUSTIFY_CENTER);
-        } else {
-            dc.drawText(104, 144, Graphics.FONT_SMALL, "to go", Graphics.TEXT_JUSTIFY_CENTER);
-        }
+    function _drawTitle(dc as Dc, title as String) as Void {
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        dc.drawText(CENTER_X, KICKER_Y, Graphics.FONT_XTINY, "COUNTDOWN TO", Graphics.TEXT_JUSTIFY_CENTER);
 
-        dc.drawText(104, 164, Graphics.FONT_XTINY, dateLine, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        dc.drawText(CENTER_X, TITLE_Y, Graphics.FONT_SMALL, title, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function _drawDayNumber(dc as Dc, text as String) as Void {
         if (dc.getTextWidthInPixels(text, Graphics.FONT_NUMBER_MEDIUM) <= 108) {
-            dc.drawText(104, 104, Graphics.FONT_NUMBER_MEDIUM, text, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(CENTER_X, PRIMARY_VALUE_Y, Graphics.FONT_NUMBER_MEDIUM, text, Graphics.TEXT_JUSTIFY_CENTER);
             return;
         }
 
         if (dc.getTextWidthInPixels(text, Graphics.FONT_NUMBER_MILD) <= 120) {
-            dc.drawText(104, 104, Graphics.FONT_NUMBER_MILD, text, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(CENTER_X, PRIMARY_VALUE_Y, Graphics.FONT_NUMBER_MILD, text, Graphics.TEXT_JUSTIFY_CENTER);
             return;
         }
 
-        dc.drawText(104, 104, Graphics.FONT_LARGE, text, Graphics.TEXT_JUSTIFY_CENTER);
+        if (dc.getTextWidthInPixels(text, Graphics.FONT_LARGE) <= 96) {
+            dc.drawText(CENTER_X, PRIMARY_VALUE_Y, Graphics.FONT_LARGE, text, Graphics.TEXT_JUSTIFY_CENTER);
+            return;
+        }
+
+        dc.drawText(CENTER_X, PRIMARY_VALUE_Y, Graphics.FONT_TINY, text, Graphics.TEXT_JUSTIFY_CENTER);
+    }
+
+    function _drawSubdayStrip(dc as Dc, state as CountdownState) as Void {
+        _drawStripSeparator(dc, 88, 86, 128);
+        _drawStripSeparator(dc, 120, 86, 128);
+
+        _drawLargeStripMetric(dc, 58, PRIMARY_VALUE_Y, CountdownFormatter.twoDigits(state.hours), "HRS");
+        _drawLargeStripMetric(dc, CENTER_X, PRIMARY_VALUE_Y, CountdownFormatter.twoDigits(state.minutes), "MIN");
+        _drawLargeStripMetric(dc, 150, PRIMARY_VALUE_Y, CountdownFormatter.twoDigits(state.seconds), "SEC");
+    }
+
+    function _drawStripMetric(dc as Dc, x as Lang.Number, valueY as Lang.Number, value as String, label as String) as Void {
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        dc.drawText(x, valueY, Graphics.FONT_XTINY, value, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        dc.drawText(x, valueY + 12, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
+    }
+
+    function _drawLargeStripMetric(dc as Dc, x as Lang.Number, valueY as Lang.Number, value as String, label as String) as Void {
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        dc.drawText(x, valueY, Graphics.FONT_SMALL, value, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        dc.drawText(x, valueY + 28, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
+    }
+
+    function _drawStripSeparator(dc as Dc, x as Lang.Number, topY as Lang.Number, bottomY as Lang.Number) as Void {
+        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_BLACK);
+        dc.drawLine(x, topY, x, bottomY);
+    }
+
+    function _formatInlineTime(state as CountdownState) as String {
+        return CountdownFormatter.twoDigits(state.hours) + "h  "
+            + CountdownFormatter.twoDigits(state.minutes) + "m  "
+            + CountdownFormatter.twoDigits(state.seconds) + "s";
     }
 
     function _dayLabel(days as Lang.Number) as String {
         if (days == 1) {
-            return "day left";
+            return "day";
         }
 
-        return "days left";
+        return "days";
     }
 
     function _currentEvent() as EventConfig or Null {
@@ -163,6 +211,24 @@ class CountdownWidgetView extends WatchUi.View {
 
     function _resourceText(resourceId as Lang.ResourceId) as String {
         return WatchUi.loadResource(resourceId).toString();
+    }
+
+    function _startRefreshTimer() as Void {
+        if (_refreshTimer == null) {
+            _refreshTimer = new Timer.Timer();
+        }
+
+        _refreshTimer.start(method(:_onRefreshTick), 1000, true);
+    }
+
+    function _stopRefreshTimer() as Void {
+        if (_refreshTimer != null) {
+            _refreshTimer.stop();
+        }
+    }
+
+    function _onRefreshTick() as Void {
+        WatchUi.requestUpdate();
     }
 }
 

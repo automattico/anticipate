@@ -6,11 +6,11 @@
     </properties>
 
     <strings>
-        <string id="EventGroupTitle">Countdown</string>
-        <string id="EventNameTitle">Name</string>
-        <string id="EventNamePrompt">Visible label on the watch.</string>
-        <string id="EventTargetDateTitle">Date</string>
-        <string id="EventTargetDatePrompt">Pick the countdown date.</string>
+        <string id="EventGroupTitle">Your countdown</string>
+        <string id="EventNameTitle">Event name</string>
+        <string id="EventNamePrompt">Shown as the title on your watch.</string>
+        <string id="EventTargetDateTitle">Target date</string>
+        <string id="EventTargetDatePrompt">Choose the day you're counting down to.</string>
     </strings>
 
     <settings>

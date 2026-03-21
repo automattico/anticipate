@@ -17,14 +17,16 @@ class CountdownMath {
         var days = _wholeNumber(Math.floor(remaining / SECONDS_PER_DAY));
         var hours = _wholeNumber(Math.floor((remaining % SECONDS_PER_DAY) / SECONDS_PER_HOUR));
         var minutes = _wholeNumber(Math.floor((remaining % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE));
+        var seconds = _wholeNumber(remaining % SECONDS_PER_MINUTE);
 
         if (isNow || isDone) {
             days = 0;
             hours = 0;
             minutes = 0;
+            seconds = 0;
         }
 
-        return new CountdownState(event.targetEpoch, nowEpoch, remaining, isNow, isDone, days, hours, minutes);
+        return new CountdownState(event.targetEpoch, nowEpoch, remaining, isNow, isDone, days, hours, minutes, seconds);
     }
 
     static function now() as Lang.Number {

@@ -5,6 +5,14 @@ import Toybox.Time.Gregorian;
 
 class CountdownFormatter {
 
+    static function twoDigits(value as Lang.Number) as Lang.String {
+        if (value < 10) {
+            return "0" + value.toString();
+        }
+
+        return value.toString();
+    }
+
     static function formatMainPrimary(state as CountdownState) as Lang.String {
         if (state.isDone) {
             return "DONE";

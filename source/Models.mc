@@ -29,8 +29,9 @@ class CountdownState {
     var days as Lang.Number;
     var hours as Lang.Number;
     var minutes as Lang.Number;
+    var seconds as Lang.Number;
 
-    function initialize(targetEpoch as Lang.Number, nowEpoch as Lang.Number, deltaSeconds as Lang.Number, isNow as Lang.Boolean, isDone as Lang.Boolean, days as Lang.Number, hours as Lang.Number, minutes as Lang.Number) {
+    function initialize(targetEpoch as Lang.Number, nowEpoch as Lang.Number, deltaSeconds as Lang.Number, isNow as Lang.Boolean, isDone as Lang.Boolean, days as Lang.Number, hours as Lang.Number, minutes as Lang.Number, seconds as Lang.Number) {
         self.targetEpoch = targetEpoch;
         self.nowEpoch = nowEpoch;
         self.deltaSeconds = deltaSeconds;
@@ -39,5 +40,6 @@ class CountdownState {
         self.days = days;
         self.hours = hours;
         self.minutes = minutes;
+        self.seconds = seconds;
     }
 }
