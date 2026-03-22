@@ -43,21 +43,23 @@ class CountdownEvents {
             name = "Event " + slot.toString();
         }
 
-        return new EventConfig(name, ICON_CALENDAR, _targetEpoch(targetDate, targetHour, targetMinute), (targetHour == 0 && targetMinute == 0));
+        var targetEpoch = _storedTargetEpoch(slot, targetDate, targetHour, targetMinute);
+        return new EventConfig(name, ICON_CALENDAR, targetEpoch, (targetHour == 0 && targetMinute == 0), targetDate, targetHour, targetMinute);
     }
 
-    static function _targetEpoch(targetDate as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
+    static function resolveTargetEpoch(targetDate as Lang.Numeric, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
         var selectedDate = new Time.Moment(targetDate);
         var dateInfo = Gregorian.utcInfo(selectedDate, Time.FORMAT_SHORT);
-        var probeMoment = _projectionForInfo(dateInfo, targetHour, targetMinute, 0);
-
-        return probeMoment.value() - _utcOffsetSeconds(probeMoment);
+        return _projectionForInfo(dateInfo, targetHour, targetMinute, 0).value();
     }
 
-    static function _utcOffsetSeconds(moment as Time.Moment) as Lang.Number {
-        var localProjection = _projectionForInfo(Gregorian.info(moment, Time.FORMAT_SHORT), null, null, null);
-        var utcProjection = _projectionForInfo(Gregorian.utcInfo(moment, Time.FORMAT_SHORT), null, null, null);
-        return localProjection.value() - utcProjection.value();
+    static function _storedTargetEpoch(slot as Lang.Number, targetDate as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
+        var storedEpoch = _propertyNumber(_slotKey(slot, "target_epoch"));
+        if (storedEpoch != null && storedEpoch > 0) {
+            return storedEpoch;
+        }
+
+        return resolveTargetEpoch(targetDate, targetHour, targetMinute);
     }
 
     static function _projectionForInfo(info as Gregorian.Info, hour as Lang.Number or Null, minute as Lang.Number or Null, second as Lang.Number or Null) as Time.Moment {

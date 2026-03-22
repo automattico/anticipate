@@ -50,8 +50,17 @@ class CountdownFormatter {
     }
 
     static function formatTargetDateLine(event as EventConfig) as Lang.String {
-        var info = Gregorian.info(new Time.Moment(event.targetEpoch), Time.FORMAT_MEDIUM);
-        return twoDigits(info.day) + " " + info.month.toString() + " " + info.year.toString();
+        var info = Gregorian.utcInfo(new Time.Moment(event.targetDate), Time.FORMAT_SHORT);
+        var dateText = info.year.toString() + "-" + twoDigits(info.month as Lang.Number) + "-" + twoDigits(info.day);
+        if (event.allDay) {
+            return dateText;
+        }
+
+        return dateText + " " + twoDigits(event.targetHour) + ":" + twoDigits(event.targetMinute);
+    }
+
+    static function formatTargetTimeLine(event as EventConfig) as Lang.String {
+        return "";
     }
 
     static function fitTitleToWidth(dc as Graphics.Dc, text as Lang.String, maxWidth as Lang.Number) as Lang.String {

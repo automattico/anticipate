@@ -1,30 +1,35 @@
 <resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
 
     <properties>
-        <property id="event1_name" type="string">End of Brasil ban</property>
-        <property id="event1_target_date" type="number">1780531200</property>
+        <property id="event1_name" type="string">My Birthday</property>
+        <property id="event1_target_date" type="number">1796860800</property>
         <property id="event1_target_hour" type="number">0</property>
         <property id="event1_target_minute" type="number">0</property>
+        <property id="event1_target_epoch" type="number">0</property>
 
-        <property id="event2_name" type="string">4:20</property>
-        <property id="event2_target_date" type="number">1776643200</property>
-        <property id="event2_target_hour" type="number">16</property>
-        <property id="event2_target_minute" type="number">20</property>
+        <property id="event2_name" type="string">Jule Bday 🥳 Party</property>
+        <property id="event2_target_date" type="number">1790640000</property>
+        <property id="event2_target_hour" type="number">12</property>
+        <property id="event2_target_minute" type="number">0</property>
+        <property id="event2_target_epoch" type="number">0</property>
 
-        <property id="event3_name" type="string">My Birthday</property>
-        <property id="event3_target_date" type="number">1796860800</property>
+        <property id="event3_name" type="string">End of Brasil ban</property>
+        <property id="event3_target_date" type="number">1780531200</property>
         <property id="event3_target_hour" type="number">0</property>
         <property id="event3_target_minute" type="number">0</property>
+        <property id="event3_target_epoch" type="number">0</property>
 
-        <property id="event4_name" type="string">Jule Bday Party 🥳</property>
-        <property id="event4_target_date" type="number">1790640000</property>
-        <property id="event4_target_hour" type="number">12</property>
-        <property id="event4_target_minute" type="number">0</property>
+        <property id="event4_name" type="string">4:20</property>
+        <property id="event4_target_date" type="number">1776643200</property>
+        <property id="event4_target_hour" type="number">16</property>
+        <property id="event4_target_minute" type="number">20</property>
+        <property id="event4_target_epoch" type="number">0</property>
 
         <property id="event5_name" type="string"></property>
         <property id="event5_target_date" type="number">0</property>
         <property id="event5_target_hour" type="number">0</property>
         <property id="event5_target_minute" type="number">0</property>
+        <property id="event5_target_epoch" type="number">0</property>
     </properties>
 
     <strings>
@@ -38,10 +43,10 @@
         <string id="EventNamePrompt">Shown as the title on your watch.</string>
         <string id="EventTargetDateTitle">Date</string>
         <string id="EventTargetDatePrompt">Choose the day you're counting down to.</string>
-        <string id="EventTargetHourTitle">Hour</string>
-        <string id="EventTargetHourPrompt">0 to 23, local watch time.</string>
-        <string id="EventTargetMinuteTitle">Minute</string>
-        <string id="EventTargetMinutePrompt">0 to 59, local watch time.</string>
+        <string id="EventTargetHourTitle">Hour (optional)</string>
+        <string id="EventTargetHourPrompt">Leave both empty for all-day or midnight.</string>
+        <string id="EventTargetMinuteTitle">Minute (optional)</string>
+        <string id="EventTargetMinutePrompt">Leave both empty for all-day or midnight.</string>
     </strings>
 
     <settings>
