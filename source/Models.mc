@@ -5,7 +5,6 @@ const SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
 const SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR;
 
 const ICON_CALENDAR = "calendar";
-
 class EventConfig {
     var name as Lang.String;
     var icon as Lang.String;

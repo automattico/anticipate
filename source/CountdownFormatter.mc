@@ -50,8 +50,8 @@ class CountdownFormatter {
     }
 
     static function formatTargetDateLine(event as EventConfig) as Lang.String {
-        var info = Gregorian.utcInfo(new Time.Moment(event.targetEpoch), Time.FORMAT_MEDIUM);
-        return info.month.toString() + " " + info.day.toString();
+        var info = Gregorian.info(new Time.Moment(event.targetEpoch), Time.FORMAT_MEDIUM);
+        return twoDigits(info.day) + " " + info.month.toString() + " " + info.year.toString();
     }
 
     static function fitTitleToWidth(dc as Graphics.Dc, text as Lang.String, maxWidth as Lang.Number) as Lang.String {

@@ -2,7 +2,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
     <string id="AppName">Anticipate Countdown</string>
-    <string id="FallbackNoEventsTitle">Set up your countdown</string>
+    <string id="FallbackNoEventsTitle">Set up your countdowns</string>
     <string id="FallbackNoEventsHintLine1">Open the Garmin IQ widget settings</string>
-    <string id="FallbackNoEventsHintLine2">on your phone to set up a countdown.</string>
+    <string id="FallbackNoEventsHintLine2">on your phone to add countdown timers.</string>
 </strings>
