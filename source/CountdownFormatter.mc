@@ -5,6 +5,14 @@ import Toybox.Time.Gregorian;
 
 class CountdownFormatter {
 
+    static function _showsTimedDetails(event as EventConfig) as Lang.Boolean {
+        if (!event.allDay) {
+            return true;
+        }
+
+        return event.targetHour != 0 || event.targetMinute != 0;
+    }
+
     static function twoDigits(value as Lang.Number) as Lang.String {
         if (value < 10) {
             return "0" + value.toString();
@@ -50,25 +58,37 @@ class CountdownFormatter {
     }
 
     static function formatTargetDateLine(event as EventConfig) as Lang.String {
-        var info = Gregorian.utcInfo(new Time.Moment(event.targetDate), Time.FORMAT_SHORT);
-        var dateText = info.year.toString() + "-" + twoDigits(info.month as Lang.Number) + "-" + twoDigits(info.day);
-        if (event.allDay) {
+        var info = Gregorian.utcInfo(new Time.Moment(event.targetDate), Time.FORMAT_MEDIUM);
+        var dateText = twoDigits(info.day) + " " + info.month.toString() + " " + info.year.toString();
+        if (!_showsTimedDetails(event)) {
             return dateText;
         }
 
-        return dateText + " " + twoDigits(event.targetHour) + ":" + twoDigits(event.targetMinute);
+        return twoDigits(info.day) + " " + info.month.toString() + " " + twoDigits(event.targetHour) + ":" + twoDigits(event.targetMinute);
     }
 
     static function formatTargetTimeLine(event as EventConfig) as Lang.String {
         return "";
     }
 
-    static function fitTitleToWidth(dc as Graphics.Dc, text as Lang.String, maxWidth as Lang.Number) as Lang.String {
+    static function titleFontForWidth(dc as Graphics.Dc, text as Lang.String, maxWidth as Lang.Number) as FontDefinition {
+        if (text.length() > 12) {
+            return Graphics.FONT_TINY;
+        }
+
+        if (dc.getTextWidthInPixels(text, Graphics.FONT_SMALL) <= maxWidth) {
+            return Graphics.FONT_SMALL;
+        }
+
+        return Graphics.FONT_TINY;
+    }
+
+    static function fitTitleToWidth(dc as Graphics.Dc, text as Lang.String, maxWidth as Lang.Number, font as FontDefinition) as Lang.String {
         if (text.length() == 0) {
             return "";
         }
 
-        if (dc.getTextWidthInPixels(text, Graphics.FONT_SMALL) <= maxWidth) {
+        if (dc.getTextWidthInPixels(text, font) <= maxWidth) {
             return text;
         }
 
@@ -76,7 +96,7 @@ class CountdownFormatter {
         while (clipped.length() > 0) {
             clipped = clipped.substring(0, clipped.length() - 1);
             var candidate = clipped + "...";
-            if (dc.getTextWidthInPixels(candidate, Graphics.FONT_SMALL) <= maxWidth) {
+            if (dc.getTextWidthInPixels(candidate, font) <= maxWidth) {
                 return candidate;
             }
         }

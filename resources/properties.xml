@@ -1,61 +1,73 @@
 <resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
 
     <properties>
-        <property id="event1_name" type="string">My Birthday</property>
-        <property id="event1_target_date" type="number">1796860800</property>
+        <property id="event1_name" type="string"></property>
+        <property id="event1_target_date" type="number">0</property>
+        <property id="event1_all_day" type="boolean">true</property>
         <property id="event1_target_hour" type="number">0</property>
         <property id="event1_target_minute" type="number">0</property>
         <property id="event1_target_epoch" type="number">0</property>
 
-        <property id="event2_name" type="string">Jule Bday 🥳 Party</property>
-        <property id="event2_target_date" type="number">1790640000</property>
-        <property id="event2_target_hour" type="number">12</property>
+        <property id="event2_name" type="string"></property>
+        <property id="event2_target_date" type="number">0</property>
+        <property id="event2_all_day" type="boolean">true</property>
+        <property id="event2_target_hour" type="number">0</property>
         <property id="event2_target_minute" type="number">0</property>
         <property id="event2_target_epoch" type="number">0</property>
 
-        <property id="event3_name" type="string">End of Brasil ban</property>
-        <property id="event3_target_date" type="number">1780531200</property>
+        <property id="event3_name" type="string"></property>
+        <property id="event3_target_date" type="number">0</property>
+        <property id="event3_all_day" type="boolean">true</property>
         <property id="event3_target_hour" type="number">0</property>
         <property id="event3_target_minute" type="number">0</property>
         <property id="event3_target_epoch" type="number">0</property>
 
-        <property id="event4_name" type="string">4:20</property>
-        <property id="event4_target_date" type="number">1776643200</property>
-        <property id="event4_target_hour" type="number">16</property>
-        <property id="event4_target_minute" type="number">20</property>
+        <property id="event4_name" type="string"></property>
+        <property id="event4_target_date" type="number">0</property>
+        <property id="event4_all_day" type="boolean">true</property>
+        <property id="event4_target_hour" type="number">0</property>
+        <property id="event4_target_minute" type="number">0</property>
         <property id="event4_target_epoch" type="number">0</property>
 
         <property id="event5_name" type="string"></property>
         <property id="event5_target_date" type="number">0</property>
+        <property id="event5_all_day" type="boolean">true</property>
         <property id="event5_target_hour" type="number">0</property>
         <property id="event5_target_minute" type="number">0</property>
         <property id="event5_target_epoch" type="number">0</property>
+
+        <property id="all_day_migration_complete" type="boolean">false</property>
     </properties>
 
     <strings>
-        <string id="Event1GroupTitle">Timer 1</string>
-        <string id="Event2GroupTitle">Timer 2</string>
-        <string id="Event3GroupTitle">Timer 3</string>
-        <string id="Event4GroupTitle">Timer 4</string>
-        <string id="Event5GroupTitle">Timer 5</string>
+        <string id="Event1GroupTitle">Countdown 1</string>
+        <string id="Event2GroupTitle">Countdown 2</string>
+        <string id="Event3GroupTitle">Countdown 3</string>
+        <string id="Event4GroupTitle">Countdown 4</string>
+        <string id="Event5GroupTitle">Countdown 5</string>
 
         <string id="EventNameTitle">Name</string>
-        <string id="EventNamePrompt">Shown as the title on your watch.</string>
+        <string id="EventNamePrompt">Shown as the title on your watch. Max 18 characters.</string>
         <string id="EventTargetDateTitle">Date</string>
         <string id="EventTargetDatePrompt">Choose the day you're counting down to.</string>
-        <string id="EventTargetHourTitle">Hour (optional)</string>
-        <string id="EventTargetHourPrompt">Leave both empty for all-day or midnight.</string>
-        <string id="EventTargetMinuteTitle">Minute (optional)</string>
-        <string id="EventTargetMinutePrompt">Leave both empty for all-day or midnight.</string>
+        <string id="EventAllDayTitle">All day</string>
+        <string id="EventAllDayPrompt">Turn this off to count down to a specific time.</string>
+        <string id="EventTargetHourTitle">Hour</string>
+        <string id="EventTargetHourPrompt">Used when All day is off.</string>
+        <string id="EventTargetMinuteTitle">Minute</string>
+        <string id="EventTargetMinutePrompt">Used when All day is off.</string>
     </strings>
 
     <settings>
         <group id="event1_group" title="@Strings.Event1GroupTitle">
             <setting propertyKey="@Properties.event1_name" title="@Strings.EventNameTitle" prompt="@Strings.EventNamePrompt">
-                <settingConfig type="alphaNumeric" maxLength="30" />
+                <settingConfig type="alphaNumeric" maxLength="18" />
             </setting>
             <setting propertyKey="@Properties.event1_target_date" title="@Strings.EventTargetDateTitle" prompt="@Strings.EventTargetDatePrompt">
                 <settingConfig type="date" />
+            </setting>
+            <setting propertyKey="@Properties.event1_all_day" title="@Strings.EventAllDayTitle" prompt="@Strings.EventAllDayPrompt">
+                <settingConfig type="boolean" />
             </setting>
             <setting propertyKey="@Properties.event1_target_hour" title="@Strings.EventTargetHourTitle" prompt="@Strings.EventTargetHourPrompt">
                 <settingConfig type="numeric" min="0" max="23" />
@@ -67,10 +79,13 @@
 
         <group id="event2_group" title="@Strings.Event2GroupTitle">
             <setting propertyKey="@Properties.event2_name" title="@Strings.EventNameTitle" prompt="@Strings.EventNamePrompt">
-                <settingConfig type="alphaNumeric" maxLength="30" />
+                <settingConfig type="alphaNumeric" maxLength="18" />
             </setting>
             <setting propertyKey="@Properties.event2_target_date" title="@Strings.EventTargetDateTitle" prompt="@Strings.EventTargetDatePrompt">
                 <settingConfig type="date" />
+            </setting>
+            <setting propertyKey="@Properties.event2_all_day" title="@Strings.EventAllDayTitle" prompt="@Strings.EventAllDayPrompt">
+                <settingConfig type="boolean" />
             </setting>
             <setting propertyKey="@Properties.event2_target_hour" title="@Strings.EventTargetHourTitle" prompt="@Strings.EventTargetHourPrompt">
                 <settingConfig type="numeric" min="0" max="23" />
@@ -82,10 +97,13 @@
 
         <group id="event3_group" title="@Strings.Event3GroupTitle">
             <setting propertyKey="@Properties.event3_name" title="@Strings.EventNameTitle" prompt="@Strings.EventNamePrompt">
-                <settingConfig type="alphaNumeric" maxLength="30" />
+                <settingConfig type="alphaNumeric" maxLength="18" />
             </setting>
             <setting propertyKey="@Properties.event3_target_date" title="@Strings.EventTargetDateTitle" prompt="@Strings.EventTargetDatePrompt">
                 <settingConfig type="date" />
+            </setting>
+            <setting propertyKey="@Properties.event3_all_day" title="@Strings.EventAllDayTitle" prompt="@Strings.EventAllDayPrompt">
+                <settingConfig type="boolean" />
             </setting>
             <setting propertyKey="@Properties.event3_target_hour" title="@Strings.EventTargetHourTitle" prompt="@Strings.EventTargetHourPrompt">
                 <settingConfig type="numeric" min="0" max="23" />
@@ -97,10 +115,13 @@
 
         <group id="event4_group" title="@Strings.Event4GroupTitle">
             <setting propertyKey="@Properties.event4_name" title="@Strings.EventNameTitle" prompt="@Strings.EventNamePrompt">
-                <settingConfig type="alphaNumeric" maxLength="30" />
+                <settingConfig type="alphaNumeric" maxLength="18" />
             </setting>
             <setting propertyKey="@Properties.event4_target_date" title="@Strings.EventTargetDateTitle" prompt="@Strings.EventTargetDatePrompt">
                 <settingConfig type="date" />
+            </setting>
+            <setting propertyKey="@Properties.event4_all_day" title="@Strings.EventAllDayTitle" prompt="@Strings.EventAllDayPrompt">
+                <settingConfig type="boolean" />
             </setting>
             <setting propertyKey="@Properties.event4_target_hour" title="@Strings.EventTargetHourTitle" prompt="@Strings.EventTargetHourPrompt">
                 <settingConfig type="numeric" min="0" max="23" />
@@ -112,10 +133,13 @@
 
         <group id="event5_group" title="@Strings.Event5GroupTitle">
             <setting propertyKey="@Properties.event5_name" title="@Strings.EventNameTitle" prompt="@Strings.EventNamePrompt">
-                <settingConfig type="alphaNumeric" maxLength="30" />
+                <settingConfig type="alphaNumeric" maxLength="18" />
             </setting>
             <setting propertyKey="@Properties.event5_target_date" title="@Strings.EventTargetDateTitle" prompt="@Strings.EventTargetDatePrompt">
                 <settingConfig type="date" />
+            </setting>
+            <setting propertyKey="@Properties.event5_all_day" title="@Strings.EventAllDayTitle" prompt="@Strings.EventAllDayPrompt">
+                <settingConfig type="boolean" />
             </setting>
             <setting propertyKey="@Properties.event5_target_hour" title="@Strings.EventTargetHourTitle" prompt="@Strings.EventTargetHourPrompt">
                 <settingConfig type="numeric" min="0" max="23" />

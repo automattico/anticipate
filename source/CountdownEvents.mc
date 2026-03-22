@@ -37,20 +37,28 @@ class CountdownEvents {
 
         var targetHour = _boundedNumber(_slotKey(slot, "target_hour"), 0, 23, 0);
         var targetMinute = _boundedNumber(_slotKey(slot, "target_minute"), 0, 59, 0);
+        var allDay = _propertyBoolean(_slotKey(slot, "all_day"), true);
         var name = _propertyText(_slotKey(slot, "name"));
 
         if (name == null || name.length() == 0) {
             name = "Event " + slot.toString();
         }
 
-        var targetEpoch = _storedTargetEpoch(slot, targetDate, targetHour, targetMinute);
-        return new EventConfig(name, ICON_CALENDAR, targetEpoch, (targetHour == 0 && targetMinute == 0), targetDate, targetHour, targetMinute);
+        var epochHour = targetHour;
+        var epochMinute = targetMinute;
+        if (allDay) {
+            epochHour = 0;
+            epochMinute = 0;
+        }
+
+        var targetEpoch = _storedTargetEpoch(slot, targetDate, epochHour, epochMinute);
+        return new EventConfig(name, ICON_CALENDAR, targetEpoch, allDay, targetDate, targetHour, targetMinute);
     }
 
-    static function resolveTargetEpoch(targetDate as Lang.Numeric, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
+    static function resolveTargetEpoch(targetDate as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
         var selectedDate = new Time.Moment(targetDate);
         var dateInfo = Gregorian.utcInfo(selectedDate, Time.FORMAT_SHORT);
-        return _projectionForInfo(dateInfo, targetHour, targetMinute, 0).value();
+        return _projectionForInfo(dateInfo, targetHour, targetMinute, 0).value() as Lang.Number;
     }
 
     static function _storedTargetEpoch(slot as Lang.Number, targetDate as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
@@ -123,5 +131,44 @@ class CountdownEvents {
         }
 
         return text.toNumber();
+    }
+
+    static function _propertyBoolean(key as String, defaultValue as Lang.Boolean) as Lang.Boolean {
+        var value = _propertyValue(key);
+        if (value == null) {
+            return defaultValue;
+        }
+
+        if (value instanceof Lang.Boolean) {
+            return value as Lang.Boolean;
+        }
+
+        if (value instanceof Lang.Number) {
+            return (value as Lang.Number) != 0;
+        }
+
+        var text = value.toString();
+        if (text == "true") {
+            return true;
+        }
+
+        if (text == "1") {
+            return true;
+        }
+
+        if (text == "false") {
+            return false;
+        }
+
+        if (text == "0") {
+            return false;
+        }
+
+        var numericValue = text.toNumber();
+        if (numericValue != null) {
+            return numericValue != 0;
+        }
+
+        return defaultValue;
     }
 }

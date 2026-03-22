@@ -1,25 +1,26 @@
-# Anticipate Countdown
+# Anticipate Countdowns
 
-Connect IQ widget workspace for a Garmin Forerunner 55 countdown widget.
+Connect IQ widget workspace for a Garmin countdown widget with up to five timers.
 
-The current product is a single-event MVP focused on being stable and easy to configure:
+## Current Product
 
-- one countdown only
-- configured through Garmin app settings
-- no on-watch editing
-- no glance support yet
-- FR55-first round-screen layout
+- Up to 5 countdowns, configured in Connect IQ app settings
+- Optional hour and minute per countdown when `All day` is off
+- All-day countdowns supported with an explicit `All day` toggle
+- Timer targets are frozen to the user's local timezone when saved
+- Horizontal paging between configured countdowns
+- FR55 is the only validated target today
 
-## Current setup
+## Current Setup
 
-- Target device: `fr55`
-- Device profile: `round-208x208`, `8 colors`, non-touch, button navigation
+- Target device in `manifest.xml`: `fr55`
+- Device profile: `round-208x208`, 8 colors, non-touch, button navigation
 - App type: `widget`
 - SDK path: active SDK from `~/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg`
 - VS Code extension: `garmin.monkey-c`
 - Java 17 JDK installed via Homebrew: `/opt/homebrew/opt/openjdk@17`
 
-## First run checklist
+## First Run Checklist
 
 1. Open this folder in VS Code.
 2. Run `Monkey C: Verify Installation`.
@@ -30,41 +31,51 @@ The current product is a single-event MVP focused on being stable and easy to co
 rm -rf "$TMPDIR/com.garmin.connectiq"
 ```
 
-## Settings contract
+## Settings Contract
 
-The MVP reads two flat app properties:
+Each countdown slot stores:
 
-- `event1_name`
-- `event1_target_date`
+- `eventN_name`
+- `eventN_target_date`
+- `eventN_all_day`
+- `eventN_target_hour`
+- `eventN_target_minute`
+- `eventN_target_epoch`
+
+The app also stores an internal `eventN_target_signature` per slot in app storage so it can detect real countdown-input changes without repinning saved epochs on every startup or rename.
+
+`eventN_target_epoch` is resolved when the timer is saved so the countdown stays pinned to the user's local timezone at setup time. `eventN_all_day` controls whether the saved timer is treated as an all-day countdown or a specific time such as `00:00`. The raw date and time fields are still kept for settings and display.
 
 Example payload:
 
 ```json
 {
-  "event1_name": "Brasil",
-  "event1_target_date": 1780531200
+  "event1_name": "Summer Trip",
+  "event1_target_date": 1798761600,
+  "event1_all_day": true,
+  "event1_target_hour": 0,
+  "event1_target_minute": 0,
+  "event1_target_epoch": 1798761600
 }
 ```
 
-`event1_target_date` comes from Garmin's `date` setting and is stored as a numeric value. If the name or date is missing or invalid, the widget falls back to the empty-state screen instead of failing.
+## UI Notes
 
-## UI notes
+- Main widget: event name, primary countdown value, and target date
+- Longer titles fall back from `FONT_SMALL` to `FONT_TINY` before clipping
+- Empty state prompts the user to open Connect IQ settings and add countdowns
+- Sub-day timers show hours, minutes, and seconds
+- Buttons: `BACK` exits; horizontal navigation moves between countdowns on supported devices
 
-- Main widget: event name, large countdown value, and target date.
-- Empty state: prompts the user to open app settings and add one date.
-- Formatting: `TODAY` for the first 24 hours after the target, `DONE` after that, and no seconds.
-- Buttons: `BACK` exits; other buttons currently do nothing in the MVP.
+## Publishing Notes
 
-## Shell Java setup
+- The app name and in-app copy now describe multiple countdowns
+- `manifest.xml` is still intentionally limited to `fr55` until more devices are validated
+- Store descriptions, screenshots, hero images, categories, and supported products in the Garmin submission UI still need manual review
+- See [docs/publishing.md](/Users/mwieland/dev/anticipate/docs/publishing.md) for a submission checklist and suggested store copy
+- Use [docs/fr55-smoke-test.md](/Users/mwieland/dev/anticipate/docs/fr55-smoke-test.md) for the canonical FR55 pre-submit verification flow
 
-VS Code can use the configured JDK path directly. If you also want `java` available in every terminal session, add this to your shell profile:
-
-```sh
-export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
-export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
-```
-
-## Local checks
+## Local Checks
 
 Run:
 
@@ -72,4 +83,24 @@ Run:
 ./scripts/verify-env.sh
 ```
 
-That script checks for the active SDK, the FR55 device pack, and Java availability.
+Build a release artifact:
+
+```sh
+SDK=$(cat "$HOME/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg") && \
+"/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home/bin/java" \
+  -Xms1g \
+  -Dfile.encoding=UTF-8 \
+  -Dapple.awt.UIElement=true \
+  -jar "$SDK/bin/monkeybrains.jar" \
+  -o "$(pwd)/bin/anticipate.prg" \
+  -f "$(pwd)/monkey.jungle" \
+  -y "$(pwd)/private/anticipate-dev-key-4096.der" \
+  -d fr55_sim \
+  -w -l 2 -w
+```
+
+Reset simulator state for a clean smoke test:
+
+```sh
+./scripts/reset-fr55-sim-state.sh
+```

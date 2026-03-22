@@ -6,25 +6,28 @@ import Toybox.WatchUi;
 
 class CountdownWidgetView extends WatchUi.View {
 
-    const CENTER_X = 104;
     const TITLE_Y = 28;
     const PRIMARY_VALUE_Y = 72;
     const PRIMARY_DETAIL_Y = 138;
     const PRIMARY_AUX_Y = 150;
     const PRIMARY_DATE_Y = 178;
     const DAY_LAYOUT_CENTER_Y = 110;
-    const DAY_TITLE_VALUE_GAP = 3;
-    const DAY_VALUE_TIME_GAP = 3;
+    const DAY_TITLE_VALUE_GAP = 2;
+    const DAY_VALUE_TIME_GAP = 0;
     const DAY_TIME_DATE_GAP = 8;
     const TIMED_DAY_TITLE_VALUE_GAP = 3;
     const TIMED_DAY_VALUE_TIME_GAP = 3;
     const TIMED_DAY_TIME_DATE_GAP = 7;
     const DAY_ROW_GAP = 4;
     const DAY_VALUE_MAX_WIDTH = 140;
-    const DAY_TITLE_NUDGE_Y = 3;
-    const DAY_TIME_NUDGE_Y = -3;
+    const DAY_TITLE_NUDGE_Y = -2;
+    const DAY_TIME_NUDGE_Y = -8;
     const TIMED_DAY_LAYOUT_SHIFT_Y = 2;
     const TARGET_TIME_EXTRA_GAP_Y = 4;
+    const EMPTY_STATE_TITLE_BODY_GAP = 3;
+    const EMPTY_STATE_TITLE_LINE_GAP = 0;
+    const EMPTY_STATE_BODY_LINE_GAP = 0;
+    const EMPTY_STATE_NUDGE_Y = -6;
     const PAGE_INDICATOR_X = 10;
     const PAGE_INDICATOR_GAP = 14;
     const PAGE_INDICATOR_RADIUS = 2;
@@ -71,63 +74,78 @@ class CountdownWidgetView extends WatchUi.View {
     }
 
     function _drawEmptyState(dc as Dc) as Void {
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.drawText(CENTER_X, 42, Graphics.FONT_XTINY, "ANTICIPATE", Graphics.TEXT_JUSTIFY_CENTER);
+        var centerX = _centerX(dc);
+        var titleFont = Graphics.FONT_XTINY;
+        var bodyFont = Graphics.FONT_XTINY;
+        var titleLines = [
+            _resourceText(Rez.Strings.FallbackNoEventsTitleLine1),
+            _resourceText(Rez.Strings.FallbackNoEventsTitleLine2)
+        ];
+        var bodyLines = [
+            _resourceText(Rez.Strings.FallbackNoEventsLine1),
+            _resourceText(Rez.Strings.FallbackNoEventsLine2),
+            _resourceText(Rez.Strings.FallbackNoEventsLine3),
+            _resourceText(Rez.Strings.FallbackNoEventsLine4),
+            _resourceText(Rez.Strings.FallbackNoEventsLine5)
+        ];
+        var titleBlockHeight = _textBlockHeight(dc, titleLines, titleFont, EMPTY_STATE_TITLE_LINE_GAP);
+        var bodyBlockHeight = _textBlockHeight(dc, bodyLines, bodyFont, EMPTY_STATE_BODY_LINE_GAP);
+        var totalHeight = titleBlockHeight + EMPTY_STATE_TITLE_BODY_GAP + bodyBlockHeight;
+        var startY = (Math.floor(((dc.getHeight() - totalHeight) / 2) + 0.5) as Lang.Number) + EMPTY_STATE_NUDGE_Y;
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.drawText(CENTER_X, 88, Graphics.FONT_SMALL, _resourceText(Rez.Strings.FallbackNoEventsTitle), Graphics.TEXT_JUSTIFY_CENTER);
-
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.drawText(CENTER_X, 120, Graphics.FONT_XTINY, _resourceText(Rez.Strings.FallbackNoEventsHintLine1), Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(CENTER_X, 134, Graphics.FONT_XTINY, _resourceText(Rez.Strings.FallbackNoEventsHintLine2), Graphics.TEXT_JUSTIFY_CENTER);
+        _drawCenteredTextBlock(dc, titleLines, centerX, startY, titleFont, EMPTY_STATE_TITLE_LINE_GAP);
+        _drawCenteredTextBlock(dc, bodyLines, centerX, startY + titleBlockHeight + EMPTY_STATE_TITLE_BODY_GAP, bodyFont, EMPTY_STATE_BODY_LINE_GAP);
     }
 
     function _drawConfiguredState(dc as Dc, event as EventConfig, state as CountdownState) as Void {
-        var title = CountdownFormatter.fitTitleToWidth(dc, event.name, 150);
+        var centerX = _centerX(dc);
+        var titleFont = CountdownFormatter.titleFontForWidth(dc, event.name, 150);
+        var title = CountdownFormatter.fitTitleToWidth(dc, event.name, 150, titleFont);
         var dateLine = CountdownFormatter.formatTargetDateLine(event);
         var timeLine = CountdownFormatter.formatTargetTimeLine(event);
 
         if (state.isDone) {
-            _drawTitle(dc, title);
+            _drawTitle(dc, title, titleFont, centerX);
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-            dc.drawText(CENTER_X, PRIMARY_VALUE_Y, Graphics.FONT_LARGE, "DONE", Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(centerX, PRIMARY_VALUE_Y, Graphics.FONT_LARGE, "DONE", Graphics.TEXT_JUSTIFY_CENTER);
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-            dc.drawText(CENTER_X, PRIMARY_DETAIL_Y, Graphics.FONT_TINY, "Event passed", Graphics.TEXT_JUSTIFY_CENTER);
-            _drawTargetDateBlock(dc, dateLine, timeLine, PRIMARY_DATE_Y);
+            dc.drawText(centerX, PRIMARY_DETAIL_Y, Graphics.FONT_TINY, "Event passed", Graphics.TEXT_JUSTIFY_CENTER);
+            _drawTargetDateBlock(dc, dateLine, timeLine, PRIMARY_DATE_Y, centerX);
             return;
         }
 
         if (state.isNow) {
-            _drawTitle(dc, title);
+            _drawTitle(dc, title, titleFont, centerX);
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-            dc.drawText(CENTER_X, PRIMARY_VALUE_Y, Graphics.FONT_LARGE, "TODAY", Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(centerX, PRIMARY_VALUE_Y, Graphics.FONT_LARGE, "TODAY", Graphics.TEXT_JUSTIFY_CENTER);
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-            dc.drawText(CENTER_X, PRIMARY_DETAIL_Y, Graphics.FONT_TINY, "It's happening", Graphics.TEXT_JUSTIFY_CENTER);
-            _drawTargetDateBlock(dc, dateLine, timeLine, PRIMARY_DATE_Y);
+            dc.drawText(centerX, PRIMARY_DETAIL_Y, Graphics.FONT_TINY, "It's happening", Graphics.TEXT_JUSTIFY_CENTER);
+            _drawTargetDateBlock(dc, dateLine, timeLine, PRIMARY_DATE_Y, centerX);
             return;
         }
 
         if (state.days > 0) {
-            _drawDayCountdownState(dc, title, state, dateLine, timeLine);
+            _drawDayCountdownState(dc, title, titleFont, state, dateLine, timeLine, centerX);
             return;
         }
 
-        _drawTitle(dc, title);
-        _drawSubdayStrip(dc, state);
-        _drawTargetDateBlock(dc, dateLine, timeLine, PRIMARY_DATE_Y);
+        _drawTitle(dc, title, titleFont, centerX);
+        _drawSubdayStrip(dc, state, centerX);
+        _drawTargetDateBlock(dc, dateLine, timeLine, PRIMARY_DATE_Y, centerX);
     }
 
-    function _drawTitle(dc as Dc, title as String) as Void {
-        _drawTitleAt(dc, title, TITLE_Y);
+    function _drawTitle(dc as Dc, title as String, titleFont as FontDefinition, centerX as Lang.Number) as Void {
+        _drawTitleAt(dc, title, titleFont, TITLE_Y, centerX);
     }
 
-    function _drawTitleAt(dc as Dc, title as String, y as Lang.Number) as Void {
-        var x = Math.floor((CENTER_X - (dc.getTextWidthInPixels(title, Graphics.FONT_SMALL) / 2)) + 0.5);
+    function _drawTitleAt(dc as Dc, title as String, titleFont as FontDefinition, y as Lang.Number, centerX as Lang.Number) as Void {
+        var x = Math.floor((centerX - (dc.getTextWidthInPixels(title, titleFont) / 2)) + 0.5) as Lang.Number;
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.drawText(x, y, Graphics.FONT_SMALL, title, Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(x, y, titleFont, title, Graphics.TEXT_JUSTIFY_LEFT);
     }
 
-    function _drawDayCountdownState(dc as Dc, title as String, state as CountdownState, dateLine as String, timeLine as String) as Void {
+    function _drawDayCountdownState(dc as Dc, title as String, titleFont as FontDefinition, state as CountdownState, dateLine as String, timeLine as String, centerX as Lang.Number) as Void {
         var titleValueGap = DAY_TITLE_VALUE_GAP;
         var valueTimeGap = DAY_VALUE_TIME_GAP;
         var timeDateGap = DAY_TIME_DATE_GAP;
@@ -137,7 +155,7 @@ class CountdownWidgetView extends WatchUi.View {
             timeDateGap = TIMED_DAY_TIME_DATE_GAP;
         }
 
-        var titleHeight = dc.getFontHeight(Graphics.FONT_SMALL);
+        var titleHeight = dc.getFontHeight(titleFont);
         var labelFont = Graphics.FONT_XTINY;
         var valueFont = _dayCountdownValueFont(dc, state.days.toString(), timeLine.length() > 0);
         var valueHeight = dc.getFontHeight(valueFont);
@@ -157,7 +175,7 @@ class CountdownWidgetView extends WatchUi.View {
             layoutCenterY += TIMED_DAY_LAYOUT_SHIFT_Y;
         }
 
-        var titleY = Math.floor((layoutCenterY - (totalHeight / 2)) + 0.5);
+        var titleY = Math.floor((layoutCenterY - (totalHeight / 2)) + 0.5) as Lang.Number;
         var valueY = titleY + titleHeight + titleValueGap;
         var timeY = valueY + valueRowHeight + valueTimeGap;
         var dateY = timeY + timeRowHeight + timeDateGap;
@@ -166,20 +184,20 @@ class CountdownWidgetView extends WatchUi.View {
         timeY += DAY_TIME_NUDGE_Y;
         dateY += DAY_TIME_NUDGE_Y;
 
-        _drawTitleAt(dc, title, titleY);
-        _drawDayCountdownRow(dc, state.days, valueFont, valueY);
-        _drawInlineTime(dc, state, timeY);
-        _drawTargetDateBlock(dc, dateLine, timeLine, dateY);
+        _drawTitleAt(dc, title, titleFont, titleY, centerX);
+        _drawDayCountdownRow(dc, state.days, valueFont, valueY, centerX);
+        _drawInlineTime(dc, state, timeY, centerX);
+        _drawTargetDateBlock(dc, dateLine, timeLine, dateY, centerX);
     }
 
-    function _drawDayCountdownRow(dc as Dc, days as Lang.Number, valueFont, valueY as Lang.Number) as Void {
+    function _drawDayCountdownRow(dc as Dc, days as Lang.Number, valueFont as FontDefinition, valueY as Lang.Number, centerX as Lang.Number) as Void {
         var prefix = "in";
         var value = days.toString();
         var suffix = _dayLabel(days);
         var labelFont = Graphics.FONT_XTINY;
         var valueWidth = dc.getTextWidthInPixels(value, valueFont);
-        var valueLeftX = Math.floor((CENTER_X - (valueWidth / 2)) + 0.5);
-        var valueRightX = Math.floor((CENTER_X + (valueWidth / 2)) + 0.5);
+        var valueLeftX = Math.floor((centerX - (valueWidth / 2)) + 0.5) as Lang.Number;
+        var valueRightX = Math.floor((centerX + (valueWidth / 2)) + 0.5) as Lang.Number;
         var labelBaselineY = valueY + Graphics.getFontAscent(valueFont);
         var labelY = labelBaselineY - Graphics.getFontAscent(labelFont);
 
@@ -187,13 +205,13 @@ class CountdownWidgetView extends WatchUi.View {
         dc.drawText(valueLeftX - DAY_ROW_GAP, labelY, labelFont, prefix, Graphics.TEXT_JUSTIFY_RIGHT);
 
         dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
-        dc.drawText(CENTER_X, valueY, valueFont, value, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(centerX, valueY, valueFont, value, Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.drawText(valueRightX + DAY_ROW_GAP, labelY, labelFont, suffix, Graphics.TEXT_JUSTIFY_LEFT);
     }
 
-    function _dayCountdownValueFont(dc as Dc, value as String, preferCompact as Lang.Boolean) {
+    function _dayCountdownValueFont(dc as Dc, value as String, preferCompact as Lang.Boolean) as FontDefinition {
         if (preferCompact) {
             if (dc.getTextWidthInPixels(value, Graphics.FONT_NUMBER_MILD) <= DAY_VALUE_MAX_WIDTH) {
                 return Graphics.FONT_NUMBER_MILD;
@@ -224,32 +242,32 @@ class CountdownWidgetView extends WatchUi.View {
         return height;
     }
 
-    function _drawTargetDateBlock(dc as Dc, dateLine as String, timeLine as String, y as Lang.Number) as Void {
+    function _drawTargetDateBlock(dc as Dc, dateLine as String, timeLine as String, y as Lang.Number, centerX as Lang.Number) as Void {
         var dateFont = _targetDateFont(timeLine);
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.drawText(CENTER_X, y, dateFont, dateLine, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(centerX, y, dateFont, dateLine, Graphics.TEXT_JUSTIFY_CENTER);
 
         if (timeLine.length() > 0) {
             var timeFont = _targetTimeFont();
-            dc.drawText(CENTER_X, y + dc.getFontHeight(dateFont) + TARGET_TIME_EXTRA_GAP_Y, timeFont, timeLine, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(centerX, y + dc.getFontHeight(dateFont) + TARGET_TIME_EXTRA_GAP_Y, timeFont, timeLine, Graphics.TEXT_JUSTIFY_CENTER);
         }
     }
 
-    function _targetDateFont(timeLine as String) {
+    function _targetDateFont(timeLine as String) as FontDefinition {
         return Graphics.FONT_XTINY;
     }
 
-    function _targetTimeFont() {
+    function _targetTimeFont() as FontDefinition {
         return Graphics.FONT_XTINY;
     }
 
-    function _drawSubdayStrip(dc as Dc, state as CountdownState) as Void {
-        _drawStripSeparator(dc, 88, 86, 128);
-        _drawStripSeparator(dc, 120, 86, 128);
+    function _drawSubdayStrip(dc as Dc, state as CountdownState, centerX as Lang.Number) as Void {
+        _drawStripSeparator(dc, centerX - 16, 86, 128);
+        _drawStripSeparator(dc, centerX + 16, 86, 128);
 
-        _drawLargeStripMetric(dc, 58, PRIMARY_VALUE_Y, CountdownFormatter.twoDigits(state.hours), "HRS");
-        _drawLargeStripMetric(dc, CENTER_X, PRIMARY_VALUE_Y, CountdownFormatter.twoDigits(state.minutes), "MIN");
-        _drawLargeStripMetric(dc, 150, PRIMARY_VALUE_Y, CountdownFormatter.twoDigits(state.seconds), "SEC");
+        _drawLargeStripMetric(dc, centerX - 46, PRIMARY_VALUE_Y, CountdownFormatter.twoDigits(state.hours), "HRS");
+        _drawLargeStripMetric(dc, centerX, PRIMARY_VALUE_Y, CountdownFormatter.twoDigits(state.minutes), "MIN");
+        _drawLargeStripMetric(dc, centerX + 46, PRIMARY_VALUE_Y, CountdownFormatter.twoDigits(state.seconds), "SEC");
     }
 
     function _drawStripMetric(dc as Dc, x as Lang.Number, valueY as Lang.Number, value as String, label as String) as Void {
@@ -271,7 +289,7 @@ class CountdownWidgetView extends WatchUi.View {
         dc.drawLine(x, topY, x, bottomY);
     }
 
-    function _drawInlineTime(dc as Dc, state as CountdownState, y as Lang.Number) as Void {
+    function _drawInlineTime(dc as Dc, state as CountdownState, y as Lang.Number, centerX as Lang.Number) as Void {
         var valueFont = Graphics.FONT_SMALL;
         var unitFont = Graphics.FONT_XTINY;
         var unitY = (y + Graphics.getFontAscent(valueFont)) - Graphics.getFontAscent(unitFont);
@@ -285,8 +303,8 @@ class CountdownWidgetView extends WatchUi.View {
         var totalWidth = 0;
 
         for (var i = 0; i < values.size(); i += 1) {
-            var value = values[i];
-            var unit = units[i];
+            var value = values[i] as String;
+            var unit = units[i] as String;
             totalWidth += dc.getTextWidthInPixels(value, valueFont);
             totalWidth += dc.getTextWidthInPixels(unit, unitFont);
 
@@ -295,10 +313,10 @@ class CountdownWidgetView extends WatchUi.View {
             }
         }
 
-        var x = CENTER_X - (totalWidth / 2);
+        var x = (centerX - (totalWidth / 2)) as Lang.Number;
         for (var j = 0; j < values.size(); j += 1) {
-            var segValue = values[j];
-            var segUnit = units[j];
+            var segValue = values[j] as String;
+            var segUnit = units[j] as String;
 
             dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
             dc.drawText(x, y, valueFont, segValue, Graphics.TEXT_JUSTIFY_LEFT);
@@ -332,9 +350,9 @@ class CountdownWidgetView extends WatchUi.View {
         }
 
         var totalHeight = ((_events.size() - 1) * PAGE_INDICATOR_GAP) + (PAGE_INDICATOR_RADIUS * 2);
-        var firstY = (dc.getHeight() / 2) - (totalHeight / 2) + PAGE_INDICATOR_RADIUS;
+        var firstY = ((dc.getHeight() / 2) - (totalHeight / 2) + PAGE_INDICATOR_RADIUS) as Lang.Number;
         var y = firstY;
-        var centerY = dc.getHeight() / 2;
+        var centerY = (dc.getHeight() / 2) as Lang.Number;
 
         for (var i = 0; i < _events.size(); i += 1) {
             var x = _pageIndicatorX(y, centerY);
@@ -418,6 +436,33 @@ class CountdownWidgetView extends WatchUi.View {
 
     function _resourceText(resourceId as Lang.ResourceId) as String {
         return WatchUi.loadResource(resourceId).toString();
+    }
+
+    function _drawCenteredLine(dc as Dc, line as String, centerX as Lang.Number, y as Lang.Number, font as FontDefinition) as Void {
+        var x = Math.floor((centerX - (dc.getTextWidthInPixels(line, font) / 2)) + 0.5) as Lang.Number;
+        dc.drawText(x, y, font, line, Graphics.TEXT_JUSTIFY_LEFT);
+    }
+
+    function _centerX(dc as Dc) as Lang.Number {
+        return Math.floor(dc.getWidth() / 2) as Lang.Number;
+    }
+
+    function _textBlockHeight(dc as Dc, lines as Array<String>, font as FontDefinition, lineGap as Lang.Number) as Lang.Number {
+        if (lines.size() == 0) {
+            return 0;
+        }
+
+        return (lines.size() * dc.getFontHeight(font)) + ((lines.size() - 1) * lineGap);
+    }
+
+    function _drawCenteredTextBlock(dc as Dc, lines as Array<String>, centerX as Lang.Number, startY as Lang.Number, font as FontDefinition, lineGap as Lang.Number) as Void {
+        var y = startY;
+        var lineHeight = dc.getFontHeight(font);
+
+        for (var i = 0; i < lines.size(); i += 1) {
+            _drawCenteredLine(dc, lines[i] as String, centerX, y, font);
+            y += lineHeight + lineGap;
+        }
     }
 
     function _startRefreshTimer() as Void {
