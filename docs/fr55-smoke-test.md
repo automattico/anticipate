@@ -61,7 +61,7 @@ If the simulator behaves strangely after SDK changes or repeated runs, quit the 
 
 - In the simulator, open `File > Edit Persistent Storage > Edit Application.Properties data`
 - Set:
-  - `event1_name = Summer Trip`
+  - `event1_name = Birthday`
   - `event1_target_date = <pick a future date>`
   - `event1_all_day = true`
 - Leave hour and minute at `0`
@@ -69,7 +69,7 @@ If the simulator behaves strangely after SDK changes or repeated runs, quit the 
 - Verify:
   - the countdown appears
   - the target date renders as `DD Mon YYYY`
-  - no separate time line is shown
+  - no inline time is shown on the date row
 
 ### 3. Timed Countdown Including Midnight
 
@@ -106,7 +106,7 @@ If the simulator behaves strangely after SDK changes or repeated runs, quit the 
 - Save and return to the widget
 - Verify:
   - the countdown updates to the new target
-  - switching `all_day` changes whether the separate time line is shown
+  - switching `all_day` changes whether an inline time appears on the date row
 
 ## Optional Raw-State Check
 

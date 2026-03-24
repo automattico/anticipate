@@ -50,7 +50,7 @@ Example payload:
 
 ```json
 {
-  "event1_name": "Summer Trip",
+  "event1_name": "Birthday",
   "event1_target_date": 1798761600,
   "event1_all_day": true,
   "event1_target_hour": 0,
