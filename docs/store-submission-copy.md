@@ -29,16 +29,14 @@ Use one of these if the store field has a tighter character limit than expected:
 
 Anticipate Countdowns keeps your important dates easy to see on your watch.
 
-Track up to 5 countdowns in one widget and move between them on your watch whenever you want a quick check. Use it for birthdays, trips, deadlines, launches, or any other day you want to keep in view.
+Track up to 5 countdowns in one widget and move between them on your watch whenever you want a quick check. Use it for your next race, birthdays, trips, deadlines, launches, or any other day you want to keep in view.
 
 Features:
 
-- Up to 5 countdown timers
-- Optional hour and minute for timed events, including midnight
-- Explicit all-day toggle for birthdays, trips, and deadlines
+- Use Connect IQ Settings to set up to 5 countdown timers
+- Set to all day or, optionally set the exact time of your event
 - Countdowns stay set to the date and time you save
-- Page between countdowns on your watch
-- Clean round-screen layout optimized first for Forerunner 55
+- Clean round-screen layout optimized first for Forerunner 55 - other watches will follow later
 
 Anticipate Countdowns is designed to stay simple, readable, and fast to configure in Connect IQ settings.
 
