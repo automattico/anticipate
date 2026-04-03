@@ -5,6 +5,7 @@ import Toybox.Lang;
 
 const MAX_TIMER_SLOTS = 5;
 const ALL_DAY_MIGRATION_FLAG = "all_day_migration_complete";
+const SPECIFIC_TIME_MIGRATION_FLAG = "use_specific_time_migration_complete";
 const TARGET_SIGNATURE_SUFFIX = "target_signature";
 
 class CountdownApp extends Application.AppBase {
@@ -15,6 +16,8 @@ class CountdownApp extends Application.AppBase {
 
     function onStart(state) as Void {
         _migrateAllDayFlagsIfNeeded();
+        _migrateSpecificTimeFlagsIfNeeded();
+        _syncLegacyAllDayFlags();
         _syncStoredTargetEpochs();
     }
 
@@ -29,6 +32,8 @@ class CountdownApp extends Application.AppBase {
 
     function onSettingsChanged() as Void {
         _migrateAllDayFlagsIfNeeded();
+        _migrateSpecificTimeFlagsIfNeeded();
+        _syncLegacyAllDayFlags();
         _syncStoredTargetEpochs();
     }
 
@@ -58,6 +63,45 @@ class CountdownApp extends Application.AppBase {
         Properties.setValue(allDayKey, targetHour == 0 && targetMinute == 0);
     }
 
+    function _migrateSpecificTimeFlagsIfNeeded() as Void {
+        if (_storageBoolean(SPECIFIC_TIME_MIGRATION_FLAG, false)) {
+            return;
+        }
+
+        for (var slot = 1; slot <= MAX_TIMER_SLOTS; slot += 1) {
+            _migrateSpecificTimeFlagForSlot(slot);
+        }
+
+        Storage.setValue(SPECIFIC_TIME_MIGRATION_FLAG, true);
+    }
+
+    function _migrateSpecificTimeFlagForSlot(slot as Lang.Number) as Void {
+        var prefix = "event" + slot.toString() + "_";
+        var useSpecificTimeKey = prefix + "use_specific_time";
+        var useSpecificTime;
+        var allDay = _propertyBooleanOrNull(prefix + "all_day");
+        if (allDay != null) {
+            useSpecificTime = !(allDay as Lang.Boolean);
+        } else {
+            var targetHour = _boundedNumber(prefix + "target_hour", 0, 23, 0);
+            var targetMinute = _boundedNumber(prefix + "target_minute", 0, 59, 0);
+            useSpecificTime = targetHour != 0 || targetMinute != 0;
+        }
+
+        Properties.setValue(useSpecificTimeKey, useSpecificTime);
+    }
+
+    function _syncLegacyAllDayFlags() as Void {
+        for (var slot = 1; slot <= MAX_TIMER_SLOTS; slot += 1) {
+            _syncLegacyAllDayFlag(slot);
+        }
+    }
+
+    function _syncLegacyAllDayFlag(slot as Lang.Number) as Void {
+        var prefix = "event" + slot.toString() + "_";
+        Properties.setValue(prefix + "all_day", !_useSpecificTime(prefix));
+    }
+
     function _syncStoredTargetEpochs() as Void {
         for (var slot = 1; slot <= MAX_TIMER_SLOTS; slot += 1) {
             _syncStoredTargetEpoch(slot);
@@ -76,15 +120,15 @@ class CountdownApp extends Application.AppBase {
             return;
         }
 
-        var isAllDay = _propertyBoolean(prefix + "all_day", true);
+        var useSpecificTime = _useSpecificTime(prefix);
         var targetHour = _boundedNumber(prefix + "target_hour", 0, 23, 0);
         var targetMinute = _boundedNumber(prefix + "target_minute", 0, 59, 0);
-        if (isAllDay) {
+        if (!useSpecificTime) {
             targetHour = 0;
             targetMinute = 0;
         }
 
-        var currentSignature = _targetSignature(targetDate, isAllDay, targetHour, targetMinute);
+        var currentSignature = _targetSignature(targetDate, !useSpecificTime, targetHour, targetMinute);
         var storedSignature = _storageText(signatureKey);
         var storedEpoch = _propertyNumber(epochKey);
         if (storedEpoch != null && storedEpoch > 0) {
@@ -100,6 +144,22 @@ class CountdownApp extends Application.AppBase {
 
         Properties.setValue(epochKey, CountdownEvents.resolveTargetEpoch(targetDate, targetHour, targetMinute));
         Storage.setValue(signatureKey, currentSignature);
+    }
+
+    function _useSpecificTime(prefix as String) as Lang.Boolean {
+        var useSpecificTime = _propertyBooleanOrNull(prefix + "use_specific_time");
+        if (useSpecificTime != null) {
+            return useSpecificTime as Lang.Boolean;
+        }
+
+        var allDay = _propertyBooleanOrNull(prefix + "all_day");
+        if (allDay != null) {
+            return !(allDay as Lang.Boolean);
+        }
+
+        var targetHour = _boundedNumber(prefix + "target_hour", 0, 23, 0);
+        var targetMinute = _boundedNumber(prefix + "target_minute", 0, 59, 0);
+        return targetHour != 0 || targetMinute != 0;
     }
 
     function _targetSignature(targetDate as Lang.Number, isAllDay as Lang.Boolean, targetHour as Lang.Number, targetMinute as Lang.Number) as String {
@@ -150,6 +210,24 @@ class CountdownApp extends Application.AppBase {
         return text;
     }
 
+    function _storageBoolean(key as String, defaultValue as Lang.Boolean) as Lang.Boolean {
+        var value = Storage.getValue(key);
+        if (value == null) {
+            return defaultValue;
+        }
+
+        var parsed = _booleanOrNull(value);
+        if (parsed == null) {
+            return defaultValue;
+        }
+
+        return parsed as Lang.Boolean;
+    }
+
+    function _propertyBooleanOrNull(key as String) as Lang.Boolean or Null {
+        return _booleanOrNull(_propertyValue(key));
+    }
+
     function _storageText(key as String) as String or Null {
         var value = Storage.getValue(key);
         if (value == null) {
@@ -166,8 +244,17 @@ class CountdownApp extends Application.AppBase {
 
     function _propertyBoolean(key as String, defaultValue as Lang.Boolean) as Lang.Boolean {
         var value = _propertyValue(key);
+        var parsed = _booleanOrNull(value);
+        if (parsed != null) {
+            return parsed as Lang.Boolean;
+        }
+
+        return defaultValue;
+    }
+
+    function _booleanOrNull(value as Lang.Object or Null) as Lang.Boolean or Null {
         if (value == null) {
-            return defaultValue;
+            return null;
         }
 
         if (value instanceof Lang.Boolean) {
@@ -200,6 +287,6 @@ class CountdownApp extends Application.AppBase {
             return numericValue != 0;
         }
 
-        return defaultValue;
+        return null;
     }
 }

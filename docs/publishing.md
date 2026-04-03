@@ -2,6 +2,14 @@
 
 This repo can prepare the app binary and most of the product copy, but Garmin Connect IQ submission still requires manual work in the Garmin developer portal.
 
+## Suggested GitHub Metadata
+
+Use this as the starting point for the GitHub repository details UI:
+
+- Description: `Open-source Garmin Connect IQ countdown widget with up to 5 events and optional event times.`
+- Topics: `garmin connect-iq monkey-c countdown widget forerunner55`
+- Website: leave blank until the public Garmin store page exists, then link the app listing
+
 ## Repo-Side Status
 
 Already updated in this repo:
@@ -30,6 +38,8 @@ Preferred local launch path:
 
 Treat direct `monkeydo` runs as optional troubleshooting, not the canonical pre-submit workflow.
 
+Release builds must be signed with your own local key material. Do not publish or commit signing keys, certificates, or other secrets.
+
 ## Manual Garmin Submission Tasks
 
 These still must be done by hand in Garmin's submission flow:
@@ -51,6 +61,8 @@ Official Garmin submission guide:
 ## Adding More Watches
 
 Garmin requires you to list supported products in `manifest.xml`, and your exported `.iq` package must include binaries for every product you claim to support.
+
+Community help adapting and validating the widget on more Garmin watches is very welcome. Keep claimed support conservative until each device has actually been tested.
 
 Recommended approach:
 

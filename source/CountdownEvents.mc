@@ -37,7 +37,8 @@ class CountdownEvents {
 
         var targetHour = _boundedNumber(_slotKey(slot, "target_hour"), 0, 23, 0);
         var targetMinute = _boundedNumber(_slotKey(slot, "target_minute"), 0, 59, 0);
-        var allDay = _propertyBoolean(_slotKey(slot, "all_day"), true);
+        var useSpecificTime = _useSpecificTime(slot, targetHour, targetMinute);
+        var allDay = !useSpecificTime;
         var name = _propertyText(_slotKey(slot, "name"));
 
         if (name == null || name.length() == 0) {
@@ -135,8 +136,35 @@ class CountdownEvents {
 
     static function _propertyBoolean(key as String, defaultValue as Lang.Boolean) as Lang.Boolean {
         var value = _propertyValue(key);
+        var parsed = _booleanOrNull(value);
+        if (parsed != null) {
+            return parsed as Lang.Boolean;
+        }
+
+        return defaultValue;
+    }
+
+    static function _propertyBooleanOrNull(key as String) as Lang.Boolean or Null {
+        return _booleanOrNull(_propertyValue(key));
+    }
+
+    static function _useSpecificTime(slot as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Boolean {
+        var useSpecificTime = _propertyBooleanOrNull(_slotKey(slot, "use_specific_time"));
+        if (useSpecificTime != null) {
+            return useSpecificTime as Lang.Boolean;
+        }
+
+        var allDay = _propertyBooleanOrNull(_slotKey(slot, "all_day"));
+        if (allDay != null) {
+            return !(allDay as Lang.Boolean);
+        }
+
+        return targetHour != 0 || targetMinute != 0;
+    }
+
+    static function _booleanOrNull(value as Lang.Object or Null) as Lang.Boolean or Null {
         if (value == null) {
-            return defaultValue;
+            return null;
         }
 
         if (value instanceof Lang.Boolean) {
@@ -169,6 +197,6 @@ class CountdownEvents {
             return numericValue != 0;
         }
 
-        return defaultValue;
+        return null;
     }
 }

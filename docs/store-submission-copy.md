@@ -163,17 +163,19 @@ Simple countdowns for birthdays, trips, deadlines, and more.
 
 ## Support Copy
 
-If Garmin provides a support description field, use:
+If Garmin provides a support description field, use wording that matches the support path you actually want to offer. For a store-oriented setup, use:
 
-Support is available through the project repository and issue tracker.
+Support is available through the public contact details provided in the Garmin store listing.
 
 ### Recommended Support URL
 
+Use your public support page if you have one. Otherwise, leave this blank or use the public website you want customers to see.
+
+### Optional Repository URL
+
+If you want to point people to the source code, use:
+
 https://github.com/automattico/anticipate
-
-### Recommended Issue Tracker URL
-
-https://github.com/automattico/anticipate/issues
 
 ### Support Contact Placeholder
 
@@ -218,9 +220,7 @@ Use a public address you are comfortable receiving user questions on.
 
 ### Website
 
-If you do not have a dedicated site, use:
-
-https://github.com/automattico/anticipate
+If you do not have a dedicated site yet, it is fine to leave this blank until the Garmin store page exists.
 
 ## Device Support Notes For Submission
 
@@ -229,6 +229,8 @@ Do not claim broad Garmin compatibility yet.
 Current safe wording:
 
 Validated first on Forerunner 55. Add more devices only after simulator and real-device verification.
+
+Community contributions that adapt and validate the widget for more Garmin watches are welcome, but only tested devices should be listed publicly.
 
 ## Manual Review Checklist
 

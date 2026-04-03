@@ -21,7 +21,7 @@ else
   echo "SDK: MISSING"
 fi
 
-if [[ -d "/Users/mwieland/Library/Application Support/Garmin/ConnectIQ/Devices/$DEVICE_ID" ]]; then
+if [[ -d "$HOME/Library/Application Support/Garmin/ConnectIQ/Devices/$DEVICE_ID" ]]; then
   echo "Device ($DEVICE_ID): OK"
 else
   echo "Device ($DEVICE_ID): MISSING"

@@ -1,35 +1,84 @@
 # Anticipate Countdowns
 
-Connect IQ widget workspace for a Garmin countdown widget with up to five timers.
+Anticipate Countdowns is an open-source Garmin Connect IQ widget for tracking up to five upcoming events with optional event times.
 
-## Current Product
+The current validated target is `fr55`. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
 
-- Up to 5 countdowns, configured in Connect IQ app settings
-- Optional hour and minute per countdown when `All day` is off
-- All-day countdowns supported with an explicit `All day` toggle
-- Timer targets are frozen to the user's local timezone when saved
+This project was built with help from OpenAI Codex.
+
+## Features
+
+- Up to 5 countdowns configured in Connect IQ app settings
+- Optional specific hour and minute for timed events
+- All-day countdowns with date-only display
+- Countdown targets pinned to the user's local timezone when saved
 - Horizontal paging between configured countdowns
-- FR55 is the only validated target today
 
-## Current Setup
+## Current Device Support
 
-- Target device in `manifest.xml`: `fr55`
-- Device profile: `round-208x208`, 8 colors, non-touch, button navigation
-- App type: `widget`
-- SDK path: active SDK from `~/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg`
-- VS Code extension: `garmin.monkey-c`
-- Java 17 JDK installed via Homebrew: `/opt/homebrew/opt/openjdk@17`
+- Validated target today: `fr55`
+- Current profile: round `208x208`, 8 colors, button navigation
+- Additional device support is welcome, but only validated devices should be added to `manifest.xml` or claimed in store metadata
 
-## First Run Checklist
+## Prerequisites
+
+- Garmin Connect IQ SDK installed locally
+- Java 17 or another compatible JDK available locally
+- VS Code with the `garmin.monkey-c` extension is the documented local workflow
+
+The helper scripts in this repo look for the active SDK path in `~/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg`.
+
+## Local Setup
 
 1. Open this folder in VS Code.
 2. Run `Monkey C: Verify Installation`.
-3. Run the `Run on Forerunner 55` debug configuration.
-4. If the simulator behaves strangely after switching SDKs, clear the temp simulator cache:
+3. Run the environment check:
+
+```sh
+./scripts/verify-env.sh
+```
+
+4. Use the `Run on Forerunner 55` launch configuration for the default simulator workflow.
+
+If the simulator behaves strangely after switching SDKs, clear its temporary state:
 
 ```sh
 rm -rf "$TMPDIR/com.garmin.connectiq"
 ```
+
+## FR55 Smoke Test
+
+Use [docs/fr55-smoke-test.md](/Users/mwieland/dev/anticipate/docs/fr55-smoke-test.md) for the canonical FR55 verification flow.
+
+At a high level:
+
+1. Verify the toolchain with `./scripts/verify-env.sh`.
+2. Build a simulator artifact using your own local signing key.
+3. Reset simulator state with `./scripts/reset-fr55-sim-state.sh`.
+4. Launch `Run on Forerunner 55` in VS Code.
+
+## Release Build Notes
+
+Release and simulator artifacts must be signed with your own local Connect IQ key material. Do not commit keys, certificates, or other secrets to this repository.
+
+Example local simulator build flow:
+
+```sh
+SDK=$(cat "$HOME/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg") && \
+JAVA_BIN="${JAVA_HOME:-/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home}/bin/java" && \
+"$JAVA_BIN" \
+  -Xms1g \
+  -Dfile.encoding=UTF-8 \
+  -Dapple.awt.UIElement=true \
+  -jar "$SDK/bin/monkeybrains.jar" \
+  -o "$(pwd)/bin/anticipate.prg" \
+  -f "$(pwd)/monkey.jungle" \
+  -y "/path/to/your/signing-key.der" \
+  -d fr55_sim \
+  -w -l 2 -w
+```
+
+Treat that command as an example local flow, not a promise that every machine uses the same Java path or signing-key location.
 
 ## Settings Contract
 
@@ -37,6 +86,7 @@ Each countdown slot stores:
 
 - `eventN_name`
 - `eventN_target_date`
+- `eventN_use_specific_time`
 - `eventN_all_day`
 - `eventN_target_hour`
 - `eventN_target_minute`
@@ -44,7 +94,7 @@ Each countdown slot stores:
 
 The app also stores an internal `eventN_target_signature` per slot in app storage so it can detect real countdown-input changes without repinning saved epochs on every startup or rename.
 
-`eventN_target_epoch` is resolved when the timer is saved so the countdown stays pinned to the user's local timezone at setup time. `eventN_all_day` controls whether the saved timer is treated as an all-day countdown or a specific time such as `00:00`. The raw date and time fields are still kept for settings and display.
+`eventN_use_specific_time` is the canonical settings toggle shown in Garmin Connect. The legacy `eventN_all_day` value is still mirrored for compatibility with previously installed data. `eventN_target_epoch` is resolved when the timer is saved so the countdown stays pinned to the user's local timezone at setup time. The raw date and time fields are still kept for settings and display.
 
 Example payload:
 
@@ -52,6 +102,7 @@ Example payload:
 {
   "event1_name": "Summer Trip",
   "event1_target_date": 1798761600,
+  "event1_use_specific_time": false,
   "event1_all_day": true,
   "event1_target_hour": 0,
   "event1_target_minute": 0,
@@ -59,48 +110,36 @@ Example payload:
 }
 ```
 
-## UI Notes
+## Contributing Focus
 
-- Main widget: event name, primary countdown value, and target date
-- Longer titles fall back from `FONT_SMALL` to `FONT_TINY` before clipping
-- Empty state prompts the user to open Connect IQ settings and add countdowns
-- Sub-day timers show hours, minutes, and seconds
-- Buttons: `BACK` exits; horizontal navigation moves between countdowns on supported devices
+Contributions are welcome across the project, with extra interest in:
+
+- adapting layouts and navigation for more Garmin watches
+- validating simulator behavior on additional devices
+- checking text fitting, page indicators, and button behavior on different screen shapes and resolutions
+- tightening docs and release workflows for outside contributors
+
+When adding watch support:
+
+- validate the device in the simulator before changing `manifest.xml`
+- verify readability, truncation, spacing, and navigation behavior
+- document what you tested in the pull request
+
+See [CONTRIBUTING.md](/Users/mwieland/dev/anticipate/CONTRIBUTING.md) for the expected workflow.
 
 ## Publishing Notes
 
-- The app name and in-app copy now describe multiple countdowns
-- `manifest.xml` is still intentionally limited to `fr55` until more devices are validated
-- Store descriptions, screenshots, hero images, categories, and supported products in the Garmin submission UI still need manual review
-- See [docs/publishing.md](/Users/mwieland/dev/anticipate/docs/publishing.md) for a submission checklist and suggested store copy
-- Use [docs/fr55-smoke-test.md](/Users/mwieland/dev/anticipate/docs/fr55-smoke-test.md) for the canonical FR55 pre-submit verification flow
+- Garmin Connect IQ submission still requires manual work in Garmin's developer portal
+- Only claim devices that have actually been validated
+- See [docs/publishing.md](/Users/mwieland/dev/anticipate/docs/publishing.md) for the current submission checklist and suggested repo metadata
+- Use [docs/store-submission-copy.md](/Users/mwieland/dev/anticipate/docs/store-submission-copy.md) for store copy, privacy wording, and publisher-field reminders
 
-## Local Checks
+## Support Expectations
 
-Run:
+This repository is primarily the open-source source code and contributor workflow for the project. Public Garmin store contact and support fields should use the publisher details you choose for release.
 
-```sh
-./scripts/verify-env.sh
-```
+## Security
 
-Build a release artifact:
-
-```sh
-SDK=$(cat "$HOME/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg") && \
-"/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home/bin/java" \
-  -Xms1g \
-  -Dfile.encoding=UTF-8 \
-  -Dapple.awt.UIElement=true \
-  -jar "$SDK/bin/monkeybrains.jar" \
-  -o "$(pwd)/bin/anticipate.prg" \
-  -f "$(pwd)/monkey.jungle" \
-  -y "$(pwd)/private/anticipate-dev-key-4096.der" \
-  -d fr55_sim \
-  -w -l 2 -w
-```
-
-Reset simulator state for a clean smoke test:
-
-```sh
-./scripts/reset-fr55-sim-state.sh
-```
+- Never commit signing keys, certificates, or other secrets
+- Keep local signing material in ignored paths such as `private/`
+- Review screenshots, docs, and examples before publishing to avoid personal data leaks
