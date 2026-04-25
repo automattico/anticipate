@@ -4,7 +4,7 @@ set -u
 
 SDK_CFG="$HOME/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg"
 SDK_ROOT=""
-DEVICE_ID="fr55"
+DEVICE_IDS=("fr55" "fr245" "fr245m")
 JDK_HINT="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
 JAVA_BIN="/opt/homebrew/opt/openjdk@17/bin/java"
 
@@ -21,11 +21,13 @@ else
   echo "SDK: MISSING"
 fi
 
-if [[ -d "$HOME/Library/Application Support/Garmin/ConnectIQ/Devices/$DEVICE_ID" ]]; then
-  echo "Device ($DEVICE_ID): OK"
-else
-  echo "Device ($DEVICE_ID): MISSING"
-fi
+for DEVICE_ID in "${DEVICE_IDS[@]}"; do
+  if [[ -d "$HOME/Library/Application Support/Garmin/ConnectIQ/Devices/$DEVICE_ID" ]]; then
+    echo "Device ($DEVICE_ID): OK"
+  else
+    echo "Device ($DEVICE_ID): MISSING"
+  fi
+done
 
 if [[ -x "$JAVA_BIN" ]] && "$JAVA_BIN" -version >/tmp/anticipate-java-version.txt 2>&1; then
   echo "Java: OK"

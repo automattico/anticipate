@@ -26,15 +26,15 @@ Already updated in this repo:
 
 Use the full copy pack in [store-submission-copy.md](store-submission-copy.md).
 
-## FR55 Smoke Test
+## Supported-Device Smoke Test
 
-Use the documented FR55 verification flow in [fr55-smoke-test.md](fr55-smoke-test.md).
+Use the documented supported-device verification flow in [multi-device-smoke-test.md](multi-device-smoke-test.md).
 
 Preferred local launch path:
 
-- build the FR55 simulator artifact with the command in [fr55-smoke-test.md](fr55-smoke-test.md)
-- reset state with `./scripts/reset-fr55-sim-state.sh`
-- launch from the VS Code `Run on Forerunner 55` configuration
+- build the simulator artifact with the command in [multi-device-smoke-test.md](multi-device-smoke-test.md)
+- reset state with `./scripts/reset-sim-state.sh`
+- launch from the matching VS Code configuration
 
 Treat direct `monkeydo` runs as optional troubleshooting, not the canonical pre-submit workflow.
 
@@ -106,6 +106,8 @@ Recommended approach:
 3. Build and run the simulator for each added device
 4. Check text fitting, button navigation, page indicator spacing, and title truncation
 5. Only then include those devices in the store submission
+
+Forerunner 45 (`fr45`) is not a valid target for this widget because Garmin's SDK profile exposes it as a watch-face-only Connect IQ device.
 
 Useful official references:
 

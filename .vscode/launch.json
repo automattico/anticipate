@@ -8,6 +8,22 @@
       "device": "fr55",
       "prg": "${workspaceFolder}/bin/anticipate.prg",
       "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run on Forerunner 245",
+      "device": "fr245",
+      "prg": "${workspaceFolder}/bin/anticipate.prg",
+      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run on Forerunner 245 Music",
+      "device": "fr245m",
+      "prg": "${workspaceFolder}/bin/anticipate.prg",
+      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
     }
   ]
 }
