@@ -1,7 +1,5 @@
 import Toybox.Graphics;
 import Toybox.Lang;
-import Toybox.Time;
-import Toybox.Time.Gregorian;
 
 class CountdownFormatter {
 
@@ -58,17 +56,68 @@ class CountdownFormatter {
     }
 
     static function formatTargetDateLine(event as EventConfig) as Lang.String {
-        var info = Gregorian.utcInfo(new Time.Moment(event.targetDate), Time.FORMAT_MEDIUM);
-        var dateText = twoDigits(info.day) + " " + info.month.toString() + " " + info.year.toString();
+        var dateText = twoDigits(event.targetDay) + " " + monthName(event.targetMonth) + " " + event.targetYear.toString();
         if (!_showsTimedDetails(event)) {
             return dateText;
         }
 
-        return twoDigits(info.day) + " " + info.month.toString() + " " + twoDigits(event.targetHour) + ":" + twoDigits(event.targetMinute);
+        return twoDigits(event.targetDay) + " " + monthName(event.targetMonth) + " " + twoDigits(event.targetHour) + ":" + twoDigits(event.targetMinute);
     }
 
     static function formatTargetTimeLine(event as EventConfig) as Lang.String {
         return "";
+    }
+
+    static function monthName(month as Lang.Number) as Lang.String {
+        if (month == 1) {
+            return "Jan";
+        }
+
+        if (month == 2) {
+            return "Feb";
+        }
+
+        if (month == 3) {
+            return "Mar";
+        }
+
+        if (month == 4) {
+            return "Apr";
+        }
+
+        if (month == 5) {
+            return "May";
+        }
+
+        if (month == 6) {
+            return "Jun";
+        }
+
+        if (month == 7) {
+            return "Jul";
+        }
+
+        if (month == 8) {
+            return "Aug";
+        }
+
+        if (month == 9) {
+            return "Sep";
+        }
+
+        if (month == 10) {
+            return "Oct";
+        }
+
+        if (month == 11) {
+            return "Nov";
+        }
+
+        if (month == 12) {
+            return "Dec";
+        }
+
+        return month.toString();
     }
 
     static function titleFontForWidth(dc as Graphics.Dc, text as Lang.String, maxWidth as Lang.Number) as FontDefinition {

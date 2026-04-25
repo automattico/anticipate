@@ -1,8 +1,17 @@
 .DS_Store
 .vscode/*.log
+.vscode/settings.local.json
 bin/
 build/
 DerivedData/
+diagnostics/
 private/
+*.der
+*.iq
+*.key
+*.pem
+*.p12
+*.jks
+*.keystore
 *.prg
 *.prg.debug.xml

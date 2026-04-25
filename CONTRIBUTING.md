@@ -26,7 +26,7 @@ Especially appreciated:
 
 ## Smoke Testing
 
-Use [docs/fr55-smoke-test.md](/Users/mwieland/dev/anticipate/docs/fr55-smoke-test.md) for the canonical FR55 smoke test.
+Use [docs/fr55-smoke-test.md](docs/fr55-smoke-test.md) for the canonical FR55 smoke test.
 
 Before opening a PR for behavior changes, run the documented FR55 flow and note anything you could not verify.
 

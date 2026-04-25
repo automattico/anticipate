@@ -48,7 +48,7 @@ rm -rf "$TMPDIR/com.garmin.connectiq"
 
 ## FR55 Smoke Test
 
-Use [docs/fr55-smoke-test.md](/Users/mwieland/dev/anticipate/docs/fr55-smoke-test.md) for the canonical FR55 verification flow.
+Use [docs/fr55-smoke-test.md](docs/fr55-smoke-test.md) for the canonical FR55 verification flow.
 
 At a high level:
 
@@ -75,38 +75,40 @@ JAVA_BIN="${JAVA_HOME:-/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents
   -f "$(pwd)/monkey.jungle" \
   -y "/path/to/your/signing-key.der" \
   -d fr55_sim \
-  -w -l 2 -w
+  -r -w -l 2 -w
 ```
 
-Treat that command as an example local flow, not a promise that every machine uses the same Java path or signing-key location.
+Treat that command as an example local flow, not a promise that every machine uses the same Java path or signing-key location. Keep `-r` on release or pre-submit builds so debug source paths are stripped from generated artifacts.
 
 ## Settings Contract
 
 Each countdown slot stores:
 
 - `eventN_name`
-- `eventN_target_date`
+- `eventN_target_year`
+- `eventN_target_month`
+- `eventN_target_day`
 - `eventN_use_specific_time`
-- `eventN_all_day`
 - `eventN_target_hour`
 - `eventN_target_minute`
-- `eventN_target_epoch`
 
-The app also stores an internal `eventN_target_signature` per slot in app storage so it can detect real countdown-input changes without repinning saved epochs on every startup or rename.
+Legacy installs may also have `eventN_target_date`, `eventN_all_day`, and `eventN_target_epoch` in Application.Properties. These are kept as hidden compatibility inputs only.
 
-`eventN_use_specific_time` is the canonical settings toggle shown in Garmin Connect. The legacy `eventN_all_day` value is still mirrored for compatibility with previously installed data. `eventN_target_epoch` is resolved when the timer is saved so the countdown stays pinned to the user's local timezone at setup time. The raw date and time fields are still kept for settings and display.
+The app stores internal `eventN_target_epoch` and `eventN_target_signature` values in Application.Storage so it can detect real countdown-input changes without repinning saved epochs on every startup or rename.
+
+`eventN_use_specific_time` is shown to users as `Add a time`. Hour and minute remain editable in settings, but the app ignores them when `Add a time` is off. On first launch after upgrading from an older release, the app migrates legacy `eventN_target_date` values into numeric year/month/day settings and migrates legacy `eventN_all_day` into `eventN_use_specific_time` when needed.
 
 Example payload:
 
 ```json
 {
   "event1_name": "Summer Trip",
-  "event1_target_date": 1798761600,
+  "event1_target_year": "2027",
+  "event1_target_month": "1",
+  "event1_target_day": "1",
   "event1_use_specific_time": false,
-  "event1_all_day": true,
   "event1_target_hour": 0,
-  "event1_target_minute": 0,
-  "event1_target_epoch": 1798761600
+  "event1_target_minute": 0
 }
 ```
 
@@ -125,14 +127,14 @@ When adding watch support:
 - verify readability, truncation, spacing, and navigation behavior
 - document what you tested in the pull request
 
-See [CONTRIBUTING.md](/Users/mwieland/dev/anticipate/CONTRIBUTING.md) for the expected workflow.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the expected workflow.
 
 ## Publishing Notes
 
 - Garmin Connect IQ submission still requires manual work in Garmin's developer portal
 - Only claim devices that have actually been validated
-- See [docs/publishing.md](/Users/mwieland/dev/anticipate/docs/publishing.md) for the current submission checklist and suggested repo metadata
-- Use [docs/store-submission-copy.md](/Users/mwieland/dev/anticipate/docs/store-submission-copy.md) for store copy, privacy wording, and publisher-field reminders
+- See [docs/publishing.md](docs/publishing.md) for the current submission checklist and suggested repo metadata
+- Use [docs/store-submission-copy.md](docs/store-submission-copy.md) for store copy, privacy wording, and publisher-field reminders
 
 ## Support Expectations
 

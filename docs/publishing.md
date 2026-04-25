@@ -17,28 +17,60 @@ Already updated in this repo:
 - App name reflects multi-countdown support
 - Empty-state copy reflects Connect IQ naming
 - Settings support up to 5 countdowns
-- Countdowns now use an explicit `All day` toggle
+- Countdowns use an `Add a time` toggle with date-only behavior when off
 - Countdowns now stay set after setup
 - Demo timer seeding has been removed for release builds
 - README matches the current feature set
 
 ## Suggested Store Copy
 
-Use the full copy pack in [store-submission-copy.md](/Users/mwieland/dev/anticipate/docs/store-submission-copy.md).
+Use the full copy pack in [store-submission-copy.md](store-submission-copy.md).
 
 ## FR55 Smoke Test
 
-Use the documented FR55 verification flow in [fr55-smoke-test.md](/Users/mwieland/dev/anticipate/docs/fr55-smoke-test.md).
+Use the documented FR55 verification flow in [fr55-smoke-test.md](fr55-smoke-test.md).
 
 Preferred local launch path:
 
-- build the FR55 simulator artifact with the command in [fr55-smoke-test.md](/Users/mwieland/dev/anticipate/docs/fr55-smoke-test.md)
+- build the FR55 simulator artifact with the command in [fr55-smoke-test.md](fr55-smoke-test.md)
 - reset state with `./scripts/reset-fr55-sim-state.sh`
 - launch from the VS Code `Run on Forerunner 55` configuration
 
 Treat direct `monkeydo` runs as optional troubleshooting, not the canonical pre-submit workflow.
 
 Release builds must be signed with your own local key material. Do not publish or commit signing keys, certificates, or other secrets.
+
+## Release Package Build
+
+Build the Garmin upload artifact as a release package, using the real device id rather than the simulator id:
+
+```sh
+SDK=$(cat "$HOME/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg") && \
+JAVA_BIN="${JAVA_HOME:-/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home}/bin/java" && \
+"$JAVA_BIN" \
+  -Xms1g \
+  -Dfile.encoding=UTF-8 \
+  -Dapple.awt.UIElement=true \
+  -jar "$SDK/bin/monkeybrains.jar" \
+  -e \
+  -o "$(pwd)/bin/anticipate.iq" \
+  -f "$(pwd)/monkey.jungle" \
+  -y "/path/to/your/signing-key.der" \
+  -d fr55 \
+  -r -w -l 2 -w
+```
+
+## Pre-Submit Security Check
+
+Before committing, pushing, or uploading to Garmin:
+
+- Run `git status --short --ignored` and verify only intentional source/docs changes are staged or unstaged
+- Confirm `private/`, `bin/`, `diagnostics/`, signing keys, `.prg`, `.iq`, and debug XML files are ignored or absent
+- Build release or pre-submit artifacts with `-r` so compiler debug paths are stripped
+- Search staged changes for real countdown names, birthdates, emails, phone numbers, addresses, credentials, tokens, and local filesystem paths
+- Use only synthetic event names and dates in screenshots, docs, examples, and store assets
+- Upload only the intended release `.iq` package to Garmin, never debug XML, simulator state, signing keys, or local generated artifacts
+- Replace placeholder support/contact fields with public release details you are comfortable publishing
 
 ## Manual Garmin Submission Tasks
 

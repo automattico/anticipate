@@ -2,10 +2,12 @@ import Toybox.Application;
 import Toybox.Application.Properties;
 import Toybox.Application.Storage;
 import Toybox.Lang;
+import Toybox.Time;
+import Toybox.Time.Gregorian;
 
 const MAX_TIMER_SLOTS = 5;
-const ALL_DAY_MIGRATION_FLAG = "all_day_migration_complete";
 const SPECIFIC_TIME_MIGRATION_FLAG = "use_specific_time_migration_complete";
+const DATE_PARTS_MIGRATION_FLAG = "date_parts_migration_complete";
 const TARGET_SIGNATURE_SUFFIX = "target_signature";
 
 class CountdownApp extends Application.AppBase {
@@ -15,9 +17,8 @@ class CountdownApp extends Application.AppBase {
     }
 
     function onStart(state) as Void {
-        _migrateAllDayFlagsIfNeeded();
+        _migrateDatePartsIfNeeded();
         _migrateSpecificTimeFlagsIfNeeded();
-        _syncLegacyAllDayFlags();
         _syncStoredTargetEpochs();
     }
 
@@ -31,36 +32,39 @@ class CountdownApp extends Application.AppBase {
     }
 
     function onSettingsChanged() as Void {
-        _migrateAllDayFlagsIfNeeded();
+        _migrateDatePartsIfNeeded();
         _migrateSpecificTimeFlagsIfNeeded();
-        _syncLegacyAllDayFlags();
         _syncStoredTargetEpochs();
     }
 
-    function _migrateAllDayFlagsIfNeeded() as Void {
-        if (_propertyBoolean(ALL_DAY_MIGRATION_FLAG, false)) {
+    function _migrateDatePartsIfNeeded() as Void {
+        if (_storageBoolean(DATE_PARTS_MIGRATION_FLAG, false)) {
             return;
         }
 
         for (var slot = 1; slot <= MAX_TIMER_SLOTS; slot += 1) {
-            _migrateAllDayFlagForSlot(slot);
+            _migrateDatePartsForSlot(slot);
         }
 
-        Properties.setValue(ALL_DAY_MIGRATION_FLAG, true);
+        Storage.setValue(DATE_PARTS_MIGRATION_FLAG, true);
     }
 
-    function _migrateAllDayFlagForSlot(slot as Lang.Number) as Void {
+    function _migrateDatePartsForSlot(slot as Lang.Number) as Void {
         var prefix = "event" + slot.toString() + "_";
-        var allDayKey = prefix + "all_day";
-        var targetDate = _propertyNumber(prefix + "target_date");
-        if (targetDate == null || targetDate <= 0) {
-            Properties.setValue(allDayKey, true);
+
+        if (_hasExplicitDateParts(prefix)) {
             return;
         }
 
-        var targetHour = _boundedNumber(prefix + "target_hour", 0, 23, 0);
-        var targetMinute = _boundedNumber(prefix + "target_minute", 0, 59, 0);
-        Properties.setValue(allDayKey, targetHour == 0 && targetMinute == 0);
+        var legacyTargetDate = _propertyNumber(prefix + "target_date");
+        if (legacyTargetDate == null || legacyTargetDate <= 0) {
+            return;
+        }
+
+        var dateInfo = Gregorian.utcInfo(new Time.Moment(legacyTargetDate), Time.FORMAT_SHORT);
+        Properties.setValue(prefix + "target_year", dateInfo.year.toString());
+        Properties.setValue(prefix + "target_month", (dateInfo.month as Lang.Number).toString());
+        Properties.setValue(prefix + "target_day", dateInfo.day.toString());
     }
 
     function _migrateSpecificTimeFlagsIfNeeded() as Void {
@@ -79,8 +83,11 @@ class CountdownApp extends Application.AppBase {
         var prefix = "event" + slot.toString() + "_";
         var useSpecificTimeKey = prefix + "use_specific_time";
         var useSpecificTime;
+        var existingUseSpecificTime = _propertyBooleanOrNull(useSpecificTimeKey);
         var allDay = _propertyBooleanOrNull(prefix + "all_day");
-        if (allDay != null) {
+        if (existingUseSpecificTime != null && (existingUseSpecificTime as Lang.Boolean)) {
+            useSpecificTime = true;
+        } else if (allDay != null) {
             useSpecificTime = !(allDay as Lang.Boolean);
         } else {
             var targetHour = _boundedNumber(prefix + "target_hour", 0, 23, 0);
@@ -89,17 +96,6 @@ class CountdownApp extends Application.AppBase {
         }
 
         Properties.setValue(useSpecificTimeKey, useSpecificTime);
-    }
-
-    function _syncLegacyAllDayFlags() as Void {
-        for (var slot = 1; slot <= MAX_TIMER_SLOTS; slot += 1) {
-            _syncLegacyAllDayFlag(slot);
-        }
-    }
-
-    function _syncLegacyAllDayFlag(slot as Lang.Number) as Void {
-        var prefix = "event" + slot.toString() + "_";
-        Properties.setValue(prefix + "all_day", !_useSpecificTime(prefix));
     }
 
     function _syncStoredTargetEpochs() as Void {
@@ -112,14 +108,17 @@ class CountdownApp extends Application.AppBase {
         var prefix = "event" + slot.toString() + "_";
         var epochKey = prefix + "target_epoch";
         var signatureKey = prefix + TARGET_SIGNATURE_SUFFIX;
-        var targetDate = _propertyNumber(prefix + "target_date");
+        var dateParts = _datePartsForSlot(prefix);
 
-        if (targetDate == null || targetDate <= 0) {
-            Properties.setValue(epochKey, 0);
+        if (dateParts == null) {
+            Storage.deleteValue(epochKey);
             Storage.deleteValue(signatureKey);
             return;
         }
 
+        var targetYear = dateParts[:year] as Lang.Number;
+        var targetMonth = dateParts[:month] as Lang.Number;
+        var targetDay = dateParts[:day] as Lang.Number;
         var useSpecificTime = _useSpecificTime(prefix);
         var targetHour = _boundedNumber(prefix + "target_hour", 0, 23, 0);
         var targetMinute = _boundedNumber(prefix + "target_minute", 0, 59, 0);
@@ -128,21 +127,21 @@ class CountdownApp extends Application.AppBase {
             targetMinute = 0;
         }
 
-        var currentSignature = _targetSignature(targetDate, !useSpecificTime, targetHour, targetMinute);
+        var currentSignature = CountdownEvents.targetSignature(targetYear, targetMonth, targetDay, !useSpecificTime, targetHour, targetMinute);
         var storedSignature = _storageText(signatureKey);
-        var storedEpoch = _propertyNumber(epochKey);
-        if (storedEpoch != null && storedEpoch > 0) {
-            if (storedSignature == null) {
-                Storage.setValue(signatureKey, currentSignature);
-                return;
-            }
-
-            if (storedSignature == currentSignature) {
-                return;
-            }
+        var storedEpoch = _storageNumber(epochKey);
+        if (storedEpoch != null && storedEpoch > 0 && storedSignature == currentSignature) {
+            return;
         }
 
-        Properties.setValue(epochKey, CountdownEvents.resolveTargetEpoch(targetDate, targetHour, targetMinute));
+        var resolvedEpoch = CountdownEvents.resolveTargetEpochForDate(targetYear, targetMonth, targetDay, targetHour, targetMinute);
+        var legacyEpoch = _propertyNumber(epochKey);
+        if (legacyEpoch != null && legacyEpoch > 0 && (storedSignature == currentSignature || legacyEpoch == resolvedEpoch)) {
+            Storage.setValue(epochKey, legacyEpoch);
+        } else {
+            Storage.setValue(epochKey, resolvedEpoch);
+        }
+
         Storage.setValue(signatureKey, currentSignature);
     }
 
@@ -162,12 +161,74 @@ class CountdownApp extends Application.AppBase {
         return targetHour != 0 || targetMinute != 0;
     }
 
-    function _targetSignature(targetDate as Lang.Number, isAllDay as Lang.Boolean, targetHour as Lang.Number, targetMinute as Lang.Number) as String {
-        if (isAllDay) {
-            return targetDate.toString() + "|1";
+    function _datePartsForSlot(prefix as String) as Lang.Dictionary or Null {
+        var year = _propertyNumber(prefix + "target_year");
+        var month = _propertyNumber(prefix + "target_month");
+        var day = _propertyNumber(prefix + "target_day");
+
+        if (_hasDateParts(year, month, day)) {
+            if (_isValidDate(year, month, day)) {
+                return { :year => year, :month => month, :day => day };
+            }
+
+            return null;
         }
 
-        return targetDate.toString() + "|0|" + targetHour.toString() + "|" + targetMinute.toString();
+        var legacyTargetDate = _propertyNumber(prefix + "target_date");
+        if (legacyTargetDate == null || legacyTargetDate <= 0) {
+            return null;
+        }
+
+        var dateInfo = Gregorian.utcInfo(new Time.Moment(legacyTargetDate), Time.FORMAT_SHORT);
+        return { :year => dateInfo.year, :month => dateInfo.month as Lang.Number, :day => dateInfo.day };
+    }
+
+    function _hasExplicitDateParts(prefix as String) as Lang.Boolean {
+        return _hasDateParts(_propertyNumber(prefix + "target_year"), _propertyNumber(prefix + "target_month"), _propertyNumber(prefix + "target_day"));
+    }
+
+    function _hasDateParts(year as Lang.Number or Null, month as Lang.Number or Null, day as Lang.Number or Null) as Lang.Boolean {
+        return (year != null && year > 0) || (month != null && month > 0) || (day != null && day > 0);
+    }
+
+    function _isValidDate(year as Lang.Number or Null, month as Lang.Number or Null, day as Lang.Number or Null) as Lang.Boolean {
+        if (year == null || month == null || day == null) {
+            return false;
+        }
+
+        if (year < 1970 || month < 1 || month > 12 || day < 1) {
+            return false;
+        }
+
+        return day <= _daysInMonth(year, month);
+    }
+
+    function _daysInMonth(year as Lang.Number, month as Lang.Number) as Lang.Number {
+        if (month == 2) {
+            if (_isLeapYear(year)) {
+                return 29;
+            }
+
+            return 28;
+        }
+
+        if (month == 4 || month == 6 || month == 9 || month == 11) {
+            return 30;
+        }
+
+        return 31;
+    }
+
+    function _isLeapYear(year as Lang.Number) as Lang.Boolean {
+        if (year % 400 == 0) {
+            return true;
+        }
+
+        if (year % 100 == 0) {
+            return false;
+        }
+
+        return year % 4 == 0;
     }
 
     function _boundedNumber(key as String, minValue as Lang.Number, maxValue as Lang.Number, defaultValue as Lang.Number) as Lang.Number {
@@ -189,6 +250,15 @@ class CountdownApp extends Application.AppBase {
 
     function _propertyNumber(key as String) as Lang.Number or Null {
         var value = _propertyValue(key);
+        if (value == null) {
+            return null;
+        }
+
+        return value.toString().toNumber();
+    }
+
+    function _storageNumber(key as String) as Lang.Number or Null {
+        var value = Storage.getValue(key);
         if (value == null) {
             return null;
         }

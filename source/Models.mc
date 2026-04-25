@@ -10,16 +10,20 @@ class EventConfig {
     var icon as Lang.String;
     var targetEpoch as Lang.Number;
     var allDay as Lang.Boolean;
-    var targetDate as Lang.Number;
+    var targetYear as Lang.Number;
+    var targetMonth as Lang.Number;
+    var targetDay as Lang.Number;
     var targetHour as Lang.Number;
     var targetMinute as Lang.Number;
 
-    function initialize(name as Lang.String, icon as Lang.String, targetEpoch as Lang.Number, allDay as Lang.Boolean, targetDate as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) {
+    function initialize(name as Lang.String, icon as Lang.String, targetEpoch as Lang.Number, allDay as Lang.Boolean, targetYear as Lang.Number, targetMonth as Lang.Number, targetDay as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) {
         self.name = name;
         self.icon = icon;
         self.targetEpoch = targetEpoch;
         self.allDay = allDay;
-        self.targetDate = targetDate;
+        self.targetYear = targetYear;
+        self.targetMonth = targetMonth;
+        self.targetDay = targetDay;
         self.targetHour = targetHour;
         self.targetMinute = targetMinute;
     }

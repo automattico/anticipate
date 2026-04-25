@@ -1,4 +1,5 @@
 import Toybox.Application.Properties;
+import Toybox.Application.Storage;
 import Toybox.Lang;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
@@ -30,11 +31,14 @@ class CountdownEvents {
     }
 
     static function _eventForSlot(slot as Lang.Number) as EventConfig or Null {
-        var targetDate = _propertyNumber(_slotKey(slot, "target_date"));
-        if (targetDate == null || targetDate <= 0) {
+        var targetParts = _targetPartsForSlot(slot);
+        if (targetParts == null) {
             return null;
         }
 
+        var targetYear = targetParts[:year] as Lang.Number;
+        var targetMonth = targetParts[:month] as Lang.Number;
+        var targetDay = targetParts[:day] as Lang.Number;
         var targetHour = _boundedNumber(_slotKey(slot, "target_hour"), 0, 23, 0);
         var targetMinute = _boundedNumber(_slotKey(slot, "target_minute"), 0, 59, 0);
         var useSpecificTime = _useSpecificTime(slot, targetHour, targetMinute);
@@ -52,42 +56,110 @@ class CountdownEvents {
             epochMinute = 0;
         }
 
-        var targetEpoch = _storedTargetEpoch(slot, targetDate, epochHour, epochMinute);
-        return new EventConfig(name, ICON_CALENDAR, targetEpoch, allDay, targetDate, targetHour, targetMinute);
+        var targetEpoch = _storedTargetEpoch(slot, targetYear, targetMonth, targetDay, allDay, epochHour, epochMinute);
+        return new EventConfig(name, ICON_CALENDAR, targetEpoch, allDay, targetYear, targetMonth, targetDay, targetHour, targetMinute);
     }
 
     static function resolveTargetEpoch(targetDate as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
         var selectedDate = new Time.Moment(targetDate);
         var dateInfo = Gregorian.utcInfo(selectedDate, Time.FORMAT_SHORT);
-        return _projectionForInfo(dateInfo, targetHour, targetMinute, 0).value() as Lang.Number;
+        return resolveTargetEpochForDate(dateInfo.year, dateInfo.month as Lang.Number, dateInfo.day, targetHour, targetMinute);
     }
 
-    static function _storedTargetEpoch(slot as Lang.Number, targetDate as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
-        var storedEpoch = _propertyNumber(_slotKey(slot, "target_epoch"));
-        if (storedEpoch != null && storedEpoch > 0) {
+    static function resolveTargetEpochForDate(year as Lang.Number, month as Lang.Number, day as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
+        return Gregorian.moment({
+            :year => year,
+            :month => month,
+            :day => day,
+            :hour => targetHour,
+            :minute => targetMinute,
+            :second => 0
+        }).value() as Lang.Number;
+    }
+
+    static function targetSignature(year as Lang.Number, month as Lang.Number, day as Lang.Number, isAllDay as Lang.Boolean, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.String {
+        if (isAllDay) {
+            return year.toString() + "-" + month.toString() + "-" + day.toString() + "|1";
+        }
+
+        return year.toString() + "-" + month.toString() + "-" + day.toString() + "|0|" + targetHour.toString() + "|" + targetMinute.toString();
+    }
+
+    static function _storedTargetEpoch(slot as Lang.Number, targetYear as Lang.Number, targetMonth as Lang.Number, targetDay as Lang.Number, allDay as Lang.Boolean, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
+        var signature = targetSignature(targetYear, targetMonth, targetDay, allDay, targetHour, targetMinute);
+        var storedSignature = _storageText(_slotKey(slot, "target_signature"));
+        var storedEpoch = _storageNumber(_slotKey(slot, "target_epoch"));
+        if (storedEpoch != null && storedEpoch > 0 && storedSignature == signature) {
             return storedEpoch;
         }
 
-        return resolveTargetEpoch(targetDate, targetHour, targetMinute);
+        return resolveTargetEpochForDate(targetYear, targetMonth, targetDay, targetHour, targetMinute);
     }
 
-    static function _projectionForInfo(info as Gregorian.Info, hour as Lang.Number or Null, minute as Lang.Number or Null, second as Lang.Number or Null) as Time.Moment {
-        return Gregorian.moment({
-            :year => info.year,
-            :month => (info.month as Number),
-            :day => info.day,
-            :hour => _valueOr(hour, info.hour),
-            :minute => _valueOr(minute, info.min),
-            :second => _valueOr(second, info.sec)
-        });
-    }
+    static function _targetPartsForSlot(slot as Lang.Number) as Lang.Dictionary or Null {
+        var year = _propertyNumber(_slotKey(slot, "target_year"));
+        var month = _propertyNumber(_slotKey(slot, "target_month"));
+        var day = _propertyNumber(_slotKey(slot, "target_day"));
 
-    static function _valueOr(value as Lang.Number or Null, fallback as Lang.Number) as Lang.Number {
-        if (value == null) {
-            return fallback;
+        if (_hasExplicitDateParts(year, month, day)) {
+            if (_isValidDate(year, month, day)) {
+                return { :year => year, :month => month, :day => day };
+            }
+
+            return null;
         }
 
-        return value;
+        var legacyTargetDate = _propertyNumber(_slotKey(slot, "target_date"));
+        if (legacyTargetDate == null || legacyTargetDate <= 0) {
+            return null;
+        }
+
+        var dateInfo = Gregorian.utcInfo(new Time.Moment(legacyTargetDate), Time.FORMAT_SHORT);
+        return { :year => dateInfo.year, :month => dateInfo.month as Lang.Number, :day => dateInfo.day };
+    }
+
+    static function _hasExplicitDateParts(year as Lang.Number or Null, month as Lang.Number or Null, day as Lang.Number or Null) as Lang.Boolean {
+        return (year != null && year > 0) || (month != null && month > 0) || (day != null && day > 0);
+    }
+
+    static function _isValidDate(year as Lang.Number or Null, month as Lang.Number or Null, day as Lang.Number or Null) as Lang.Boolean {
+        if (year == null || month == null || day == null) {
+            return false;
+        }
+
+        if (year < 1970 || month < 1 || month > 12 || day < 1) {
+            return false;
+        }
+
+        return day <= _daysInMonth(year, month);
+    }
+
+    static function _daysInMonth(year as Lang.Number, month as Lang.Number) as Lang.Number {
+        if (month == 2) {
+            if (_isLeapYear(year)) {
+                return 29;
+            }
+
+            return 28;
+        }
+
+        if (month == 4 || month == 6 || month == 9 || month == 11) {
+            return 30;
+        }
+
+        return 31;
+    }
+
+    static function _isLeapYear(year as Lang.Number) as Lang.Boolean {
+        if (year % 400 == 0) {
+            return true;
+        }
+
+        if (year % 100 == 0) {
+            return false;
+        }
+
+        return year % 4 == 0;
     }
 
     static function _slotKey(slot as Lang.Number, suffix as String) as String {
@@ -132,6 +204,29 @@ class CountdownEvents {
         }
 
         return text.toNumber();
+    }
+
+    static function _storageNumber(key as String) as Lang.Number or Null {
+        var value = Storage.getValue(key);
+        if (value == null) {
+            return null;
+        }
+
+        return value.toString().toNumber();
+    }
+
+    static function _storageText(key as String) as String or Null {
+        var value = Storage.getValue(key);
+        if (value == null) {
+            return null;
+        }
+
+        var text = value.toString();
+        if (text.length() == 0) {
+            return null;
+        }
+
+        return text;
     }
 
     static function _propertyBoolean(key as String, defaultValue as Lang.Boolean) as Lang.Boolean {

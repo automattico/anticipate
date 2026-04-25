@@ -3,6 +3,5 @@
   "monkeyC.compilerWarnings": true,
   "monkeyC.typeCheckLevel": "Informative",
   "monkeyC.compilerOptions": "-w",
-  "monkeyC.javaPath": "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home",
-  "monkeyC.developerKeyPath": "/Users/mwieland/dev/anticipate/private/anticipate-dev-key-4096.der"
+  "monkeyC.javaPath": "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
 }
