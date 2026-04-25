@@ -98,9 +98,9 @@ Community help adapting and validating the widget on more Garmin watches is very
 
 Recommended approach:
 
-1. Start with devices close to FR55:
-   - round MIP watches
-   - similar resolution
+1. Start with devices close to the currently supported targets:
+   - round watch displays
+   - similar resolution families
    - API level 3.1 or higher
 2. Add one small cluster at a time in `manifest.xml`
 3. Build and run the simulator for each added device
@@ -116,4 +116,4 @@ Useful official references:
 
 ## Practical Expansion Strategy
 
-Likely easier first candidates after FR55 are other round, button-driven, MIP watches in the same rough size class. Avoid adding AMOLED, touch-heavy, square, or much higher-resolution products until layout is validated there.
+Likely easier candidates are other round, button-driven watches in nearby resolution families. Add AMOLED, touch-heavy, square, or much higher-resolution products only after layout is validated in the simulator.

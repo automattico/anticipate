@@ -24,6 +24,38 @@
       "device": "fr245m",
       "prg": "${workspaceFolder}/bin/anticipate.prg",
       "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run on Forerunner 255",
+      "device": "fr255",
+      "prg": "${workspaceFolder}/bin/anticipate.prg",
+      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run on Forerunner 255 Music",
+      "device": "fr255m",
+      "prg": "${workspaceFolder}/bin/anticipate.prg",
+      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run on Forerunner 255S",
+      "device": "fr255s",
+      "prg": "${workspaceFolder}/bin/anticipate.prg",
+      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run on Forerunner 255S Music",
+      "device": "fr255sm",
+      "prg": "${workspaceFolder}/bin/anticipate.prg",
+      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
     }
   ]
 }
