@@ -2,7 +2,7 @@
 
 Anticipate Countdowns is an open-source Garmin Connect IQ widget for tracking up to five upcoming events with optional event times.
 
-The current validated target is `fr55`. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
+The current validated targets are `fr55`, `fr245`, and `fr245m`. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
 
 This project was built with help from OpenAI Codex.
 
@@ -16,8 +16,9 @@ This project was built with help from OpenAI Codex.
 
 ## Current Device Support
 
-- Validated target today: `fr55`
-- Current profile: round `208x208`, 8 colors, button navigation
+- Validated targets today: `fr55`, `fr245`, and `fr245m`
+- Current profiles: round `208x208` and `240x240`, MIP displays, button navigation
+- Forerunner 45 (`fr45`) is not supported by this widget because Garmin's device profile does not support Connect IQ widgets on that target
 - Additional device support is welcome, but only validated devices should be added to `manifest.xml` or claimed in store metadata
 
 ## Prerequisites
@@ -38,7 +39,7 @@ The helper scripts in this repo look for the active SDK path in `~/Library/Appli
 ./scripts/verify-env.sh
 ```
 
-4. Use the `Run on Forerunner 55` launch configuration for the default simulator workflow.
+4. Use the `Run on Forerunner 55`, `Run on Forerunner 245`, or `Run on Forerunner 245 Music` launch configuration for simulator workflow.
 
 If the simulator behaves strangely after switching SDKs, clear its temporary state:
 
@@ -46,16 +47,16 @@ If the simulator behaves strangely after switching SDKs, clear its temporary sta
 rm -rf "$TMPDIR/com.garmin.connectiq"
 ```
 
-## FR55 Smoke Test
+## Smoke Tests
 
-Use [docs/fr55-smoke-test.md](docs/fr55-smoke-test.md) for the canonical FR55 verification flow.
+Use [docs/multi-device-smoke-test.md](docs/multi-device-smoke-test.md) for the canonical supported-device verification flow. The older [docs/fr55-smoke-test.md](docs/fr55-smoke-test.md) remains available for FR55-specific checks.
 
 At a high level:
 
 1. Verify the toolchain with `./scripts/verify-env.sh`.
 2. Build a simulator artifact using your own local signing key.
-3. Reset simulator state with `./scripts/reset-fr55-sim-state.sh`.
-4. Launch `Run on Forerunner 55` in VS Code.
+3. Reset simulator state with `./scripts/reset-sim-state.sh`.
+4. Launch the matching VS Code run configuration.
 
 ## Release Build Notes
 

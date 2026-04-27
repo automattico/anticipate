@@ -38,7 +38,7 @@ Features:
 - Date-only countdowns when no specific time is set
 - Countdowns stay set to the date and time you save
 - Page between countdowns on your watch
-- Clean round-screen layout optimized first for Forerunner 55
+- Clean round-screen layout validated on Forerunner 55, Forerunner 245, and Forerunner 245 Music
 
 Anticipate Countdowns is designed to stay simple, readable, and fast to configure in Connect IQ settings.
 
@@ -67,6 +67,7 @@ Highlights:
 - Improved paging and timer layout
 - Improved countdown stability after setup
 - Refreshed setup wording and settings labels
+- Added simulator-validated Forerunner 245 and Forerunner 245 Music support
 
 ### Short Release Notes Option
 
@@ -228,7 +229,7 @@ Do not claim broad Garmin compatibility yet.
 
 Current safe wording:
 
-Validated first on Forerunner 55. Add more devices only after simulator and real-device verification.
+Simulator-validated on Forerunner 55, Forerunner 245, and Forerunner 245 Music. Forerunner 45 is not supported because Garmin's device profile does not support Connect IQ widgets on that target.
 
 Community contributions that adapt and validate the widget for more Garmin watches are welcome, but only tested devices should be listed publicly.
 

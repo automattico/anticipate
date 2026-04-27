@@ -1,6 +1,6 @@
 # FR55 Smoke Test
 
-Use this as the canonical pre-submit verification flow for the current FR55 release.
+Use this as the FR55-specific verification flow. For the full supported-device flow, use [multi-device-smoke-test.md](multi-device-smoke-test.md).
 
 ## Preferred Launch Path
 
@@ -41,6 +41,12 @@ Keep signing keys and certificates outside tracked files. The ignored `private/`
 
 ```sh
 ./scripts/reset-fr55-sim-state.sh
+```
+
+The device-neutral reset path is also available:
+
+```sh
+./scripts/reset-sim-state.sh
 ```
 
 4. Open this workspace in VS Code and run:

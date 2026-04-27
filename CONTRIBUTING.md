@@ -22,13 +22,13 @@ Especially appreciated:
 ./scripts/verify-env.sh
 ```
 
-5. Use the `Run on Forerunner 55` launch configuration as the default local simulator flow.
+5. Use the matching VS Code launch configuration as the default local simulator flow.
 
 ## Smoke Testing
 
-Use [docs/fr55-smoke-test.md](docs/fr55-smoke-test.md) for the canonical FR55 smoke test.
+Use [docs/multi-device-smoke-test.md](docs/multi-device-smoke-test.md) for the canonical smoke test.
 
-Before opening a PR for behavior changes, run the documented FR55 flow and note anything you could not verify.
+Before opening a PR for behavior changes, run the documented supported-device flow and note anything you could not verify.
 
 ## Adding Support For More Watches
 
