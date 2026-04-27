@@ -2,7 +2,7 @@
 
 Anticipate Countdowns is an open-source Garmin Connect IQ widget for tracking up to five upcoming events with optional event times.
 
-The current validated targets are `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, and `fr255sm`. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
+The current validated targets are `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, and `fr955`. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
 
 This project was built with help from OpenAI Codex.
 
@@ -16,8 +16,9 @@ This project was built with help from OpenAI Codex.
 
 ## Current Device Support
 
-- Validated targets today: `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, and `fr255sm`
+- Validated targets today: `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, and `fr955`
 - Current profiles: round `208x208`, `218x218`, `240x240`, and `260x260`, MIP displays, button navigation
+- `fr955` maps to `Forerunner® 955 / Solar`: round `260x260`, MIP 64 colors, API 5.2, launcher icon `40x40`
 - Forerunner 45 (`fr45`) is not supported by this widget because Garmin's device profile does not support Connect IQ widgets on that target
 - Additional device support is welcome, but only validated devices should be added to `manifest.xml` or claimed in store metadata
 

@@ -38,7 +38,7 @@ Features:
 - Date-only countdowns when no specific time is set
 - Countdowns stay set to the date and time you save
 - Page between countdowns on your watch
-- Clean round-screen layout validated on Forerunner 55, Forerunner 245, Forerunner 245 Music, and the Forerunner 255 family
+- Clean round-screen layout validated on Forerunner 55, Forerunner 245, Forerunner 245 Music, the Forerunner 255 family, and Forerunner 955 / Solar
 
 Anticipate Countdowns is designed to stay simple, readable, and fast to configure in Connect IQ settings.
 
@@ -67,7 +67,7 @@ Highlights:
 - Improved paging and timer layout
 - Improved countdown stability after setup
 - Refreshed setup wording and settings labels
-- Added simulator-validated Forerunner 245, Forerunner 245 Music, Forerunner 255, Forerunner 255 Music, Forerunner 255S, and Forerunner 255S Music support
+- Added simulator-validated Forerunner 245, Forerunner 245 Music, Forerunner 255, Forerunner 255 Music, Forerunner 255S, Forerunner 255S Music, and Forerunner 955 / Solar support
 
 ### Short Release Notes Option
 
