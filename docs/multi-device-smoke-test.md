@@ -7,6 +7,10 @@ Use this as the pre-submit verification flow for supported simulator targets.
 - `fr55` - Forerunner 55, round `208x208`, MIP 8 colors, API 3.4
 - `fr245` - Forerunner 245, round `240x240`, MIP 64 colors, API 3.3
 - `fr245m` - Forerunner 245 Music, round `240x240`, MIP 64 colors, API 3.3
+- `fr255` - Forerunner 255, round `260x260`, MIP 8-bit color, API 5.2, launcher icon `40x40`
+- `fr255m` - Forerunner 255 Music, round `260x260`, MIP 8-bit color, API 5.2, launcher icon `40x40`
+- `fr255s` - Forerunner 255S, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
+- `fr255sm` - Forerunner 255S Music, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 
 Do not add `fr45` for this widget. The Garmin SDK device profile exposes Forerunner 45 as API 1.4 with only `watchFace` app support, and the compiler rejects this widget target with `Device 'fr45' does not support application type 'widget'`.
 
@@ -17,6 +21,10 @@ The preferred runtime paths are the VS Code launch configurations in [.vscode/la
 - `Run on Forerunner 55`
 - `Run on Forerunner 245`
 - `Run on Forerunner 245 Music`
+- `Run on Forerunner 255`
+- `Run on Forerunner 255 Music`
+- `Run on Forerunner 255S`
+- `Run on Forerunner 255S Music`
 
 Use these as the supported local paths for smoke testing. Direct `monkeydo` runs are useful for automation and troubleshooting, but VS Code remains the documented contributor workflow.
 
@@ -28,7 +36,7 @@ Use these as the supported local paths for smoke testing. Direct `monkeydo` runs
 ./scripts/verify-env.sh
 ```
 
-2. Build the simulator artifact with your own local signing key, replacing `<device_id>` with `fr55`, `fr245`, or `fr245m`:
+2. Build the simulator artifact with your own local signing key, replacing `<device_id>` with any supported target listed above:
 
 ```sh
 SDK=$(cat "$HOME/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg") && \
