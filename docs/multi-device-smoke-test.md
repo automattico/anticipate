@@ -11,6 +11,7 @@ Use this as the pre-submit verification flow for supported simulator targets.
 - `fr255m` - Forerunner 255 Music, round `260x260`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fr255s` - Forerunner 255S, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fr255sm` - Forerunner 255S Music, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
+- `fr955` - Forerunner® 955 / Solar, round `260x260`, MIP 64 colors, API 5.2, launcher icon `40x40`
 
 Do not add `fr45` for this widget. The Garmin SDK device profile exposes Forerunner 45 as API 1.4 with only `watchFace` app support, and the compiler rejects this widget target with `Device 'fr45' does not support application type 'widget'`.
 
@@ -18,15 +19,18 @@ Do not add `fr45` for this widget. The Garmin SDK device profile exposes Forerun
 
 The preferred runtime paths are the VS Code launch configurations in [.vscode/launch.json](../.vscode/launch.json):
 
-- `Run on Forerunner 55`
-- `Run on Forerunner 245`
-- `Run on Forerunner 245 Music`
-- `Run on Forerunner 255`
-- `Run on Forerunner 255 Music`
-- `Run on Forerunner 255S`
-- `Run on Forerunner 255S Music`
+- `fr955: Run on Forerunner 955 / Solar`
+- `fr55: Run on Forerunner 55`
+- `fr245: Run on Forerunner 245`
+- `fr245m: Run on Forerunner 245 Music`
+- `fr255: Run on Forerunner 255`
+- `fr255m: Run on Forerunner 255 Music`
+- `fr255s: Run on Forerunner 255S`
+- `fr255sm: Run on Forerunner 255S Music`
 
 Use these as the supported local paths for smoke testing. Direct `monkeydo` runs are useful for automation and troubleshooting, but VS Code remains the documented contributor workflow.
+
+The Garmin `Build for Device` command and the VS Code run/debug configuration are separate selections. If the simulator opens the wrong watch, change the Run and Debug dropdown to the matching `fr...: Run on ...` configuration; F5 uses that dropdown, not the last device selected for a build task.
 
 ## Clean Start
 

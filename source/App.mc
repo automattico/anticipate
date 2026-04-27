@@ -4,12 +4,14 @@ import Toybox.Application.Storage;
 import Toybox.Lang;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
+import Toybox.WatchUi;
 
 const MAX_TIMER_SLOTS = 5;
 const SPECIFIC_TIME_MIGRATION_FLAG = "use_specific_time_migration_complete";
 const DATE_PARTS_MIGRATION_FLAG = "date_parts_migration_complete";
 const TARGET_SIGNATURE_SUFFIX = "target_signature";
 
+(:glance, :typecheck(disableGlanceCheck))
 class CountdownApp extends Application.AppBase {
 
     function initialize() {
@@ -17,9 +19,6 @@ class CountdownApp extends Application.AppBase {
     }
 
     function onStart(state) as Void {
-        _migrateDatePartsIfNeeded();
-        _migrateSpecificTimeFlagsIfNeeded();
-        _syncStoredTargetEpochs();
     }
 
     function onStop(state) as Void {
@@ -27,11 +26,21 @@ class CountdownApp extends Application.AppBase {
 
     (:typecheck(disableGlanceCheck))
     function getInitialView() {
+        _prepareCountdownData();
         var view = new CountdownWidgetView();
         return [view, new CountdownWidgetDelegate(view)];
     }
 
+    (:glance)
+    function getGlanceView() {
+        return [new CountdownGlanceView()];
+    }
+
     function onSettingsChanged() as Void {
+        _prepareCountdownData();
+    }
+
+    function _prepareCountdownData() as Void {
         _migrateDatePartsIfNeeded();
         _migrateSpecificTimeFlagsIfNeeded();
         _syncStoredTargetEpochs();

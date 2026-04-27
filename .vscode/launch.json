@@ -4,7 +4,15 @@
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "Run on Forerunner 55",
+      "name": "fr955: Run on Forerunner 955 / Solar",
+      "device": "fr955",
+      "prg": "${workspaceFolder}/bin/anticipate.prg",
+      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "fr55: Run on Forerunner 55",
       "device": "fr55",
       "prg": "${workspaceFolder}/bin/anticipate.prg",
       "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
@@ -12,7 +20,7 @@
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "Run on Forerunner 245",
+      "name": "fr245: Run on Forerunner 245",
       "device": "fr245",
       "prg": "${workspaceFolder}/bin/anticipate.prg",
       "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
@@ -20,7 +28,7 @@
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "Run on Forerunner 245 Music",
+      "name": "fr245m: Run on Forerunner 245 Music",
       "device": "fr245m",
       "prg": "${workspaceFolder}/bin/anticipate.prg",
       "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
@@ -28,7 +36,7 @@
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "Run on Forerunner 255",
+      "name": "fr255: Run on Forerunner 255",
       "device": "fr255",
       "prg": "${workspaceFolder}/bin/anticipate.prg",
       "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
@@ -36,7 +44,7 @@
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "Run on Forerunner 255 Music",
+      "name": "fr255m: Run on Forerunner 255 Music",
       "device": "fr255m",
       "prg": "${workspaceFolder}/bin/anticipate.prg",
       "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
@@ -44,7 +52,7 @@
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "Run on Forerunner 255S",
+      "name": "fr255s: Run on Forerunner 255S",
       "device": "fr255s",
       "prg": "${workspaceFolder}/bin/anticipate.prg",
       "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
@@ -52,7 +60,7 @@
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "Run on Forerunner 255S Music",
+      "name": "fr255sm: Run on Forerunner 255S Music",
       "device": "fr255sm",
       "prg": "${workspaceFolder}/bin/anticipate.prg",
       "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
