@@ -29,16 +29,14 @@ Use one of these if the store field has a tighter character limit than expected:
 
 Anticipate Countdowns keeps your important dates easy to see on your watch.
 
-Track up to 5 countdowns in one widget and move between them on your watch whenever you want a quick check. Use it for trips, deadlines, launches, milestones, or any other day you want to keep in view.
+Track up to 5 countdowns in one widget and move between them on your watch whenever you want a quick check. Use it for your next race, birthdays, trips, deadlines, launches, or any other day you want to keep in view.
 
 Features:
 
-- Up to 5 countdown timers
-- Optional hour and minute for timed events, including midnight
-- Date-only countdowns when no specific time is set
+- Use Connect IQ Settings to set up to 5 countdown timers
+- Set to all day or, optionally set the exact time of your event
 - Countdowns stay set to the date and time you save
-- Page between countdowns on your watch
-- Clean round-screen layout validated on Forerunner 55, Forerunner 245, Forerunner 245 Music, the Forerunner 255 family, and Forerunner 955 / Solar
+- Clean round-screen layout optimized first for Forerunner 55 - other watches will follow later
 
 Anticipate Countdowns is designed to stay simple, readable, and fast to configure in Connect IQ settings.
 
@@ -46,13 +44,13 @@ Anticipate Countdowns is designed to stay simple, readable, and fast to configur
 
 Anticipate Countdowns is a simple Garmin widget for tracking multiple upcoming events.
 
-Set up to 5 countdowns, add a specific time for events that happen at a certain hour, or leave specific time off for date-only countdowns. Move between events on your watch and keep the next important dates close at hand.
+Set up to 5 countdowns, add a specific time for events that happen at a certain hour, or turn on All day for date-only countdowns. Move between events on your watch and keep the next important dates close at hand.
 
 Highlights:
 
 - 5 countdown slots
 - Optional time of day
-- Date-only support
+- All-day support
 - Countdowns stay set to the date and time you save
 - Readable, low-friction layout
 
@@ -61,13 +59,12 @@ Highlights:
 ### Version Notes
 
 - Added support for up to 5 countdowns
-- Added date-only support for each countdown
+- Added explicit all-day support for each countdown
 - Added optional hour and minute for timed countdowns, including midnight
 - Improved title handling for longer names
 - Improved paging and timer layout
 - Improved countdown stability after setup
 - Refreshed setup wording and settings labels
-- Added simulator-validated Forerunner 245, Forerunner 245 Music, Forerunner 255, Forerunner 255 Music, Forerunner 255S, Forerunner 255S Music, and Forerunner 955 / Solar support
 
 ### Short Release Notes Option
 
@@ -120,7 +117,7 @@ Purpose:
 Show a timed event with the time included on the same line.
 
 Caption:
-Add an exact time or leave specific time off for date-only events.
+Add an exact time or switch to All day for date-only events.
 
 ### Screenshot 3
 
@@ -160,23 +157,21 @@ Up to 5 countdowns on your Garmin watch.
 
 ### Optional Subline
 
-Simple countdowns for trips, deadlines, launches, and more.
+Simple countdowns for birthdays, trips, deadlines, and more.
 
 ## Support Copy
 
-If Garmin provides a support description field, use wording that matches the support path you actually want to offer. For a store-oriented setup, use:
+If Garmin provides a support description field, use:
 
-Support is available through the public contact details provided in the Garmin store listing.
+Support is available through the project repository and issue tracker.
 
 ### Recommended Support URL
 
-Use your public support page if you have one. Otherwise, leave this blank or use the public website you want customers to see.
-
-### Optional Repository URL
-
-If you want to point people to the source code, use:
-
 https://github.com/automattico/anticipate
+
+### Recommended Issue Tracker URL
+
+https://github.com/automattico/anticipate/issues
 
 ### Support Contact Placeholder
 
@@ -221,25 +216,4 @@ Use a public address you are comfortable receiving user questions on.
 
 ### Website
 
-If you do not have a dedicated site yet, it is fine to leave this blank until the Garmin store page exists.
-
-## Device Support Notes For Submission
-
-Do not claim broad Garmin compatibility yet.
-
-Current safe wording:
-
-Simulator-validated on Forerunner 55, Forerunner 245, Forerunner 245 Music, Forerunner 255, Forerunner 255 Music, Forerunner 255S, and Forerunner 255S Music. Forerunner 45 is not supported because Garmin's device profile does not support Connect IQ widgets on that target.
-
-Community contributions that adapt and validate the widget for more Garmin watches are welcome, but only tested devices should be listed publicly.
-
-## Manual Review Checklist
-
-Before you submit, manually verify:
-
-- App name in the store matches `Anticipate Countdowns`
-- Description mentions 5 countdowns and optional times
-- Screenshots show the current UI, not the older single-countdown version
-- Hero image follows Garmin's current asset guidance
-- Privacy/support/contact fields contain your real public details
-- Supported products in the store match the products listed in `manifest.xml`
+If you do not have a dedicated site, use:
