@@ -1,0 +1,96 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "monkeyc: build fr55",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr55"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr245",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr245"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr245m",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr245m"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr255",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr255"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr255m",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr255m"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr255s",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr255s"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr255sm",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr255sm"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr745",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr745"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr945",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr945"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr945lte",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr945lte"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr955",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr955"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fenix7s",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fenix7s"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fenix7spro",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fenix7spro"],
+      "problemMatcher": []
+    }
+  ]
+}

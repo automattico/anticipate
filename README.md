@@ -2,7 +2,7 @@
 
 Anticipate Countdowns is an open-source Garmin Connect IQ widget for tracking up to five upcoming events with optional event times.
 
-The current validated targets are `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, and `fr955`. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
+The current validated targets are `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr955`, `fr745`, `fr945`, `fr945lte`, `fenix7s`, and `fenix7spro`. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
 
 This project was built with help from OpenAI Codex.
 
@@ -16,9 +16,10 @@ This project was built with help from OpenAI Codex.
 
 ## Current Device Support
 
-- Validated targets today: `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, and `fr955`
+- Validated targets today: `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr955`, `fr745`, `fr945`, `fr945lte`, `fenix7s`, and `fenix7spro`
 - Current profiles: round `208x208`, `218x218`, `240x240`, and `260x260`, MIP displays, button navigation
 - `fr955` maps to `Forerunner® 955 / Solar`: round `260x260`, MIP 64 colors, API 5.2, launcher icon `40x40`
+- `fenix7s` and `fenix7spro` are API 5.2 glance-era profiles; the SDK compiler accepts this widget target, matching the existing API 5.2 support pattern
 - Forerunner 45 (`fr45`) is not supported by this widget because Garmin's device profile does not support Connect IQ widgets on that target
 - Additional device support is welcome, but only validated devices should be added to `manifest.xml` or claimed in store metadata
 
@@ -40,7 +41,7 @@ The helper scripts in this repo look for the active SDK path in `~/Library/Appli
 ./scripts/verify-env.sh
 ```
 
-4. Use the matching Forerunner launch configuration for simulator workflow.
+4. Use the `Run App: Choose Device Each Run` launch configuration for simulator workflow. The workspace now keeps only picker-based Garmin launch configs so VS Code cannot stay pinned to a stale device-specific target like `fr955`.
 
 If the simulator behaves strangely after switching SDKs, clear its temporary state:
 
@@ -55,9 +56,10 @@ Use [docs/multi-device-smoke-test.md](docs/multi-device-smoke-test.md) for the c
 At a high level:
 
 1. Verify the toolchain with `./scripts/verify-env.sh`.
-2. Build a simulator artifact using your own local signing key.
-3. Reset simulator state with `./scripts/reset-sim-state.sh`.
-4. Launch the matching VS Code run configuration.
+2. Check local device metadata with `./scripts/check-device-metadata.sh`.
+3. Build every supported device with `./scripts/build-all-devices.sh /path/to/your/signing-key.der`.
+4. Reset simulator state with `./scripts/reset-sim-state.sh`.
+5. Launch the matching VS Code run configuration.
 
 ## Release Build Notes
 
@@ -81,6 +83,14 @@ JAVA_BIN="${JAVA_HOME:-/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents
 ```
 
 Treat that command as an example local flow, not a promise that every machine uses the same Java path or signing-key location. Keep `-r` on release or pre-submit builds so debug source paths are stripped from generated artifacts.
+
+To regression-build every manifest target and fail on compiler warnings, run:
+
+```sh
+./scripts/build-all-devices.sh /path/to/your/signing-key.der
+```
+
+For VS Code launch configurations, the default local key path is `private/anticipate-dev-key.der`. You can override it by setting `PRIVATE_KEY=/path/to/your/signing-key.der`.
 
 ## Settings Contract
 

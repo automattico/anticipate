@@ -4,7 +4,7 @@ set -u
 
 SDK_CFG="$HOME/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg"
 SDK_ROOT=""
-DEVICE_IDS=("fr55" "fr245" "fr245m" "fr255" "fr255m" "fr255s" "fr255sm" "fr955")
+DEVICE_IDS=("fr55" "fr245" "fr245m" "fr255" "fr255m" "fr255s" "fr255sm" "fr955" "fr745" "fr945" "fr945lte" "fenix7s" "fenix7spro")
 JDK_HINT="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
 JAVA_BIN="/opt/homebrew/opt/openjdk@17/bin/java"
 

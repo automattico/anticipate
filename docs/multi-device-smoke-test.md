@@ -12,25 +12,28 @@ Use this as the pre-submit verification flow for supported simulator targets.
 - `fr255s` - Forerunner 255S, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fr255sm` - Forerunner 255S Music, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fr955` - Forerunner® 955 / Solar, round `260x260`, MIP 64 colors, API 5.2, launcher icon `40x40`
+- `fr745` - Forerunner 745, round `240x240`, MIP 8-bit color, API 3.3, widget memory `1048576`, launcher icon `40x40`
+- `fr945` - Forerunner 945, round `240x240`, MIP 8-bit color, API 3.3, widget memory `1048576`, launcher icon `40x40`
+- `fr945lte` - Forerunner 945 LTE, round `240x240`, MIP 8-bit color, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `fenix7s` - fēnix 7S, round `240x240`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
+- `fenix7spro` - fēnix 7S Pro, round `240x240`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 
 Do not add `fr45` for this widget. The Garmin SDK device profile exposes Forerunner 45 as API 1.4 with only `watchFace` app support, and the compiler rejects this widget target with `Device 'fr45' does not support application type 'widget'`.
+
+Garmin's API 5.2 metadata exposes the newer supported devices as glance-era profiles rather than listing explicit `widget` memory. This project keeps the widget app type and only claims devices that compile and pass simulator validation.
 
 ## Preferred Launch Paths
 
 The preferred runtime paths are the VS Code launch configurations in [.vscode/launch.json](../.vscode/launch.json):
 
-- `fr955: Run on Forerunner 955 / Solar`
-- `fr55: Run on Forerunner 55`
-- `fr245: Run on Forerunner 245`
-- `fr245m: Run on Forerunner 245 Music`
-- `fr255: Run on Forerunner 255`
-- `fr255m: Run on Forerunner 255 Music`
-- `fr255s: Run on Forerunner 255S`
-- `fr255sm: Run on Forerunner 255S Music`
+- `Run App: Choose Device Each Run`
+- `Run Native Pairing: Choose Device Each Run`
 
-Use these as the supported local paths for smoke testing. Direct `monkeydo` runs are useful for automation and troubleshooting, but VS Code remains the documented contributor workflow.
+Use these as the supported local paths for smoke testing. The workspace intentionally keeps only picker-based Garmin launch configs, because VS Code can hold onto an old device-specific selection in the Run and Debug status bar. Direct `monkeydo` runs are useful for automation and troubleshooting, but VS Code remains the documented contributor workflow.
 
 The Garmin `Build for Device` command and the VS Code run/debug configuration are separate selections. If the simulator opens the wrong watch, change the Run and Debug dropdown to the matching `fr...: Run on ...` configuration; F5 uses that dropdown, not the last device selected for a build task.
+
+The VS Code tasks default to `private/anticipate-dev-key.der`. To use another local key, set `PRIVATE_KEY=/path/to/your/signing-key.der` in the VS Code environment before launching.
 
 ## Clean Start
 
@@ -40,7 +43,21 @@ The Garmin `Build for Device` command and the VS Code run/debug configuration ar
 ./scripts/verify-env.sh
 ```
 
-2. Build the simulator artifact with your own local signing key, replacing `<device_id>` with any supported target listed above:
+2. Verify device metadata for every manifest target:
+
+```sh
+./scripts/check-device-metadata.sh
+```
+
+3. Regression-build every manifest target with your own local signing key:
+
+```sh
+./scripts/build-all-devices.sh /path/to/your/signing-key.der
+```
+
+This writes per-device simulator artifacts under ignored `bin/device-builds/` and fails on compiler errors or warnings.
+
+4. Build a single simulator artifact for manual launch, replacing `<device_id>` with any supported target listed above:
 
 ```sh
 SDK=$(cat "$HOME/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg") && \
@@ -59,13 +76,13 @@ JAVA_BIN="${JAVA_HOME:-/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents
 
 Keep signing keys and certificates outside tracked files. The ignored `private/` directory is one acceptable local-only location.
 
-3. Reset simulator app state:
+5. Reset simulator app state:
 
 ```sh
 ./scripts/reset-sim-state.sh
 ```
 
-4. Open this workspace in VS Code and launch the matching configuration.
+6. Open this workspace in VS Code and launch the matching configuration.
 
 If the simulator behaves strangely after SDK changes or repeated runs, quit the simulator, rerun the reset script above, and start again.
 

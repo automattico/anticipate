@@ -4,66 +4,17 @@
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "fr955: Run on Forerunner 955 / Solar",
-      "device": "fr955",
-      "prg": "${workspaceFolder}/bin/anticipate.prg",
-      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
+      "name": "Run App: Choose Device Each Run",
+      "stopAtLaunch": false,
+      "device": "${command:GetTargetDevice}"
     },
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "fr55: Run on Forerunner 55",
-      "device": "fr55",
-      "prg": "${workspaceFolder}/bin/anticipate.prg",
-      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
-    },
-    {
-      "type": "monkeyc",
-      "request": "launch",
-      "name": "fr245: Run on Forerunner 245",
-      "device": "fr245",
-      "prg": "${workspaceFolder}/bin/anticipate.prg",
-      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
-    },
-    {
-      "type": "monkeyc",
-      "request": "launch",
-      "name": "fr245m: Run on Forerunner 245 Music",
-      "device": "fr245m",
-      "prg": "${workspaceFolder}/bin/anticipate.prg",
-      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
-    },
-    {
-      "type": "monkeyc",
-      "request": "launch",
-      "name": "fr255: Run on Forerunner 255",
-      "device": "fr255",
-      "prg": "${workspaceFolder}/bin/anticipate.prg",
-      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
-    },
-    {
-      "type": "monkeyc",
-      "request": "launch",
-      "name": "fr255m: Run on Forerunner 255 Music",
-      "device": "fr255m",
-      "prg": "${workspaceFolder}/bin/anticipate.prg",
-      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
-    },
-    {
-      "type": "monkeyc",
-      "request": "launch",
-      "name": "fr255s: Run on Forerunner 255S",
-      "device": "fr255s",
-      "prg": "${workspaceFolder}/bin/anticipate.prg",
-      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
-    },
-    {
-      "type": "monkeyc",
-      "request": "launch",
-      "name": "fr255sm: Run on Forerunner 255S Music",
-      "device": "fr255sm",
-      "prg": "${workspaceFolder}/bin/anticipate.prg",
-      "prgDebugXml": "${workspaceFolder}/bin/anticipate.prg.debug.xml"
+      "name": "Run Native Pairing: Choose Device Each Run",
+      "runNativePairing": true,
+      "stopAtLaunch": false,
+      "device": "${command:GetTargetDevice}"
     }
   ]
 }
