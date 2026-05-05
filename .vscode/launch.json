@@ -46,6 +46,20 @@
     {
       "type": "monkeyc",
       "request": "launch",
+      "name": "Run App: Forerunner 165",
+      "stopAtLaunch": false,
+      "device": "fr165"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 165 Music",
+      "stopAtLaunch": false,
+      "device": "fr165m"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
       "name": "Run Native Pairing: Choose Device Each Run",
       "runNativePairing": true,
       "stopAtLaunch": false,

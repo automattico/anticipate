@@ -5,6 +5,8 @@ Use this as the pre-submit verification flow for supported simulator targets.
 ## Supported Targets
 
 - `fr55` - Forerunner 55, round `208x208`, MIP 8 colors, API 3.4
+- `fr165` - Forerunner 165, round `390x390`, AMOLED, API 5.2, launcher icon `54x54`, swipe paging plus button paging
+- `fr165m` - Forerunner 165 Music, round `390x390`, AMOLED, API 5.2, launcher icon `54x54`, swipe paging plus button paging
 - `fr245` - Forerunner 245, round `240x240`, MIP 64 colors, API 3.3
 - `fr245m` - Forerunner 245 Music, round `240x240`, MIP 64 colors, API 3.3
 - `fr255` - Forerunner 255, round `260x260`, MIP 8-bit color, API 5.2, launcher icon `40x40`
@@ -24,7 +26,7 @@ Use this as the pre-submit verification flow for supported simulator targets.
 
 Do not add `fr45` for this widget. The Garmin SDK device profile exposes Forerunner 45 as API 1.4 with only `watchFace` app support, and the compiler rejects this widget target with `Device 'fr45' does not support application type 'widget'`.
 
-Garmin's API 5.2 metadata exposes the newer supported devices as glance-era profiles rather than listing explicit `widget` memory. This project keeps the widget app type and only claims devices that compile and pass simulator validation.
+Garmin's API 5.2 metadata exposes the newer supported devices as glance-era profiles rather than listing explicit `widget` memory. This project keeps the widget app type and only claims devices that compile and pass simulator validation. That includes `fr165` and `fr165m` on the current SDK.
 
 Garmin quatix 7 does not have a separate SDK product ID in the installed metadata. The shared `fenix7` profile is labeled `fēnix® 7 / quatix® 7`, so quatix 7 validation uses the `fenix7` target and simulator profile.
 
@@ -40,6 +42,8 @@ The preferred runtime paths are the VS Code launch configurations in [.vscode/la
 - `Run App: fēnix 7X / tactix 7 / Enduro 2`
 - `Run App: fēnix 7X Pro`
 - `Run App: quatix 7 (uses fenix7 profile)`
+- `Run App: Forerunner 165`
+- `Run App: Forerunner 165 Music`
 - `Run Native Pairing: Choose Device Each Run`
 
 Use these as the supported local paths for smoke testing. The picker-based launcher remains useful when switching often, and the device-specific launch configs give a stable path for repeated validation on the same target. Direct `monkeydo` runs are useful for automation and troubleshooting, but VS Code remains the documented contributor workflow.
@@ -174,6 +178,12 @@ Run these scenarios on each supported target.
   - the countdown updates to the new target
   - switching `specific_time` changes whether the separate time line is shown
 
+### 6. FR165 Touch Parity
+
+- On `fr165` and `fr165m`, verify swipe up/down changes pages the same way button paging does.
+- Verify tap does not open a new workflow or otherwise change behavior beyond the current widget interaction model.
+- Verify button paging still works exactly as before.
+
 ## Visual Checks
 
 For each target, inspect:
@@ -183,6 +193,7 @@ For each target, inspect:
 - all-day and timed countdown spacing
 - page-indicator position on round screens
 - readability of white and blue text on black
+- no clipping near the `390x390` AMOLED round edge
 
 ## Optional Raw-State Check
 

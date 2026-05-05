@@ -19,7 +19,10 @@ class CountdownWidgetView extends WatchUi.View {
     const TIMED_DAY_VALUE_TIME_GAP = 3;
     const TIMED_DAY_TIME_DATE_GAP = 7;
     const DAY_ROW_GAP = 4;
+    const DEFAULT_TITLE_MAX_WIDTH = 150;
+    const LARGE_SCREEN_TITLE_MAX_WIDTH = 210;
     const DAY_VALUE_MAX_WIDTH = 140;
+    const LARGE_SCREEN_DAY_VALUE_MAX_WIDTH = 190;
     const DAY_TITLE_NUDGE_Y = -2;
     const DAY_TIME_NUDGE_Y = -8;
     const TIMED_DAY_LAYOUT_SHIFT_Y = 2;
@@ -33,6 +36,10 @@ class CountdownWidgetView extends WatchUi.View {
     const PAGE_INDICATOR_RADIUS = 2;
     const PAGE_INDICATOR_ACTIVE_WIDTH = 4;
     const PAGE_INDICATOR_ACTIVE_HEIGHT = 10;
+    const DEFAULT_SUBDAY_SEPARATOR_OFFSET = 16;
+    const DEFAULT_SUBDAY_METRIC_OFFSET = 46;
+    const LARGE_SCREEN_SUBDAY_SEPARATOR_OFFSET = 22;
+    const LARGE_SCREEN_SUBDAY_METRIC_OFFSET = 58;
     var _pageIndicatorCenterY as Lang.Number;
     var _events as Array;
     var _selectedIndex as Lang.Number;
@@ -103,8 +110,9 @@ class CountdownWidgetView extends WatchUi.View {
 
     function _drawConfiguredState(dc as Dc, event as EventConfig, state as CountdownState) as Void {
         var centerX = _centerX(dc);
-        var titleFont = CountdownFormatter.titleFontForWidth(dc, event.name, 150);
-        var title = CountdownFormatter.fitTitleToWidth(dc, event.name, 150, titleFont);
+        var titleMaxWidth = _titleMaxWidth(dc);
+        var titleFont = CountdownFormatter.titleFontForWidth(dc, event.name, titleMaxWidth);
+        var title = CountdownFormatter.fitTitleToWidth(dc, event.name, titleMaxWidth, titleFont);
         var dateLine = CountdownFormatter.formatTargetDateLine(event);
         var timeLine = CountdownFormatter.formatTargetTimeLine(event);
 
@@ -231,19 +239,20 @@ class CountdownWidgetView extends WatchUi.View {
     }
 
     function _dayCountdownValueFont(dc as Dc, value as String, preferCompact as Lang.Boolean) as FontDefinition {
+        var maxWidth = _dayValueMaxWidth(dc);
         if (preferCompact) {
-            if (dc.getTextWidthInPixels(value, Graphics.FONT_NUMBER_MILD) <= DAY_VALUE_MAX_WIDTH) {
+            if (dc.getTextWidthInPixels(value, Graphics.FONT_NUMBER_MILD) <= maxWidth) {
                 return Graphics.FONT_NUMBER_MILD;
             }
 
             return Graphics.FONT_LARGE;
         }
 
-        if (dc.getTextWidthInPixels(value, Graphics.FONT_NUMBER_MEDIUM) <= DAY_VALUE_MAX_WIDTH) {
+        if (dc.getTextWidthInPixels(value, Graphics.FONT_NUMBER_MEDIUM) <= maxWidth) {
             return Graphics.FONT_NUMBER_MEDIUM;
         }
 
-        if (dc.getTextWidthInPixels(value, Graphics.FONT_NUMBER_MILD) <= DAY_VALUE_MAX_WIDTH) {
+        if (dc.getTextWidthInPixels(value, Graphics.FONT_NUMBER_MILD) <= maxWidth) {
             return Graphics.FONT_NUMBER_MILD;
         }
 
@@ -281,12 +290,14 @@ class CountdownWidgetView extends WatchUi.View {
     }
 
     function _drawSubdayStrip(dc as Dc, state as CountdownState, centerX as Lang.Number, offsetY as Lang.Number) as Void {
-        _drawStripSeparator(dc, centerX - 16, 86 + offsetY, 128 + offsetY);
-        _drawStripSeparator(dc, centerX + 16, 86 + offsetY, 128 + offsetY);
+        var separatorOffset = _subdaySeparatorOffset(dc);
+        var metricOffset = _subdayMetricOffset(dc);
+        _drawStripSeparator(dc, centerX - separatorOffset, 86 + offsetY, 128 + offsetY);
+        _drawStripSeparator(dc, centerX + separatorOffset, 86 + offsetY, 128 + offsetY);
 
-        _drawLargeStripMetric(dc, centerX - 46, PRIMARY_VALUE_Y + offsetY, CountdownFormatter.twoDigits(state.hours), "HRS");
+        _drawLargeStripMetric(dc, centerX - metricOffset, PRIMARY_VALUE_Y + offsetY, CountdownFormatter.twoDigits(state.hours), "HRS");
         _drawLargeStripMetric(dc, centerX, PRIMARY_VALUE_Y + offsetY, CountdownFormatter.twoDigits(state.minutes), "MIN");
-        _drawLargeStripMetric(dc, centerX + 46, PRIMARY_VALUE_Y + offsetY, CountdownFormatter.twoDigits(state.seconds), "SEC");
+        _drawLargeStripMetric(dc, centerX + metricOffset, PRIMARY_VALUE_Y + offsetY, CountdownFormatter.twoDigits(state.seconds), "SEC");
     }
 
     function _drawStripMetric(dc as Dc, x as Lang.Number, valueY as Lang.Number, value as String, label as String) as Void {
@@ -508,6 +519,14 @@ class CountdownWidgetView extends WatchUi.View {
             return 20;
         }
 
+        if (bucket <= 280) {
+            return 22;
+        }
+
+        if (bucket <= 390) {
+            return 30;
+        }
+
         return 22;
     }
 
@@ -525,7 +544,47 @@ class CountdownWidgetView extends WatchUi.View {
             return 16;
         }
 
+        if (bucket <= 280) {
+            return 18;
+        }
+
+        if (bucket <= 390) {
+            return 28;
+        }
+
         return 18;
+    }
+
+    function _titleMaxWidth(dc as Dc) as Lang.Number {
+        if (_screenBucketSize(dc) <= 280) {
+            return DEFAULT_TITLE_MAX_WIDTH;
+        }
+
+        return LARGE_SCREEN_TITLE_MAX_WIDTH;
+    }
+
+    function _dayValueMaxWidth(dc as Dc) as Lang.Number {
+        if (_screenBucketSize(dc) <= 280) {
+            return DAY_VALUE_MAX_WIDTH;
+        }
+
+        return LARGE_SCREEN_DAY_VALUE_MAX_WIDTH;
+    }
+
+    function _subdaySeparatorOffset(dc as Dc) as Lang.Number {
+        if (_screenBucketSize(dc) <= 280) {
+            return DEFAULT_SUBDAY_SEPARATOR_OFFSET;
+        }
+
+        return LARGE_SCREEN_SUBDAY_SEPARATOR_OFFSET;
+    }
+
+    function _subdayMetricOffset(dc as Dc) as Lang.Number {
+        if (_screenBucketSize(dc) <= 280) {
+            return DEFAULT_SUBDAY_METRIC_OFFSET;
+        }
+
+        return LARGE_SCREEN_SUBDAY_METRIC_OFFSET;
     }
 
     function _centeredBlockStartY(dc as Dc, totalHeight as Lang.Number, centerY as Lang.Number) as Lang.Number {
