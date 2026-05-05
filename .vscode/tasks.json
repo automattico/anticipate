@@ -119,6 +119,20 @@
       "command": "${workspaceFolder}/scripts/build-device.sh",
       "args": ["fenix7spro"],
       "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr165",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr165"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr165m",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr165m"],
+      "problemMatcher": []
     }
   ]
 }
