@@ -109,6 +109,8 @@ Recommended approach:
 
 Forerunner 45 (`fr45`) is not a valid target for this widget because Garmin's SDK profile exposes it as a watch-face-only Connect IQ device.
 
+Enduro 2 and tactix 7 are covered by Garmin's shared `fenix7x` SDK profile, labeled `fēnix® 7X / tactix® 7 / quatix® 7X Solar / Enduro™ 2`. Do not add the separate `enduro` profile for Enduro 2; that profile is the older Enduro device.
+
 Useful official references:
 
 - [Compatible Devices](https://developer.garmin.com/connect-iq/compatible-devices/)

@@ -25,6 +25,20 @@
     {
       "type": "monkeyc",
       "request": "launch",
+      "name": "Run App: fēnix 7X / tactix 7 / Enduro 2",
+      "stopAtLaunch": false,
+      "device": "fenix7x"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: fēnix 7X Pro",
+      "stopAtLaunch": false,
+      "device": "fenix7xpro"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
       "name": "Run App: quatix 7 (uses fenix7 profile)",
       "stopAtLaunch": false,
       "device": "fenix7"

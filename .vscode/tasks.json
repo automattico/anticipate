@@ -93,6 +93,20 @@
       "problemMatcher": []
     },
     {
+      "label": "monkeyc: build fenix7x",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fenix7x"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fenix7xpro",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fenix7xpro"],
+      "problemMatcher": []
+    },
+    {
       "label": "monkeyc: build fenix7s",
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",
