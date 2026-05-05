@@ -17,6 +17,8 @@ Use this as the pre-submit verification flow for supported simulator targets.
 - `fr945lte` - Forerunner 945 LTE, round `240x240`, MIP 8-bit color, API 3.4, widget memory `1048576`, launcher icon `40x40`
 - `fenix7` - fēnix 7 / quatix 7, round `260x260`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 - `fenix7pro` - fēnix 7 Pro, round `260x260`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
+- `fenix7x` - fēnix 7X / tactix 7 / quatix 7X Solar / Enduro 2, round `280x280`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
+- `fenix7xpro` - fēnix 7X Pro, round `280x280`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 - `fenix7s` - fēnix 7S, round `240x240`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 - `fenix7spro` - fēnix 7S Pro, round `240x240`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 
@@ -26,6 +28,8 @@ Garmin's API 5.2 metadata exposes the newer supported devices as glance-era prof
 
 Garmin quatix 7 does not have a separate SDK product ID in the installed metadata. The shared `fenix7` profile is labeled `fēnix® 7 / quatix® 7`, so quatix 7 validation uses the `fenix7` target and simulator profile.
 
+Garmin Enduro 2 and tactix 7 do not have separate SDK product IDs in the installed metadata. The shared `fenix7x` profile is labeled `fēnix® 7X / tactix® 7 / quatix® 7X Solar / Enduro™ 2`, so Enduro 2 and tactix 7 validation use the `fenix7x` target and simulator profile. Do not add `enduro` for Enduro 2; the `enduro` profile is the older Enduro device.
+
 ## Preferred Launch Paths
 
 The preferred runtime paths are the VS Code launch configurations in [.vscode/launch.json](../.vscode/launch.json):
@@ -33,6 +37,8 @@ The preferred runtime paths are the VS Code launch configurations in [.vscode/la
 - `Run App: Choose Device Each Run`
 - `Run App: fēnix 7`
 - `Run App: fēnix 7 Pro`
+- `Run App: fēnix 7X / tactix 7 / Enduro 2`
+- `Run App: fēnix 7X Pro`
 - `Run App: quatix 7 (uses fenix7 profile)`
 - `Run Native Pairing: Choose Device Each Run`
 
