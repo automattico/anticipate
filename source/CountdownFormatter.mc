@@ -61,7 +61,13 @@ class CountdownFormatter {
             return dateText;
         }
 
-        return twoDigits(event.targetDay) + " " + monthName(event.targetMonth) + " " + twoDigits(event.targetHour) + ":" + twoDigits(event.targetMinute);
+        var yearText = event.targetYear.toString();
+        var shortYearText = yearText;
+        if (yearText.length() > 2) {
+            shortYearText = yearText.substring(yearText.length() - 2, yearText.length());
+        }
+
+        return twoDigits(event.targetDay) + " " + monthName(event.targetMonth) + " " + shortYearText + " " + twoDigits(event.targetHour) + ":" + twoDigits(event.targetMinute);
     }
 
     static function formatTargetTimeLine(event as EventConfig) as Lang.String {

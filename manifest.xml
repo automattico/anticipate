@@ -19,6 +19,8 @@
             <iq:product id="fr745"/>
             <iq:product id="fr945"/>
             <iq:product id="fr945lte"/>
+            <iq:product id="fenix7"/>
+            <iq:product id="fenix7pro"/>
             <iq:product id="fenix7s"/>
             <iq:product id="fenix7spro"/>
         </iq:products>

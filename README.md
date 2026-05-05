@@ -2,7 +2,7 @@
 
 Anticipate Countdowns is an open-source Garmin Connect IQ widget for tracking up to five upcoming events with optional event times.
 
-The current validated targets are `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr955`, `fr745`, `fr945`, `fr945lte`, `fenix7s`, and `fenix7spro`. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
+The current validated targets are `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr955`, `fr745`, `fr945`, `fr945lte`, `fenix7`, `fenix7pro`, `fenix7s`, and `fenix7spro`. Garmin quatix 7 uses the shared `fenix7` SDK profile. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
 
 This project was built with help from OpenAI Codex.
 
@@ -16,9 +16,11 @@ This project was built with help from OpenAI Codex.
 
 ## Current Device Support
 
-- Validated targets today: `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr955`, `fr745`, `fr945`, `fr945lte`, `fenix7s`, and `fenix7spro`
+- Validated targets today: `fr55`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr955`, `fr745`, `fr945`, `fr945lte`, `fenix7`, `fenix7pro`, `fenix7s`, and `fenix7spro`
 - Current profiles: round `208x208`, `218x218`, `240x240`, and `260x260`, MIP displays, button navigation
 - `fr955` maps to `Forerunner® 955 / Solar`: round `260x260`, MIP 64 colors, API 5.2, launcher icon `40x40`
+- `fenix7` maps to `fēnix® 7 / quatix® 7`: round `260x260`, MIP 8-bit color, API 5.2, launcher icon `40x40`
+- `fenix7pro` maps to `fēnix® 7 Pro`: round `260x260`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fenix7s` and `fenix7spro` are API 5.2 glance-era profiles; the SDK compiler accepts this widget target, matching the existing API 5.2 support pattern
 - Forerunner 45 (`fr45`) is not supported by this widget because Garmin's device profile does not support Connect IQ widgets on that target
 - Additional device support is welcome, but only validated devices should be added to `manifest.xml` or claimed in store metadata
@@ -41,7 +43,7 @@ The helper scripts in this repo look for the active SDK path in `~/Library/Appli
 ./scripts/verify-env.sh
 ```
 
-4. Use the `Run App: Choose Device Each Run` launch configuration for simulator workflow. The workspace now keeps only picker-based Garmin launch configs so VS Code cannot stay pinned to a stale device-specific target like `fr955`.
+4. Use either `Run App: Choose Device Each Run` or a matching device-specific launch configuration for simulator workflow.
 
 If the simulator behaves strangely after switching SDKs, clear its temporary state:
 

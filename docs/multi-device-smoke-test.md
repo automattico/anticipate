@@ -15,6 +15,8 @@ Use this as the pre-submit verification flow for supported simulator targets.
 - `fr745` - Forerunner 745, round `240x240`, MIP 8-bit color, API 3.3, widget memory `1048576`, launcher icon `40x40`
 - `fr945` - Forerunner 945, round `240x240`, MIP 8-bit color, API 3.3, widget memory `1048576`, launcher icon `40x40`
 - `fr945lte` - Forerunner 945 LTE, round `240x240`, MIP 8-bit color, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `fenix7` - fēnix 7 / quatix 7, round `260x260`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
+- `fenix7pro` - fēnix 7 Pro, round `260x260`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 - `fenix7s` - fēnix 7S, round `240x240`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 - `fenix7spro` - fēnix 7S Pro, round `240x240`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 
@@ -22,14 +24,19 @@ Do not add `fr45` for this widget. The Garmin SDK device profile exposes Forerun
 
 Garmin's API 5.2 metadata exposes the newer supported devices as glance-era profiles rather than listing explicit `widget` memory. This project keeps the widget app type and only claims devices that compile and pass simulator validation.
 
+Garmin quatix 7 does not have a separate SDK product ID in the installed metadata. The shared `fenix7` profile is labeled `fēnix® 7 / quatix® 7`, so quatix 7 validation uses the `fenix7` target and simulator profile.
+
 ## Preferred Launch Paths
 
 The preferred runtime paths are the VS Code launch configurations in [.vscode/launch.json](../.vscode/launch.json):
 
 - `Run App: Choose Device Each Run`
+- `Run App: fēnix 7`
+- `Run App: fēnix 7 Pro`
+- `Run App: quatix 7 (uses fenix7 profile)`
 - `Run Native Pairing: Choose Device Each Run`
 
-Use these as the supported local paths for smoke testing. The workspace intentionally keeps only picker-based Garmin launch configs, because VS Code can hold onto an old device-specific selection in the Run and Debug status bar. Direct `monkeydo` runs are useful for automation and troubleshooting, but VS Code remains the documented contributor workflow.
+Use these as the supported local paths for smoke testing. The picker-based launcher remains useful when switching often, and the device-specific launch configs give a stable path for repeated validation on the same target. Direct `monkeydo` runs are useful for automation and troubleshooting, but VS Code remains the documented contributor workflow.
 
 The Garmin `Build for Device` command and the VS Code run/debug configuration are separate selections. If the simulator opens the wrong watch, change the Run and Debug dropdown to the matching `fr...: Run on ...` configuration; F5 uses that dropdown, not the last device selected for a build task.
 

@@ -11,6 +11,27 @@
     {
       "type": "monkeyc",
       "request": "launch",
+      "name": "Run App: fēnix 7",
+      "stopAtLaunch": false,
+      "device": "fenix7"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: fēnix 7 Pro",
+      "stopAtLaunch": false,
+      "device": "fenix7pro"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: quatix 7 (uses fenix7 profile)",
+      "stopAtLaunch": false,
+      "device": "fenix7"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
       "name": "Run Native Pairing: Choose Device Each Run",
       "runNativePairing": true,
       "stopAtLaunch": false,
