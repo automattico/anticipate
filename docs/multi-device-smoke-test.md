@@ -4,6 +4,14 @@ Use this as the pre-submit verification flow for supported simulator targets.
 
 ## Supported Targets
 
+- `descentmk2` - Descent Mk2 / Mk2i, round `280x280`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `descentmk2s` - Descent Mk2 S, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `epix2pro42mm` - epix Pro (Gen 2) 42mm, round `390x390`, AMOLED, API 5.2, glance memory `65536`, launcher icon `60x60`
+- `fenix6` - fēnix 6 / 6 Solar / 6 Dual Power, round `260x260`, MIP, API 3.4, widget memory `65536`, launcher icon `40x40`
+- `fenix6pro` - fēnix 6 Pro / 6 Sapphire / quatix 6, round `260x260`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `fenix6s` - fēnix 6S / 6S Solar / 6S Dual Power, round `240x240`, MIP, API 3.4, widget memory `65536`, launcher icon `40x40`
+- `fenix6spro` - fēnix 6S Pro / 6S Sapphire, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `fenix6xpro` - fēnix 6X Pro / 6X Sapphire / tactix Delta Sapphire / quatix 6X, round `280x280`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
 - `fr55` - Forerunner 55, round `208x208`, MIP 8 colors, API 3.4
 - `fr165` - Forerunner 165, round `390x390`, AMOLED, API 5.2, launcher icon `54x54`, swipe paging plus button paging
 - `fr165m` - Forerunner 165 Music, round `390x390`, AMOLED, API 5.2, launcher icon `54x54`, swipe paging plus button paging
@@ -13,20 +21,41 @@ Use this as the pre-submit verification flow for supported simulator targets.
 - `fr255m` - Forerunner 255 Music, round `260x260`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fr255s` - Forerunner 255S, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fr255sm` - Forerunner 255S Music, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
+- `fr645` - Forerunner 645, round `240x240`, MIP, API 3.1, widget memory `65536`, launcher icon `40x40`
+- `fr645m` - Forerunner 645 Music, round `240x240`, MIP, API 3.2, widget memory `524288`, launcher icon `40x40`
+- `fr935` - Forerunner 935, round `240x240`, MIP, API 3.1, widget memory `65536`, launcher icon `40x40`
 - `fr955` - Forerunner® 955 / Solar, round `260x260`, MIP 64 colors, API 5.2, launcher icon `40x40`
 - `fr745` - Forerunner 745, round `240x240`, MIP 8-bit color, API 3.3, widget memory `1048576`, launcher icon `40x40`
 - `fr945` - Forerunner 945, round `240x240`, MIP 8-bit color, API 3.3, widget memory `1048576`, launcher icon `40x40`
 - `fr945lte` - Forerunner 945 LTE, round `240x240`, MIP 8-bit color, API 3.4, widget memory `1048576`, launcher icon `40x40`
 - `fenix7` - fēnix 7 / quatix 7, round `260x260`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 - `fenix7pro` - fēnix 7 Pro, round `260x260`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
+- `fenix7pronowifi` - fēnix 7 Pro - Solar Edition (no Wi-Fi), round `260x260`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 - `fenix7x` - fēnix 7X / tactix 7 / quatix 7X Solar / Enduro 2, round `280x280`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 - `fenix7xpro` - fēnix 7X Pro, round `280x280`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
+- `fenix7xpronowifi` - fēnix 7X Pro - Solar Edition (no Wi-Fi), round `280x280`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 - `fenix7s` - fēnix 7S, round `240x240`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
 - `fenix7spro` - fēnix 7S Pro, round `240x240`, MIP 8-bit color, API 5.2, glance memory `65536`, launcher icon `40x40`
+- `marq2` - MARQ (Gen 2) Athlete / Adventurer / Captain / Golfer / Carbon Edition / Commander - Carbon Edition, round `390x390`, AMOLED, API 5.2, glance memory `65536`, launcher icon `60x60`
+- `marq2aviator` - MARQ (Gen 2) Aviator, round `390x390`, AMOLED, API 5.2, glance memory `65536`, launcher icon `60x60`
+- `marqadventurer` - MARQ Adventurer, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `marqathlete` - MARQ Athlete, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `marqaviator` - MARQ Aviator, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `marqcaptain` - MARQ Captain / American Magic Edition, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `marqcommander` - MARQ Commander, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `marqdriver` - MARQ Driver, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `marqexpedition` - MARQ Expedition, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `marqgolfer` - MARQ Golfer, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `venu3s` - Venu 3S, round `390x390`, AMOLED, API 5.2, glance memory `65536`, launcher icon `70x70`
+- `vivoactive4` - vívoactive 4, round `260x260`, MIP, API 3.3, widget memory `524288`, launcher icon `35x35`
+- `vivoactive4s` - vívoactive 4S, round `218x218`, MIP, API 3.3, widget memory `524288`, launcher icon `30x30`
+- `vivoactive5` - vívoactive 5, round `390x390`, AMOLED, API 5.2, glance memory `65536`, launcher icon `56x56`
 
 Do not add `fr45` for this widget. The Garmin SDK device profile exposes Forerunner 45 as API 1.4 with only `watchFace` app support, and the compiler rejects this widget target with `Device 'fr45' does not support application type 'widget'`.
 
 Garmin's API 5.2 metadata exposes the newer supported devices as glance-era profiles rather than listing explicit `widget` memory. This project keeps the widget app type and only claims devices that compile and pass simulator validation. That includes `fr165` and `fr165m` on the current SDK.
+
+The new `390x390` AMOLED additions share the same display bucket as `fr165` and `fr165m`, but some request larger launcher icons than the current `54x54` asset. Treat launcher-icon warnings as a resource-bucket issue to fix before claiming those devices.
 
 Garmin quatix 7 does not have a separate SDK product ID in the installed metadata. The shared `fenix7` profile is labeled `fēnix® 7 / quatix® 7`, so quatix 7 validation uses the `fenix7` target and simulator profile.
 
@@ -38,12 +67,39 @@ The preferred runtime paths are the VS Code launch configurations in [.vscode/la
 
 - `Run App: Choose Device Each Run`
 - `Run App: fēnix 7`
+- `Run App: fēnix 7 Pro (no Wi-Fi)`
 - `Run App: fēnix 7 Pro`
 - `Run App: fēnix 7X / tactix 7 / Enduro 2`
 - `Run App: fēnix 7X Pro`
+- `Run App: fēnix 7X Pro (no Wi-Fi)`
 - `Run App: quatix 7 (uses fenix7 profile)`
 - `Run App: Forerunner 165`
 - `Run App: Forerunner 165 Music`
+- `Run App: Forerunner 645`
+- `Run App: Forerunner 645 Music`
+- `Run App: Forerunner 935`
+- `Run App: Descent Mk2 / Mk2i`
+- `Run App: Descent Mk2 S`
+- `Run App: epix Pro (Gen 2) 42mm`
+- `Run App: fēnix 6 / 6 Solar`
+- `Run App: fēnix 6 Pro`
+- `Run App: fēnix 6S`
+- `Run App: fēnix 6S Pro`
+- `Run App: fēnix 6X Pro`
+- `Run App: MARQ (Gen 2)`
+- `Run App: MARQ (Gen 2) Aviator`
+- `Run App: MARQ Adventurer`
+- `Run App: MARQ Athlete`
+- `Run App: MARQ Aviator`
+- `Run App: MARQ Captain`
+- `Run App: MARQ Commander`
+- `Run App: MARQ Driver`
+- `Run App: MARQ Expedition`
+- `Run App: MARQ Golfer`
+- `Run App: Venu 3S`
+- `Run App: vívoactive 4`
+- `Run App: vívoactive 4S`
+- `Run App: vívoactive 5`
 - `Run Native Pairing: Choose Device Each Run`
 
 Use these as the supported local paths for smoke testing. The picker-based launcher remains useful when switching often, and the device-specific launch configs give a stable path for repeated validation on the same target. Direct `monkeydo` runs are useful for automation and troubleshooting, but VS Code remains the documented contributor workflow.

@@ -4,6 +4,62 @@
     {
       "type": "monkeyc",
       "request": "launch",
+      "name": "Run App: Descent Mk2 / Mk2i",
+      "stopAtLaunch": false,
+      "device": "descentmk2"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Descent Mk2 S",
+      "stopAtLaunch": false,
+      "device": "descentmk2s"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: epix Pro (Gen 2) 42mm",
+      "stopAtLaunch": false,
+      "device": "epix2pro42mm"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: fēnix 6 / 6 Solar",
+      "stopAtLaunch": false,
+      "device": "fenix6"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: fēnix 6 Pro",
+      "stopAtLaunch": false,
+      "device": "fenix6pro"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: fēnix 6S",
+      "stopAtLaunch": false,
+      "device": "fenix6s"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: fēnix 6S Pro",
+      "stopAtLaunch": false,
+      "device": "fenix6spro"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: fēnix 6X Pro",
+      "stopAtLaunch": false,
+      "device": "fenix6xpro"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
       "name": "Run App: Choose Device Each Run",
       "stopAtLaunch": false,
       "device": "${command:GetTargetDevice}"
@@ -25,6 +81,13 @@
     {
       "type": "monkeyc",
       "request": "launch",
+      "name": "Run App: fēnix 7 Pro (no Wi-Fi)",
+      "stopAtLaunch": false,
+      "device": "fenix7pronowifi"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
       "name": "Run App: fēnix 7X / tactix 7 / Enduro 2",
       "stopAtLaunch": false,
       "device": "fenix7x"
@@ -35,6 +98,13 @@
       "name": "Run App: fēnix 7X Pro",
       "stopAtLaunch": false,
       "device": "fenix7xpro"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: fēnix 7X Pro (no Wi-Fi)",
+      "stopAtLaunch": false,
+      "device": "fenix7xpronowifi"
     },
     {
       "type": "monkeyc",
@@ -56,6 +126,125 @@
       "name": "Run App: Forerunner 165 Music",
       "stopAtLaunch": false,
       "device": "fr165m"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 645",
+      "stopAtLaunch": false,
+      "device": "fr645"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 645 Music",
+      "stopAtLaunch": false,
+      "device": "fr645m"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 935",
+      "stopAtLaunch": false,
+      "device": "fr935"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: MARQ (Gen 2)",
+      "stopAtLaunch": false,
+      "device": "marq2"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: MARQ (Gen 2) Aviator",
+      "stopAtLaunch": false,
+      "device": "marq2aviator"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: MARQ Adventurer",
+      "stopAtLaunch": false,
+      "device": "marqadventurer"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: MARQ Athlete",
+      "stopAtLaunch": false,
+      "device": "marqathlete"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: MARQ Aviator",
+      "stopAtLaunch": false,
+      "device": "marqaviator"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: MARQ Captain",
+      "stopAtLaunch": false,
+      "device": "marqcaptain"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: MARQ Commander",
+      "stopAtLaunch": false,
+      "device": "marqcommander"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: MARQ Driver",
+      "stopAtLaunch": false,
+      "device": "marqdriver"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: MARQ Expedition",
+      "stopAtLaunch": false,
+      "device": "marqexpedition"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: MARQ Golfer",
+      "stopAtLaunch": false,
+      "device": "marqgolfer"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Venu 3S",
+      "stopAtLaunch": false,
+      "device": "venu3s"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: vívoactive 4",
+      "stopAtLaunch": false,
+      "device": "vivoactive4"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: vívoactive 4S",
+      "stopAtLaunch": false,
+      "device": "vivoactive4s"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: vívoactive 5",
+      "stopAtLaunch": false,
+      "device": "vivoactive5"
     },
     {
       "type": "monkeyc",

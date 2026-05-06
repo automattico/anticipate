@@ -2,10 +2,80 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "monkeyc: build descentmk2",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["descentmk2"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build descentmk2s",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["descentmk2s"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build epix2pro42mm",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["epix2pro42mm"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fenix6",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fenix6"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fenix6pro",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fenix6pro"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fenix6s",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fenix6s"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fenix6spro",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fenix6spro"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fenix6xpro",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fenix6xpro"],
+      "problemMatcher": []
+    },
+    {
       "label": "monkeyc: build fr55",
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",
       "args": ["fr55"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr645",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr645"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fr645m",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr645m"],
       "problemMatcher": []
     },
     {
@@ -51,6 +121,13 @@
       "problemMatcher": []
     },
     {
+      "label": "monkeyc: build fr935",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr935"],
+      "problemMatcher": []
+    },
+    {
       "label": "monkeyc: build fr745",
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",
@@ -93,6 +170,13 @@
       "problemMatcher": []
     },
     {
+      "label": "monkeyc: build fenix7pronowifi",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fenix7pronowifi"],
+      "problemMatcher": []
+    },
+    {
       "label": "monkeyc: build fenix7x",
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",
@@ -104,6 +188,13 @@
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",
       "args": ["fenix7xpro"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build fenix7xpronowifi",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fenix7xpronowifi"],
       "problemMatcher": []
     },
     {
@@ -132,6 +223,104 @@
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",
       "args": ["fr165m"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build marq2",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["marq2"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build marq2aviator",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["marq2aviator"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build marqadventurer",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["marqadventurer"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build marqathlete",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["marqathlete"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build marqaviator",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["marqaviator"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build marqcaptain",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["marqcaptain"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build marqcommander",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["marqcommander"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build marqdriver",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["marqdriver"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build marqexpedition",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["marqexpedition"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build marqgolfer",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["marqgolfer"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build venu3s",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["venu3s"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build vivoactive4",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["vivoactive4"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build vivoactive4s",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["vivoactive4s"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build vivoactive5",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["vivoactive5"],
       "problemMatcher": []
     }
   ]
