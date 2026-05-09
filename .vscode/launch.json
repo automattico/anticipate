@@ -221,6 +221,27 @@
     {
       "type": "monkeyc",
       "request": "launch",
+      "name": "Run App: Venu 3",
+      "stopAtLaunch": false,
+      "device": "venu3"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Venu 4 41mm",
+      "stopAtLaunch": false,
+      "device": "venu441mm"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Venu 4 45mm",
+      "stopAtLaunch": false,
+      "device": "venu445mm"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
       "name": "Run App: Venu 3S",
       "stopAtLaunch": false,
       "device": "venu3s"
@@ -245,6 +266,13 @@
       "name": "Run App: vívoactive 5",
       "stopAtLaunch": false,
       "device": "vivoactive5"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: vívoactive 6",
+      "stopAtLaunch": false,
+      "device": "vivoactive6"
     },
     {
       "type": "monkeyc",

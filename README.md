@@ -2,7 +2,7 @@
 
 Anticipate Countdowns is an open-source Garmin Connect IQ widget for tracking up to five upcoming events with optional event times.
 
-The current validated targets are `descentmk2`, `descentmk2s`, `epix2pro42mm`, `fenix6`, `fenix6pro`, `fenix6s`, `fenix6spro`, `fenix6xpro`, `fr55`, `fr165`, `fr165m`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr645`, `fr645m`, `fr745`, `fr935`, `fr945`, `fr945lte`, `fr955`, `fenix7`, `fenix7pro`, `fenix7pronowifi`, `fenix7x`, `fenix7xpro`, `fenix7xpronowifi`, `fenix7s`, `fenix7spro`, `marq2`, `marq2aviator`, `marqadventurer`, `marqathlete`, `marqaviator`, `marqcaptain`, `marqcommander`, `marqdriver`, `marqexpedition`, `marqgolfer`, `venu3s`, `vivoactive4`, `vivoactive4s`, and `vivoactive5`. Garmin quatix 7 uses the shared `fenix7` SDK profile. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
+The current validated targets are `descentmk2`, `descentmk2s`, `epix2pro42mm`, `fenix6`, `fenix6pro`, `fenix6s`, `fenix6spro`, `fenix6xpro`, `fr55`, `fr165`, `fr165m`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr645`, `fr645m`, `fr745`, `fr935`, `fr945`, `fr945lte`, `fr955`, `fenix7`, `fenix7pro`, `fenix7pronowifi`, `fenix7x`, `fenix7xpro`, `fenix7xpronowifi`, `fenix7s`, `fenix7spro`, `marq2`, `marq2aviator`, `marqadventurer`, `marqathlete`, `marqaviator`, `marqcaptain`, `marqcommander`, `marqdriver`, `marqexpedition`, `marqgolfer`, `venu3`, `venu441mm`, `venu445mm`, `venu3s`, `vivoactive4`, `vivoactive4s`, `vivoactive5`, and `vivoactive6`. Garmin quatix 7 uses the shared `fenix7` SDK profile. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
 
 This project was built with help from OpenAI Codex.
 
@@ -16,15 +16,21 @@ This project was built with help from OpenAI Codex.
 
 ## Current Device Support
 
-- Validated targets today: `descentmk2`, `descentmk2s`, `epix2pro42mm`, `fenix6`, `fenix6pro`, `fenix6s`, `fenix6spro`, `fenix6xpro`, `fr55`, `fr165`, `fr165m`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr645`, `fr645m`, `fr745`, `fr935`, `fr945`, `fr945lte`, `fr955`, `fenix7`, `fenix7pro`, `fenix7pronowifi`, `fenix7x`, `fenix7xpro`, `fenix7xpronowifi`, `fenix7s`, `fenix7spro`, `marq2`, `marq2aviator`, `marqadventurer`, `marqathlete`, `marqaviator`, `marqcaptain`, `marqcommander`, `marqdriver`, `marqexpedition`, `marqgolfer`, `venu3s`, `vivoactive4`, `vivoactive4s`, and `vivoactive5`
-- Current profiles: round `208x208`, `218x218`, `240x240`, `260x260`, `280x280`, and `390x390`
-- Display/input mix: MIP button-first layouts across `208-280` buckets plus a shared `390x390` AMOLED bucket for `fr165`, `fr165m`, `epix2pro42mm`, `venu3s`, `vivoactive5`, `marq2`, and `marq2aviator`, with swipe paging parity and no new touch-only workflows
+- Validated targets today: `descentmk2`, `descentmk2s`, `epix2pro42mm`, `fenix6`, `fenix6pro`, `fenix6s`, `fenix6spro`, `fenix6xpro`, `fr55`, `fr165`, `fr165m`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr645`, `fr645m`, `fr745`, `fr935`, `fr945`, `fr945lte`, `fr955`, `fenix7`, `fenix7pro`, `fenix7pronowifi`, `fenix7x`, `fenix7xpro`, `fenix7xpronowifi`, `fenix7s`, `fenix7spro`, `marq2`, `marq2aviator`, `marqadventurer`, `marqathlete`, `marqaviator`, `marqcaptain`, `marqcommander`, `marqdriver`, `marqexpedition`, `marqgolfer`, `venu3`, `venu441mm`, `venu445mm`, `venu3s`, `vivoactive4`, `vivoactive4s`, `vivoactive5`, and `vivoactive6`
+- Current profiles: round `208x208`, `218x218`, `240x240`, `260x260`, `280x280`, `390x390`, and `454x454`
+- Display/input mix: MIP button-first layouts across `208-280` buckets plus shared AMOLED buckets for `390x390` and `454x454`, with swipe paging parity and no new touch-only workflows
 - `fr165` maps to `Forerunner® 165`: round `390x390`, AMOLED, API 5.2, launcher icon `54x54`
 - `fr165m` maps to `Forerunner® 165 Music`: round `390x390`, AMOLED, API 5.2, launcher icon `54x54`
 - `fr955` maps to `Forerunner® 955 / Solar`: round `260x260`, MIP 64 colors, API 5.2, launcher icon `40x40`
 - `fenix7` maps to `fēnix® 7 / quatix® 7`: round `260x260`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fenix7pro` maps to `fēnix® 7 Pro`: round `260x260`, MIP 8-bit color, API 5.2, launcher icon `40x40`
-- `fenix7s`, `fenix7spro`, `fenix7pronowifi`, `fenix7xpronowifi`, `fr165`, `fr165m`, `epix2pro42mm`, `venu3s`, `vivoactive5`, `marq2`, and `marq2aviator` are API 5.2 glance-era profiles; the SDK compiler accepts this widget target, matching the existing API 5.2 support pattern
+- `venu3` maps to `Venu® 3`: round `454x454`, AMOLED, API 5.2, launcher icon `70x70`
+- `venu441mm` maps to `Venu® 4 41mm`: round `390x390`, AMOLED, API 6.0, launcher icon `54x54`
+- `venu445mm` maps to `Venu® 4 45mm / D2™ Air X15`: round `454x454`, AMOLED, API 6.0, launcher icon `65x65`
+- `vivoactive5` maps to `vívoactive® 5`: round `390x390`, AMOLED, API 5.2, launcher icon `56x56`
+- `vivoactive6` maps to `vívoactive® 6`: round `390x390`, AMOLED, API 6.0, launcher icon `54x54`
+- `fenix7s`, `fenix7spro`, `fenix7pronowifi`, `fenix7xpronowifi`, `fr165`, `fr165m`, `epix2pro42mm`, `venu3`, `venu441mm`, `venu445mm`, `venu3s`, `vivoactive5`, `vivoactive6`, `marq2`, and `marq2aviator` are glance-era profiles in the SDK metadata; the SDK compiler accepts this widget target on all of them, matching the existing support pattern
+- Requested Venu 4 names in Garmin SDK metadata use `venu441mm` and `venu445mm`, not `venu4-41mm` or `venu4-45mm`
 - Forerunner 45 (`fr45`) is not supported by this widget because Garmin's device profile does not support Connect IQ widgets on that target
 - Additional device support is welcome, but only validated devices should be added to `manifest.xml` or claimed in store metadata
 
@@ -95,7 +101,7 @@ To regression-build every manifest target and fail on compiler warnings, run:
 ./scripts/build-all-devices.sh /path/to/your/signing-key.der
 ```
 
-For VS Code launch configurations, the default local key path is `private/anticipate-dev-key.der`. You can override it by setting `PRIVATE_KEY=/path/to/your/signing-key.der`.
+For VS Code launch configurations and `scripts/build-device.sh`, the repo now prefers `private/anticipate-dev-key-4096.der` when that file exists, then falls back to `private/anticipate-dev-key.der`. You can override either by setting `PRIVATE_KEY=/path/to/your/signing-key.der`.
 
 ## Settings Contract
 

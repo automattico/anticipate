@@ -6,7 +6,11 @@ PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SDK_CFG="$HOME/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg"
 SDK_ROOT="${CONNECTIQ_SDK_ROOT:-}"
 DEVICE_ID="${1:-}"
-PRIVATE_KEY_PATH="${2:-${PRIVATE_KEY:-$PROJECT_ROOT/private/anticipate-dev-key.der}}"
+DEFAULT_PRIVATE_KEY_PATH="$PROJECT_ROOT/private/anticipate-dev-key-4096.der"
+if [[ ! -f "$DEFAULT_PRIVATE_KEY_PATH" ]]; then
+  DEFAULT_PRIVATE_KEY_PATH="$PROJECT_ROOT/private/anticipate-dev-key.der"
+fi
+PRIVATE_KEY_PATH="${2:-${PRIVATE_KEY:-$DEFAULT_PRIVATE_KEY_PATH}}"
 JAVA_BIN="${JAVA_BIN:-/opt/homebrew/opt/openjdk@17/bin/java}"
 OUT_DIR="$PROJECT_ROOT/bin/device-builds"
 
