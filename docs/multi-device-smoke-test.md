@@ -46,16 +46,22 @@ Use this as the pre-submit verification flow for supported simulator targets.
 - `marqdriver` - MARQ Driver, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
 - `marqexpedition` - MARQ Expedition, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
 - `marqgolfer` - MARQ Golfer, round `240x240`, MIP, API 3.4, widget memory `1048576`, launcher icon `40x40`
+- `venu3` - Venu 3, round `454x454`, AMOLED, API 5.2, glance memory `65536`, launcher icon `70x70`
+- `venu441mm` - Venu 4 41mm, round `390x390`, AMOLED, API 6.0, glance memory `65536`, launcher icon `54x54`
+- `venu445mm` - Venu 4 45mm / D2 Air X15, round `454x454`, AMOLED, API 6.0, glance memory `65536`, launcher icon `65x65`
 - `venu3s` - Venu 3S, round `390x390`, AMOLED, API 5.2, glance memory `65536`, launcher icon `70x70`
 - `vivoactive4` - vívoactive 4, round `260x260`, MIP, API 3.3, widget memory `524288`, launcher icon `35x35`
 - `vivoactive4s` - vívoactive 4S, round `218x218`, MIP, API 3.3, widget memory `524288`, launcher icon `30x30`
 - `vivoactive5` - vívoactive 5, round `390x390`, AMOLED, API 5.2, glance memory `65536`, launcher icon `56x56`
+- `vivoactive6` - vívoactive 6, round `390x390`, AMOLED, API 6.0, glance memory `65536`, launcher icon `54x54`
 
 Do not add `fr45` for this widget. The Garmin SDK device profile exposes Forerunner 45 as API 1.4 with only `watchFace` app support, and the compiler rejects this widget target with `Device 'fr45' does not support application type 'widget'`.
 
-Garmin's API 5.2 metadata exposes the newer supported devices as glance-era profiles rather than listing explicit `widget` memory. This project keeps the widget app type and only claims devices that compile and pass simulator validation. That includes `fr165` and `fr165m` on the current SDK.
+Garmin's newer metadata exposes several supported devices as glance-era profiles rather than listing explicit `widget` memory. This project keeps the widget app type and only claims devices that compile and pass simulator validation. That includes `fr165`, `fr165m`, `venu3`, `venu441mm`, `venu445mm`, and `vivoactive6` on the current SDK.
 
-The new `390x390` AMOLED additions share the same display bucket as `fr165` and `fr165m`, but some request larger launcher icons than the current `54x54` asset. Treat launcher-icon warnings as a resource-bucket issue to fix before claiming those devices.
+The `390x390`, `416x416`, and `454x454` AMOLED additions share the current large-screen layout family, but they require matching launcher-icon resource buckets so the compiler does not fall back to scaled `35x35` icons. `venu3` specifically needs its own `70x70` launcher icon override.
+
+Requested Venu 4 names map to Garmin SDK product IDs `venu441mm` and `venu445mm`. Do not use `venu4-41mm` or `venu4-45mm` in the manifest or build tooling.
 
 Garmin quatix 7 does not have a separate SDK product ID in the installed metadata. The shared `fenix7` profile is labeled `fēnix® 7 / quatix® 7`, so quatix 7 validation uses the `fenix7` target and simulator profile.
 
@@ -96,17 +102,21 @@ The preferred runtime paths are the VS Code launch configurations in [.vscode/la
 - `Run App: MARQ Driver`
 - `Run App: MARQ Expedition`
 - `Run App: MARQ Golfer`
+- `Run App: Venu 3`
+- `Run App: Venu 4 41mm`
+- `Run App: Venu 4 45mm`
 - `Run App: Venu 3S`
 - `Run App: vívoactive 4`
 - `Run App: vívoactive 4S`
 - `Run App: vívoactive 5`
+- `Run App: vívoactive 6`
 - `Run Native Pairing: Choose Device Each Run`
 
 Use these as the supported local paths for smoke testing. The picker-based launcher remains useful when switching often, and the device-specific launch configs give a stable path for repeated validation on the same target. Direct `monkeydo` runs are useful for automation and troubleshooting, but VS Code remains the documented contributor workflow.
 
 The Garmin `Build for Device` command and the VS Code run/debug configuration are separate selections. If the simulator opens the wrong watch, change the Run and Debug dropdown to the matching `fr...: Run on ...` configuration; F5 uses that dropdown, not the last device selected for a build task.
 
-The VS Code tasks default to `private/anticipate-dev-key.der`. To use another local key, set `PRIVATE_KEY=/path/to/your/signing-key.der` in the VS Code environment before launching.
+The VS Code tasks and `scripts/build-device.sh` prefer `private/anticipate-dev-key-4096.der` when it exists, then fall back to `private/anticipate-dev-key.der`. To use another local key, set `PRIVATE_KEY=/path/to/your/signing-key.der` in the VS Code environment before launching.
 
 ## Clean Start
 

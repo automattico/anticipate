@@ -4,7 +4,7 @@ set -u
 
 SDK_CFG="$HOME/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg"
 SDK_ROOT=""
-DEVICE_IDS=("descentmk2" "descentmk2s" "epix2pro42mm" "fenix6" "fenix6pro" "fenix6s" "fenix6spro" "fenix6xpro" "fr55" "fr645" "fr645m" "fr245" "fr245m" "fr255" "fr255m" "fr255s" "fr255sm" "fr935" "fr955" "fr745" "fr945" "fr945lte" "fenix7" "fenix7pro" "fenix7pronowifi" "fenix7x" "fenix7xpro" "fenix7xpronowifi" "fenix7s" "fenix7spro" "fr165" "fr165m" "marq2" "marq2aviator" "marqadventurer" "marqathlete" "marqaviator" "marqcaptain" "marqcommander" "marqdriver" "marqexpedition" "marqgolfer" "venu3s" "vivoactive4" "vivoactive4s" "vivoactive5")
+DEVICE_IDS=("descentmk2" "descentmk2s" "epix2pro42mm" "fenix6" "fenix6pro" "fenix6s" "fenix6spro" "fenix6xpro" "fr55" "fr645" "fr645m" "fr245" "fr245m" "fr255" "fr255m" "fr255s" "fr255sm" "fr935" "fr955" "fr745" "fr945" "fr945lte" "fenix7" "fenix7pro" "fenix7pronowifi" "fenix7x" "fenix7xpro" "fenix7xpronowifi" "fenix7s" "fenix7spro" "fr165" "fr165m" "marq2" "marq2aviator" "marqadventurer" "marqathlete" "marqaviator" "marqcaptain" "marqcommander" "marqdriver" "marqexpedition" "marqgolfer" "venu3" "venu441mm" "venu445mm" "venu3s" "vivoactive4" "vivoactive4s" "vivoactive5" "vivoactive6")
 JDK_HINT="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
 JAVA_BIN="/opt/homebrew/opt/openjdk@17/bin/java"
 

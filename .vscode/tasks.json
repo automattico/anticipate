@@ -303,6 +303,27 @@
       "problemMatcher": []
     },
     {
+      "label": "monkeyc: build venu3",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["venu3"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build venu441mm",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["venu441mm"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build venu445mm",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["venu445mm"],
+      "problemMatcher": []
+    },
+    {
       "label": "monkeyc: build vivoactive4",
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",
@@ -321,6 +342,13 @@
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",
       "args": ["vivoactive5"],
+      "problemMatcher": []
+    },
+    {
+      "label": "monkeyc: build vivoactive6",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["vivoactive6"],
       "problemMatcher": []
     }
   ]
