@@ -11,8 +11,8 @@ if [[ ! -f "$DEFAULT_PRIVATE_KEY_PATH" ]]; then
   DEFAULT_PRIVATE_KEY_PATH="$PROJECT_ROOT/private/anticipate-dev-key.der"
 fi
 PRIVATE_KEY_PATH="${2:-${PRIVATE_KEY:-$DEFAULT_PRIVATE_KEY_PATH}}"
-JAVA_BIN="${JAVA_BIN:-/opt/homebrew/opt/openjdk@17/bin/java}"
 OUT_DIR="$PROJECT_ROOT/bin/device-builds"
+SETTINGS_ROOT="$TMPDIR/com.garmin.connectiq/GARMIN/Settings"
 
 function stop_running_simulator() {
   pkill -f "monkeybrains.monkeydodeux.MonkeyDoDeux" 2>/dev/null || true
@@ -42,8 +42,9 @@ if [[ -z "$PRIVATE_KEY_PATH" || ! -f "$PRIVATE_KEY_PATH" ]]; then
   exit 1
 fi
 
-if [[ ! -x "$JAVA_BIN" ]]; then
-  echo "Missing Java executable: $JAVA_BIN" >&2
+MONKEYC_BIN="$SDK_ROOT/bin/monkeyc"
+if [[ ! -x "$MONKEYC_BIN" ]]; then
+  echo "Missing Connect IQ compiler: $MONKEYC_BIN" >&2
   exit 1
 fi
 
@@ -54,20 +55,23 @@ fi
 mkdir -p "$OUT_DIR"
 LOG_FILE="$OUT_DIR/anticipate-$DEVICE_ID.log"
 
-"$JAVA_BIN" \
-    -Xms1g \
-    -Dfile.encoding=UTF-8 \
-    -Dapple.awt.UIElement=true \
-    -jar "$SDK_ROOT/bin/monkeybrains.jar" \
+"$MONKEYC_BIN" \
     -o "$OUT_DIR/anticipate-$DEVICE_ID.prg" \
     -f "$PROJECT_ROOT/monkey.jungle" \
     -y "$PRIVATE_KEY_PATH" \
     -d "$DEVICE_ID" \
-    -r -w -l 2 -w 2>&1 | tee "$LOG_FILE"
+    -r -w -l 2 2>&1 | tee "$LOG_FILE"
 
 if grep -Eiq '(^|[^[:alpha:]])warning([^[:alpha:]]|$)' "$LOG_FILE"; then
   echo "Compiler warnings found for $DEVICE_ID." >&2
   exit 1
+fi
+
+SETTINGS_ARTIFACT="$OUT_DIR/anticipate-$DEVICE_ID-settings.json"
+if [[ -f "$SETTINGS_ARTIFACT" && -d "$SETTINGS_ROOT" ]]; then
+  APP_BASENAME="ANTICIPATE-${(U)DEVICE_ID}"
+  mkdir -p "$SETTINGS_ROOT"
+  cp "$SETTINGS_ARTIFACT" "$SETTINGS_ROOT/$APP_BASENAME-settings.json"
 fi
 
 echo "Built $DEVICE_ID with no compiler errors or warnings."

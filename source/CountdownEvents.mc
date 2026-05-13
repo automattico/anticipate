@@ -31,33 +31,37 @@ class CountdownEvents {
     }
 
     static function _eventForSlot(slot as Lang.Number) as EventConfig or Null {
-        var targetParts = _targetPartsForSlot(slot);
-        if (targetParts == null) {
+        try {
+            var targetParts = _targetPartsForSlot(slot);
+            if (targetParts == null) {
+                return null;
+            }
+
+            var targetYear = targetParts[:year] as Lang.Number;
+            var targetMonth = targetParts[:month] as Lang.Number;
+            var targetDay = targetParts[:day] as Lang.Number;
+            var targetHour = _boundedNumber(_slotKey(slot, "target_hour"), 0, 23, 0);
+            var targetMinute = _boundedNumber(_slotKey(slot, "target_minute"), 0, 59, 0);
+            var useSpecificTime = _useSpecificTime(slot, targetHour, targetMinute);
+            var allDay = !useSpecificTime;
+            var name = _propertyText(_slotKey(slot, "name"));
+
+            if (name == null || name.length() == 0) {
+                name = "Event " + slot.toString();
+            }
+
+            var epochHour = targetHour;
+            var epochMinute = targetMinute;
+            if (allDay) {
+                epochHour = 0;
+                epochMinute = 0;
+            }
+
+            var targetEpoch = _storedTargetEpoch(slot, targetYear, targetMonth, targetDay, allDay, epochHour, epochMinute);
+            return new EventConfig(name, ICON_CALENDAR, targetEpoch, allDay, targetYear, targetMonth, targetDay, targetHour, targetMinute);
+        } catch (e) {
             return null;
         }
-
-        var targetYear = targetParts[:year] as Lang.Number;
-        var targetMonth = targetParts[:month] as Lang.Number;
-        var targetDay = targetParts[:day] as Lang.Number;
-        var targetHour = _boundedNumber(_slotKey(slot, "target_hour"), 0, 23, 0);
-        var targetMinute = _boundedNumber(_slotKey(slot, "target_minute"), 0, 59, 0);
-        var useSpecificTime = _useSpecificTime(slot, targetHour, targetMinute);
-        var allDay = !useSpecificTime;
-        var name = _propertyText(_slotKey(slot, "name"));
-
-        if (name == null || name.length() == 0) {
-            name = "Event " + slot.toString();
-        }
-
-        var epochHour = targetHour;
-        var epochMinute = targetMinute;
-        if (allDay) {
-            epochHour = 0;
-            epochMinute = 0;
-        }
-
-        var targetEpoch = _storedTargetEpoch(slot, targetYear, targetMonth, targetDay, allDay, epochHour, epochMinute);
-        return new EventConfig(name, ICON_CALENDAR, targetEpoch, allDay, targetYear, targetMonth, targetDay, targetHour, targetMinute);
     }
 
     static function resolveTargetEpoch(targetDate as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
@@ -86,14 +90,24 @@ class CountdownEvents {
     }
 
     static function _storedTargetEpoch(slot as Lang.Number, targetYear as Lang.Number, targetMonth as Lang.Number, targetDay as Lang.Number, allDay as Lang.Boolean, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
+        var resolvedEpoch = resolveTargetEpochForDate(targetYear, targetMonth, targetDay, targetHour, targetMinute);
         var signature = targetSignature(targetYear, targetMonth, targetDay, allDay, targetHour, targetMinute);
         var storedSignature = _storageText(_slotKey(slot, "target_signature"));
         var storedEpoch = _storageNumber(_slotKey(slot, "target_epoch"));
-        if (storedEpoch != null && storedEpoch > 0 && storedSignature == signature) {
+        if (storedEpoch != null && storedEpoch > 0 && storedSignature == signature && _isPlausibleStoredEpoch(storedEpoch, resolvedEpoch)) {
             return storedEpoch;
         }
 
-        return resolveTargetEpochForDate(targetYear, targetMonth, targetDay, targetHour, targetMinute);
+        return resolvedEpoch;
+    }
+
+    static function _isPlausibleStoredEpoch(storedEpoch as Lang.Number, resolvedEpoch as Lang.Number) as Lang.Boolean {
+        var delta = storedEpoch - resolvedEpoch;
+        if (delta < 0) {
+            delta = -delta;
+        }
+
+        return delta <= (2 * SECONDS_PER_DAY);
     }
 
     static function _targetPartsForSlot(slot as Lang.Number) as Lang.Dictionary or Null {

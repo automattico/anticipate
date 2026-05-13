@@ -37,9 +37,23 @@ For all targets:
 ./scripts/build-all-devices.sh /path/to/your/signing-key.der
 ```
 
-For a single target, use the SDK directly or the existing per-device script/task if available.
+For a single target, prefer the existing per-device script/task:
+
+```sh
+./scripts/build-device.sh fr55 /path/to/your/signing-key.der
+```
 
 For this repo, prefer a 4096-bit local signing key for simulator work on newer devices. `scripts/build-device.sh` now prefers `private/anticipate-dev-key-4096.der` when it exists.
+
+`scripts/build-device.sh` now uses the SDK `monkeyc` binary directly instead of the older `monkeybrains.jar` path. That matters for glance-capable builds, because the direct compiler path proved reliable when the jar path hit a critical compiler error.
+
+When the simulator settings directory already exists, `scripts/build-device.sh` also copies the generated schema sidecar into:
+
+```sh
+$TMPDIR/com.garmin.connectiq/GARMIN/Settings/ANTICIPATE-<DEVICE_ID_UPPER>-settings.json
+```
+
+This makes the App Settings Editor much more reliable for device-specific simulator runs.
 
 Treat compiler warnings as real failures for simulator prep. In this repo, launcher icon size mismatches are the warning most likely to block a clean pass.
 
@@ -54,6 +68,8 @@ Use:
 This is the reliable way to get a clean empty-state launch.
 
 This script now clears both persisted state and previously sideloaded `ANTICIPATE*.PRG` files from `GARMIN/APPS/MEDIA`. That matters because stale sideloaded app basenames can make the simulator keep looking for the wrong settings schema file.
+
+The FR55-specific reset script now also clears device-specific schema sidecars such as `ANTICIPATE-FR55-settings.json`. Use it if the simulator seems stuck on an old FR55 sideload.
 
 Do not assume you can trivially restore a previously configured widget state by copying a small set of files back into the simulator cache. That was not reliable in practice.
 
@@ -234,8 +250,6 @@ When adding devices, always inspect launcher icon requirements from device metad
 
 In this repo, some devices need device-specific icon sizes even when the display bucket matches a broader family. Examples from prior validation:
 
-- `vivoactive4`: `35x35`
-- `vivoactive4s`: `30x30`
 - `epix2pro42mm`: `60x60`
 - `marq2`: `60x60`
 - `marq2aviator`: `60x60`

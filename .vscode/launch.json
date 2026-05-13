@@ -6,273 +6,376 @@
       "request": "launch",
       "name": "Run App: Descent Mk2 / Mk2i",
       "stopAtLaunch": false,
-      "device": "descentmk2"
+      "device": "descentmk2",
+      "preLaunchTask": "monkeyc: build descentmk2"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: Descent Mk2 S",
       "stopAtLaunch": false,
-      "device": "descentmk2s"
+      "device": "descentmk2s",
+      "preLaunchTask": "monkeyc: build descentmk2s"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: epix Pro (Gen 2) 42mm",
       "stopAtLaunch": false,
-      "device": "epix2pro42mm"
+      "device": "epix2pro42mm",
+      "preLaunchTask": "monkeyc: build epix2pro42mm"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: fēnix 6 / 6 Solar",
       "stopAtLaunch": false,
-      "device": "fenix6"
+      "device": "fenix6",
+      "preLaunchTask": "monkeyc: build fenix6"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: fēnix 6 Pro",
       "stopAtLaunch": false,
-      "device": "fenix6pro"
+      "device": "fenix6pro",
+      "preLaunchTask": "monkeyc: build fenix6pro"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: fēnix 6S",
       "stopAtLaunch": false,
-      "device": "fenix6s"
+      "device": "fenix6s",
+      "preLaunchTask": "monkeyc: build fenix6s"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: fēnix 6S Pro",
       "stopAtLaunch": false,
-      "device": "fenix6spro"
+      "device": "fenix6spro",
+      "preLaunchTask": "monkeyc: build fenix6spro"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: fēnix 6X Pro",
       "stopAtLaunch": false,
-      "device": "fenix6xpro"
+      "device": "fenix6xpro",
+      "preLaunchTask": "monkeyc: build fenix6xpro"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: Choose Device Each Run",
       "stopAtLaunch": false,
-      "device": "${command:GetTargetDevice}"
+      "device": "${input:targetDevice}",
+      "preLaunchTask": "monkeyc: build ${input:targetDevice}"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: fēnix 7",
       "stopAtLaunch": false,
-      "device": "fenix7"
+      "device": "fenix7",
+      "preLaunchTask": "monkeyc: build fenix7"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: fēnix 7 Pro",
       "stopAtLaunch": false,
-      "device": "fenix7pro"
+      "device": "fenix7pro",
+      "preLaunchTask": "monkeyc: build fenix7pro"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: fēnix 7 Pro (no Wi-Fi)",
       "stopAtLaunch": false,
-      "device": "fenix7pronowifi"
+      "device": "fenix7pronowifi",
+      "preLaunchTask": "monkeyc: build fenix7pronowifi"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: fēnix 7S",
+      "stopAtLaunch": false,
+      "device": "fenix7s",
+      "preLaunchTask": "monkeyc: build fenix7s"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: fēnix 7S Pro",
+      "stopAtLaunch": false,
+      "device": "fenix7spro",
+      "preLaunchTask": "monkeyc: build fenix7spro"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: fēnix 7X / tactix 7 / Enduro 2",
       "stopAtLaunch": false,
-      "device": "fenix7x"
+      "device": "fenix7x",
+      "preLaunchTask": "monkeyc: build fenix7x"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: fēnix 7X Pro",
       "stopAtLaunch": false,
-      "device": "fenix7xpro"
+      "device": "fenix7xpro",
+      "preLaunchTask": "monkeyc: build fenix7xpro"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: fēnix 7X Pro (no Wi-Fi)",
       "stopAtLaunch": false,
-      "device": "fenix7xpronowifi"
+      "device": "fenix7xpronowifi",
+      "preLaunchTask": "monkeyc: build fenix7xpronowifi"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: quatix 7 (uses fenix7 profile)",
       "stopAtLaunch": false,
-      "device": "fenix7"
+      "device": "fenix7",
+      "preLaunchTask": "monkeyc: build fenix7"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: Forerunner 165",
       "stopAtLaunch": false,
-      "device": "fr165"
+      "device": "fr165",
+      "preLaunchTask": "monkeyc: build fr165"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: Forerunner 165 Music",
       "stopAtLaunch": false,
-      "device": "fr165m"
+      "device": "fr165m",
+      "preLaunchTask": "monkeyc: build fr165m"
     },
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "Run App: Forerunner 645",
+      "name": "Run App: Forerunner 245",
       "stopAtLaunch": false,
-      "device": "fr645"
+      "device": "fr245",
+      "preLaunchTask": "monkeyc: build fr245"
     },
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "Run App: Forerunner 645 Music",
+      "name": "Run App: Forerunner 245 Music",
       "stopAtLaunch": false,
-      "device": "fr645m"
+      "device": "fr245m",
+      "preLaunchTask": "monkeyc: build fr245m"
     },
     {
       "type": "monkeyc",
       "request": "launch",
-      "name": "Run App: Forerunner 935",
+      "name": "Run App: Forerunner 255",
       "stopAtLaunch": false,
-      "device": "fr935"
+      "device": "fr255",
+      "preLaunchTask": "monkeyc: build fr255"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 255 Music",
+      "stopAtLaunch": false,
+      "device": "fr255m",
+      "preLaunchTask": "monkeyc: build fr255m"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 255S",
+      "stopAtLaunch": false,
+      "device": "fr255s",
+      "preLaunchTask": "monkeyc: build fr255s"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 255S Music",
+      "stopAtLaunch": false,
+      "device": "fr255sm",
+      "preLaunchTask": "monkeyc: build fr255sm"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 55",
+      "stopAtLaunch": false,
+      "device": "fr55",
+      "preLaunchTask": "monkeyc: build fr55"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 745",
+      "stopAtLaunch": false,
+      "device": "fr745",
+      "preLaunchTask": "monkeyc: build fr745"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 945",
+      "stopAtLaunch": false,
+      "device": "fr945",
+      "preLaunchTask": "monkeyc: build fr945"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 945 LTE",
+      "stopAtLaunch": false,
+      "device": "fr945lte",
+      "preLaunchTask": "monkeyc: build fr945lte"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
+      "name": "Run App: Forerunner 955",
+      "stopAtLaunch": false,
+      "device": "fr955",
+      "preLaunchTask": "monkeyc: build fr955"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: MARQ (Gen 2)",
       "stopAtLaunch": false,
-      "device": "marq2"
+      "device": "marq2",
+      "preLaunchTask": "monkeyc: build marq2"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: MARQ (Gen 2) Aviator",
       "stopAtLaunch": false,
-      "device": "marq2aviator"
+      "device": "marq2aviator",
+      "preLaunchTask": "monkeyc: build marq2aviator"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: MARQ Adventurer",
       "stopAtLaunch": false,
-      "device": "marqadventurer"
+      "device": "marqadventurer",
+      "preLaunchTask": "monkeyc: build marqadventurer"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: MARQ Athlete",
       "stopAtLaunch": false,
-      "device": "marqathlete"
+      "device": "marqathlete",
+      "preLaunchTask": "monkeyc: build marqathlete"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: MARQ Aviator",
       "stopAtLaunch": false,
-      "device": "marqaviator"
+      "device": "marqaviator",
+      "preLaunchTask": "monkeyc: build marqaviator"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: MARQ Captain",
       "stopAtLaunch": false,
-      "device": "marqcaptain"
+      "device": "marqcaptain",
+      "preLaunchTask": "monkeyc: build marqcaptain"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: MARQ Commander",
       "stopAtLaunch": false,
-      "device": "marqcommander"
+      "device": "marqcommander",
+      "preLaunchTask": "monkeyc: build marqcommander"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: MARQ Driver",
       "stopAtLaunch": false,
-      "device": "marqdriver"
+      "device": "marqdriver",
+      "preLaunchTask": "monkeyc: build marqdriver"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: MARQ Expedition",
       "stopAtLaunch": false,
-      "device": "marqexpedition"
+      "device": "marqexpedition",
+      "preLaunchTask": "monkeyc: build marqexpedition"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: MARQ Golfer",
       "stopAtLaunch": false,
-      "device": "marqgolfer"
+      "device": "marqgolfer",
+      "preLaunchTask": "monkeyc: build marqgolfer"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: Venu 3",
       "stopAtLaunch": false,
-      "device": "venu3"
+      "device": "venu3",
+      "preLaunchTask": "monkeyc: build venu3"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: Venu 4 41mm",
       "stopAtLaunch": false,
-      "device": "venu441mm"
+      "device": "venu441mm",
+      "preLaunchTask": "monkeyc: build venu441mm"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: Venu 4 45mm",
       "stopAtLaunch": false,
-      "device": "venu445mm"
+      "device": "venu445mm",
+      "preLaunchTask": "monkeyc: build venu445mm"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: Venu 3S",
       "stopAtLaunch": false,
-      "device": "venu3s"
-    },
-    {
-      "type": "monkeyc",
-      "request": "launch",
-      "name": "Run App: vívoactive 4",
-      "stopAtLaunch": false,
-      "device": "vivoactive4"
-    },
-    {
-      "type": "monkeyc",
-      "request": "launch",
-      "name": "Run App: vívoactive 4S",
-      "stopAtLaunch": false,
-      "device": "vivoactive4s"
+      "device": "venu3s",
+      "preLaunchTask": "monkeyc: build venu3s"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: vívoactive 5",
       "stopAtLaunch": false,
-      "device": "vivoactive5"
+      "device": "vivoactive5",
+      "preLaunchTask": "monkeyc: build vivoactive5"
     },
     {
       "type": "monkeyc",
       "request": "launch",
       "name": "Run App: vívoactive 6",
       "stopAtLaunch": false,
-      "device": "vivoactive6"
+      "device": "vivoactive6",
+      "preLaunchTask": "monkeyc: build vivoactive6"
     },
     {
       "type": "monkeyc",
@@ -280,7 +383,201 @@
       "name": "Run Native Pairing: Choose Device Each Run",
       "runNativePairing": true,
       "stopAtLaunch": false,
-      "device": "${command:GetTargetDevice}"
+      "device": "${input:targetDevice}",
+      "preLaunchTask": "monkeyc: build ${input:targetDevice}"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "targetDevice",
+      "type": "pickString",
+      "description": "Choose the Garmin simulator target",
+      "options": [
+        {
+          "label": "Descent Mk2 / Mk2i",
+          "value": "descentmk2"
+        },
+        {
+          "label": "Descent Mk2 S",
+          "value": "descentmk2s"
+        },
+        {
+          "label": "epix Pro (Gen 2) 42mm",
+          "value": "epix2pro42mm"
+        },
+        {
+          "label": "fēnix 6 / 6 Solar",
+          "value": "fenix6"
+        },
+        {
+          "label": "fēnix 6 Pro",
+          "value": "fenix6pro"
+        },
+        {
+          "label": "fēnix 6S",
+          "value": "fenix6s"
+        },
+        {
+          "label": "fēnix 6S Pro",
+          "value": "fenix6spro"
+        },
+        {
+          "label": "fēnix 6X Pro",
+          "value": "fenix6xpro"
+        },
+        {
+          "label": "fēnix 7",
+          "value": "fenix7"
+        },
+        {
+          "label": "fēnix 7 Pro",
+          "value": "fenix7pro"
+        },
+        {
+          "label": "fēnix 7 Pro (no Wi-Fi)",
+          "value": "fenix7pronowifi"
+        },
+        {
+          "label": "fēnix 7S",
+          "value": "fenix7s"
+        },
+        {
+          "label": "fēnix 7S Pro",
+          "value": "fenix7spro"
+        },
+        {
+          "label": "fēnix 7X / tactix 7 / Enduro 2",
+          "value": "fenix7x"
+        },
+        {
+          "label": "fēnix 7X Pro",
+          "value": "fenix7xpro"
+        },
+        {
+          "label": "fēnix 7X Pro (no Wi-Fi)",
+          "value": "fenix7xpronowifi"
+        },
+        {
+          "label": "quatix 7 (uses fenix7 profile)",
+          "value": "fenix7"
+        },
+        {
+          "label": "Forerunner 165",
+          "value": "fr165"
+        },
+        {
+          "label": "Forerunner 165 Music",
+          "value": "fr165m"
+        },
+        {
+          "label": "Forerunner 245",
+          "value": "fr245"
+        },
+        {
+          "label": "Forerunner 245 Music",
+          "value": "fr245m"
+        },
+        {
+          "label": "Forerunner 255",
+          "value": "fr255"
+        },
+        {
+          "label": "Forerunner 255 Music",
+          "value": "fr255m"
+        },
+        {
+          "label": "Forerunner 255S",
+          "value": "fr255s"
+        },
+        {
+          "label": "Forerunner 255S Music",
+          "value": "fr255sm"
+        },
+        {
+          "label": "Forerunner 55",
+          "value": "fr55"
+        },
+        {
+          "label": "Forerunner 745",
+          "value": "fr745"
+        },
+        {
+          "label": "Forerunner 945",
+          "value": "fr945"
+        },
+        {
+          "label": "Forerunner 945 LTE",
+          "value": "fr945lte"
+        },
+        {
+          "label": "Forerunner 955",
+          "value": "fr955"
+        },
+        {
+          "label": "MARQ (Gen 2)",
+          "value": "marq2"
+        },
+        {
+          "label": "MARQ (Gen 2) Aviator",
+          "value": "marq2aviator"
+        },
+        {
+          "label": "MARQ Adventurer",
+          "value": "marqadventurer"
+        },
+        {
+          "label": "MARQ Athlete",
+          "value": "marqathlete"
+        },
+        {
+          "label": "MARQ Aviator",
+          "value": "marqaviator"
+        },
+        {
+          "label": "MARQ Captain",
+          "value": "marqcaptain"
+        },
+        {
+          "label": "MARQ Commander",
+          "value": "marqcommander"
+        },
+        {
+          "label": "MARQ Driver",
+          "value": "marqdriver"
+        },
+        {
+          "label": "MARQ Expedition",
+          "value": "marqexpedition"
+        },
+        {
+          "label": "MARQ Golfer",
+          "value": "marqgolfer"
+        },
+        {
+          "label": "Venu 3",
+          "value": "venu3"
+        },
+        {
+          "label": "Venu 4 41mm",
+          "value": "venu441mm"
+        },
+        {
+          "label": "Venu 4 45mm",
+          "value": "venu445mm"
+        },
+        {
+          "label": "Venu 3S",
+          "value": "venu3s"
+        },
+        {
+          "label": "vívoactive 5",
+          "value": "vivoactive5"
+        },
+        {
+          "label": "vívoactive 6",
+          "value": "vivoactive6"
+        }
+      ]
     }
   ]
 }

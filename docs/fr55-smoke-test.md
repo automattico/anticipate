@@ -40,7 +40,7 @@ Keep signing keys and certificates outside tracked files. The ignored `private/`
 3. Reset the simulator app state for a truly clean launch:
 
 ```sh
-./scripts/reset-fr55-sim-state.sh
+./scripts/reset-sim-state.sh
 ```
 
 The device-neutral reset path is also available:

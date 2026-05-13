@@ -21,9 +21,6 @@ Use this as the pre-submit verification flow for supported simulator targets.
 - `fr255m` - Forerunner 255 Music, round `260x260`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fr255s` - Forerunner 255S, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fr255sm` - Forerunner 255S Music, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
-- `fr645` - Forerunner 645, round `240x240`, MIP, API 3.1, widget memory `65536`, launcher icon `40x40`
-- `fr645m` - Forerunner 645 Music, round `240x240`, MIP, API 3.2, widget memory `524288`, launcher icon `40x40`
-- `fr935` - Forerunner 935, round `240x240`, MIP, API 3.1, widget memory `65536`, launcher icon `40x40`
 - `fr955` - Forerunner® 955 / Solar, round `260x260`, MIP 64 colors, API 5.2, launcher icon `40x40`
 - `fr745` - Forerunner 745, round `240x240`, MIP 8-bit color, API 3.3, widget memory `1048576`, launcher icon `40x40`
 - `fr945` - Forerunner 945, round `240x240`, MIP 8-bit color, API 3.3, widget memory `1048576`, launcher icon `40x40`
@@ -50,8 +47,6 @@ Use this as the pre-submit verification flow for supported simulator targets.
 - `venu441mm` - Venu 4 41mm, round `390x390`, AMOLED, API 6.0, glance memory `65536`, launcher icon `54x54`
 - `venu445mm` - Venu 4 45mm / D2 Air X15, round `454x454`, AMOLED, API 6.0, glance memory `65536`, launcher icon `65x65`
 - `venu3s` - Venu 3S, round `390x390`, AMOLED, API 5.2, glance memory `65536`, launcher icon `70x70`
-- `vivoactive4` - vívoactive 4, round `260x260`, MIP, API 3.3, widget memory `524288`, launcher icon `35x35`
-- `vivoactive4s` - vívoactive 4S, round `218x218`, MIP, API 3.3, widget memory `524288`, launcher icon `30x30`
 - `vivoactive5` - vívoactive 5, round `390x390`, AMOLED, API 5.2, glance memory `65536`, launcher icon `56x56`
 - `vivoactive6` - vívoactive 6, round `390x390`, AMOLED, API 6.0, glance memory `65536`, launcher icon `54x54`
 
@@ -81,9 +76,6 @@ The preferred runtime paths are the VS Code launch configurations in [.vscode/la
 - `Run App: quatix 7 (uses fenix7 profile)`
 - `Run App: Forerunner 165`
 - `Run App: Forerunner 165 Music`
-- `Run App: Forerunner 645`
-- `Run App: Forerunner 645 Music`
-- `Run App: Forerunner 935`
 - `Run App: Descent Mk2 / Mk2i`
 - `Run App: Descent Mk2 S`
 - `Run App: epix Pro (Gen 2) 42mm`
@@ -106,8 +98,6 @@ The preferred runtime paths are the VS Code launch configurations in [.vscode/la
 - `Run App: Venu 4 41mm`
 - `Run App: Venu 4 45mm`
 - `Run App: Venu 3S`
-- `Run App: vívoactive 4`
-- `Run App: vívoactive 4S`
 - `Run App: vívoactive 5`
 - `Run App: vívoactive 6`
 - `Run Native Pairing: Choose Device Each Run`

@@ -30,6 +30,16 @@ class CountdownApp extends Application.AppBase {
         return [view, new CountdownWidgetDelegate(view)];
     }
 
+    (:glance)
+    function getGlanceView() {
+        var summary = CountdownGlanceSupport.buildFirstCountdownGlanceSummary();
+        if (summary == null) {
+            return null;
+        }
+
+        return [new CountdownGlanceView(summary)];
+    }
+
     function onSettingsChanged() as Void {
         _prepareCountdownData();
     }
@@ -119,33 +129,37 @@ class CountdownApp extends Application.AppBase {
             return;
         }
 
-        var targetYear = dateParts[:year] as Lang.Number;
-        var targetMonth = dateParts[:month] as Lang.Number;
-        var targetDay = dateParts[:day] as Lang.Number;
-        var useSpecificTime = _useSpecificTime(prefix);
-        var targetHour = _boundedNumber(prefix + "target_hour", 0, 23, 0);
-        var targetMinute = _boundedNumber(prefix + "target_minute", 0, 59, 0);
-        if (!useSpecificTime) {
-            targetHour = 0;
-            targetMinute = 0;
-        }
+        try {
+            var targetYear = dateParts[:year] as Lang.Number;
+            var targetMonth = dateParts[:month] as Lang.Number;
+            var targetDay = dateParts[:day] as Lang.Number;
+            var useSpecificTime = _useSpecificTime(prefix);
+            var targetHour = _boundedNumber(prefix + "target_hour", 0, 23, 0);
+            var targetMinute = _boundedNumber(prefix + "target_minute", 0, 59, 0);
+            if (!useSpecificTime) {
+                targetHour = 0;
+                targetMinute = 0;
+            }
 
-        var currentSignature = CountdownEvents.targetSignature(targetYear, targetMonth, targetDay, !useSpecificTime, targetHour, targetMinute);
-        var storedSignature = _storageText(signatureKey);
-        var storedEpoch = _storageNumber(epochKey);
-        if (storedEpoch != null && storedEpoch > 0 && storedSignature == currentSignature) {
+            var currentSignature = CountdownEvents.targetSignature(targetYear, targetMonth, targetDay, !useSpecificTime, targetHour, targetMinute);
+            var storedSignature = _storageText(signatureKey);
+            var storedEpoch = _storageNumber(epochKey);
+            if (storedEpoch != null && storedEpoch > 0 && storedSignature == currentSignature) {
+                return;
+            }
+
+            var resolvedEpoch = CountdownEvents.resolveTargetEpochForDate(targetYear, targetMonth, targetDay, targetHour, targetMinute);
+            var legacyEpoch = _propertyNumber(epochKey);
+            if (legacyEpoch != null && legacyEpoch > 0 && (storedSignature == currentSignature || legacyEpoch == resolvedEpoch)) {
+                Storage.setValue(epochKey, legacyEpoch);
+            } else {
+                Storage.setValue(epochKey, resolvedEpoch);
+            }
+
+            Storage.setValue(signatureKey, currentSignature);
+        } catch (e) {
             return;
         }
-
-        var resolvedEpoch = CountdownEvents.resolveTargetEpochForDate(targetYear, targetMonth, targetDay, targetHour, targetMinute);
-        var legacyEpoch = _propertyNumber(epochKey);
-        if (legacyEpoch != null && legacyEpoch > 0 && (storedSignature == currentSignature || legacyEpoch == resolvedEpoch)) {
-            Storage.setValue(epochKey, legacyEpoch);
-        } else {
-            Storage.setValue(epochKey, resolvedEpoch);
-        }
-
-        Storage.setValue(signatureKey, currentSignature);
     }
 
     function _useSpecificTime(prefix as String) as Lang.Boolean {
