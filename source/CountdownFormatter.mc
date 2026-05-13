@@ -1,14 +1,11 @@
 import Toybox.Graphics;
 import Toybox.Lang;
+import Toybox.Math;
 
 class CountdownFormatter {
 
     static function _showsTimedDetails(event as EventConfig) as Lang.Boolean {
-        if (!event.allDay) {
-            return true;
-        }
-
-        return event.targetHour != 0 || event.targetMinute != 0;
+        return !event.allDay;
     }
 
     static function twoDigits(value as Lang.Number) as Lang.String {
@@ -139,6 +136,10 @@ class CountdownFormatter {
     }
 
     static function fitTitleToWidth(dc as Graphics.Dc, text as Lang.String, maxWidth as Lang.Number, font as FontDefinition) as Lang.String {
+        return fitTextToWidth(dc, text, maxWidth, font);
+    }
+
+    static function fitTextToWidth(dc as Graphics.Dc, text as Lang.String, maxWidth as Lang.Number, font as FontDefinition) as Lang.String {
         if (text.length() == 0) {
             return "";
         }

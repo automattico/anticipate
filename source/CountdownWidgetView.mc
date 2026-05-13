@@ -9,9 +9,7 @@ class CountdownWidgetView extends WatchUi.View {
     const TITLE_Y = 28;
     const PRIMARY_VALUE_Y = 72;
     const PRIMARY_DETAIL_Y = 138;
-    const PRIMARY_AUX_Y = 150;
     const PRIMARY_DATE_Y = 178;
-    const DAY_LAYOUT_CENTER_Y = 110;
     const DAY_TITLE_VALUE_GAP = 2;
     const DAY_VALUE_TIME_GAP = 0;
     const DAY_TIME_DATE_GAP = 8;
@@ -40,6 +38,7 @@ class CountdownWidgetView extends WatchUi.View {
     const DEFAULT_SUBDAY_METRIC_OFFSET = 46;
     const LARGE_SCREEN_SUBDAY_SEPARATOR_OFFSET = 22;
     const LARGE_SCREEN_SUBDAY_METRIC_OFFSET = 58;
+
     var _pageIndicatorCenterY as Lang.Number;
     var _events as Array;
     var _selectedIndex as Lang.Number;
@@ -67,16 +66,11 @@ class CountdownWidgetView extends WatchUi.View {
         dc.clear();
         _pageIndicatorCenterY = _contentCenterY(dc);
 
-        _refreshEvents();
-        var event = _currentEvent();
-        if (event == null) {
-            _drawEmptyState(dc);
+        if (_drawSafeContent(dc)) {
             return;
         }
 
-        var state = CountdownMath.calculate(event, CountdownMath.now());
-        _drawConfiguredState(dc, event, state);
-        _drawPageIndicator(dc);
+        _drawEmptyState(dc);
     }
 
     function onHide() as Void {
@@ -106,6 +100,65 @@ class CountdownWidgetView extends WatchUi.View {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         _drawCenteredTextBlock(dc, titleLines, centerX, centeredStartY, titleFont, EMPTY_STATE_TITLE_LINE_GAP);
         _drawCenteredTextBlock(dc, bodyLines, centerX, centeredStartY + titleBlockHeight + EMPTY_STATE_TITLE_BODY_GAP, bodyFont, EMPTY_STATE_BODY_LINE_GAP);
+    }
+
+    function _drawSafeContent(dc as Dc) as Lang.Boolean {
+        try {
+            _refreshEvents();
+            var event = _currentEvent();
+            if (event == null) {
+                return false;
+            }
+
+            var state = CountdownMath.calculate(event, CountdownMath.now());
+            _drawConfiguredState(dc, event, state);
+            _drawPageIndicator(dc);
+            return true;
+        } catch (e) {
+            if (_dropCurrentEvent()) {
+                try {
+                    var recoveredEvent = _currentEvent();
+                    if (recoveredEvent == null) {
+                        return false;
+                    }
+
+                    var recoveredState = CountdownMath.calculate(recoveredEvent, CountdownMath.now());
+                    _drawConfiguredState(dc, recoveredEvent, recoveredState);
+                    _drawPageIndicator(dc);
+                    return true;
+                } catch (recoveryError) {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    function _dropCurrentEvent() as Lang.Boolean {
+        if (_events.size() == 0) {
+            _selectedIndex = 0;
+            return false;
+        }
+
+        var filteredEvents = [];
+        for (var i = 0; i < _events.size(); i += 1) {
+            if (i != _selectedIndex) {
+                filteredEvents.add(_events[i] as Lang.Object);
+            }
+        }
+
+        _events = filteredEvents;
+        if (_events.size() == 0) {
+            _selectedIndex = 0;
+            return false;
+        }
+
+        if (_selectedIndex >= _events.size()) {
+            _selectedIndex = 0;
+        }
+
+        return true;
     }
 
     function _drawConfiguredState(dc as Dc, event as EventConfig, state as CountdownState) as Void {
@@ -161,10 +214,6 @@ class CountdownWidgetView extends WatchUi.View {
         _setPageIndicatorCenterY(subdayTop + subdayOffset, subdayBottom + subdayOffset);
     }
 
-    function _drawTitle(dc as Dc, title as String, titleFont as FontDefinition, centerX as Lang.Number) as Void {
-        _drawTitleAt(dc, title, titleFont, TITLE_Y, centerX);
-    }
-
     function _drawTitleAt(dc as Dc, title as String, titleFont as FontDefinition, y as Lang.Number, centerX as Lang.Number) as Void {
         var x = Math.floor((centerX - (dc.getTextWidthInPixels(title, titleFont) / 2)) + 0.5) as Lang.Number;
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
@@ -193,7 +242,6 @@ class CountdownWidgetView extends WatchUi.View {
         }
 
         var timeRowHeight = _inlineTimeRowHeight(dc);
-
         var dateBlockHeight = _targetDateBlockHeight(dc, timeLine);
         var totalHeight = titleHeight + titleValueGap + valueRowHeight + valueTimeGap + timeRowHeight + timeDateGap + dateBlockHeight;
         var layoutCenterY = _contentCenterY(dc);
@@ -300,13 +348,6 @@ class CountdownWidgetView extends WatchUi.View {
         _drawLargeStripMetric(dc, centerX + metricOffset, PRIMARY_VALUE_Y + offsetY, CountdownFormatter.twoDigits(state.seconds), "SEC");
     }
 
-    function _drawStripMetric(dc as Dc, x as Lang.Number, valueY as Lang.Number, value as String, label as String) as Void {
-        dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
-        dc.drawText(x, valueY, Graphics.FONT_XTINY, value, Graphics.TEXT_JUSTIFY_CENTER);
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.drawText(x, valueY + 12, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
-    }
-
     function _drawLargeStripMetric(dc as Dc, x as Lang.Number, valueY as Lang.Number, value as String, label as String) as Void {
         dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
         dc.drawText(x, valueY, Graphics.FONT_SMALL, value, Graphics.TEXT_JUSTIFY_CENTER);
@@ -392,7 +433,6 @@ class CountdownWidgetView extends WatchUi.View {
         }
 
         var y = firstY;
-
         for (var i = 0; i < _events.size(); i += 1) {
             var x = _pageIndicatorX(dc);
 
@@ -437,6 +477,10 @@ class CountdownWidgetView extends WatchUi.View {
             return null;
         }
 
+        if (_selectedIndex < 0 || _selectedIndex >= _events.size()) {
+            _selectedIndex = 0;
+        }
+
         return _events[_selectedIndex] as EventConfig;
     }
 
@@ -459,7 +503,12 @@ class CountdownWidgetView extends WatchUi.View {
             return false;
         }
 
-        _selectedIndex = (_selectedIndex + 1) % _events.size();
+        var nextIndex = _selectedIndex + 1;
+        if (nextIndex >= _events.size()) {
+            nextIndex = 0;
+        }
+
+        _selectedIndex = nextIndex;
         WatchUi.requestUpdate();
         return true;
     }

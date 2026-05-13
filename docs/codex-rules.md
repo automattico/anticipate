@@ -1,25 +1,6 @@
-# Repo Instructions
+# Codex Rules
 
-These instructions apply to all work in this repository.
-
-## Verification Workflow
-
-- For any watchface, widget, layout, or visual UI change, always compile the app before finishing.
-- After compiling, always launch the Garmin simulator for the target device and load the latest build.
-- Always capture a screenshot of the updated screen and visually verify the result yourself.
-- If the layout, spacing, alignment, clipping, or styling is off, keep iterating and re-testing until it is corrected.
-- Do not stop at code changes alone for UI work unless the required simulator or screenshot tooling is unavailable. If blocked, say exactly what could not be run.
-
-## Codex Automation Preferences
-
-- This repo is trusted for Codex automation work.
-- Prefer direct Garmin SDK commands over `zsh -lc` wrappers when possible so existing approval rules can match consistently.
-- Prefer these paths and commands for verification flows:
-  - `./scripts/reset-sim-state.sh`
-  - `open "$HOME/Library/Application Support/Garmin/ConnectIQ/Sdks/connectiq-sdk-mac-9.1.0-2026-03-09-6a872a80b/bin/ConnectIQ.app"`
-  - `"$HOME/Library/Application Support/Garmin/ConnectIQ/Sdks/connectiq-sdk-mac-9.1.0-2026-03-09-6a872a80b/bin/monkeyc" ...`
-  - `"$HOME/Library/Application Support/Garmin/ConnectIQ/Sdks/connectiq-sdk-mac-9.1.0-2026-03-09-6a872a80b/bin/monkeydo" ...`
-- For screenshots, prefer the built-in screenshot skill or the existing approved screenshot helper.
+This document captures permanent Codex/agent release-hardening rules for this repository.
 
 ## User Data Safety Rules
 
@@ -84,3 +65,13 @@ Hard rules:
      - migration needed: yes/no
      - upgrade test performed: yes/no
      - known data-loss risks
+
+## Release Checklist
+
+Use this as a hard release gate before Connect IQ Store submission:
+
+- Build all supported devices with `./scripts/build-all-devices.sh /path/to/your/signing-key.der`.
+- Run representative simulator smoke tests for each display/input bucket covered by the release.
+- Run the upgrade persistence test from the previous store version and confirm all configured countdowns survive the upgrade.
+- Audit `manifest.xml`, `resources/properties.xml`, and storage code for app ID and property-schema compatibility before submission.
+- Capture fresh screenshots when UI-visible changes are part of the release.

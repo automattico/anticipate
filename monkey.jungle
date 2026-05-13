@@ -1,2 +1,3 @@
 project.manifest = manifest.xml
 
+base.sourcePath = source/App.mc;source/CountdownWidgetView.mc;source/CountdownMath.mc;source/CountdownEvents.mc;source/CountdownFormatter.mc;source/Models.mc;source/CountdownGlanceView.mc;source/CountdownGlanceSupport.mc

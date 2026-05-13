@@ -2,7 +2,7 @@
 
 Anticipate Countdowns is an open-source Garmin Connect IQ widget for tracking up to five upcoming events with optional event times.
 
-The current validated targets are `descentmk2`, `descentmk2s`, `epix2pro42mm`, `fenix6`, `fenix6pro`, `fenix6s`, `fenix6spro`, `fenix6xpro`, `fr55`, `fr165`, `fr165m`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr645`, `fr645m`, `fr745`, `fr935`, `fr945`, `fr945lte`, `fr955`, `fenix7`, `fenix7pro`, `fenix7pronowifi`, `fenix7x`, `fenix7xpro`, `fenix7xpronowifi`, `fenix7s`, `fenix7spro`, `marq2`, `marq2aviator`, `marqadventurer`, `marqathlete`, `marqaviator`, `marqcaptain`, `marqcommander`, `marqdriver`, `marqexpedition`, `marqgolfer`, `venu3`, `venu441mm`, `venu445mm`, `venu3s`, `vivoactive4`, `vivoactive4s`, `vivoactive5`, and `vivoactive6`. Garmin quatix 7 uses the shared `fenix7` SDK profile. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
+The current validated targets are `descentmk2`, `descentmk2s`, `epix2pro42mm`, `fenix6`, `fenix6pro`, `fenix6s`, `fenix6spro`, `fenix6xpro`, `fr55`, `fr165`, `fr165m`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr745`, `fr945`, `fr945lte`, `fr955`, `fenix7`, `fenix7pro`, `fenix7pronowifi`, `fenix7x`, `fenix7xpro`, `fenix7xpronowifi`, `fenix7s`, `fenix7spro`, `marq2`, `marq2aviator`, `marqadventurer`, `marqathlete`, `marqaviator`, `marqcaptain`, `marqcommander`, `marqdriver`, `marqexpedition`, `marqgolfer`, `venu3`, `venu441mm`, `venu445mm`, `venu3s`, `vivoactive5`, and `vivoactive6`. Garmin quatix 7 uses the shared `fenix7` SDK profile. Contributions that adapt and validate the widget for more Garmin watches are especially appreciated.
 
 This project was built with help from OpenAI Codex.
 
@@ -16,7 +16,7 @@ This project was built with help from OpenAI Codex.
 
 ## Current Device Support
 
-- Validated targets today: `descentmk2`, `descentmk2s`, `epix2pro42mm`, `fenix6`, `fenix6pro`, `fenix6s`, `fenix6spro`, `fenix6xpro`, `fr55`, `fr165`, `fr165m`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr645`, `fr645m`, `fr745`, `fr935`, `fr945`, `fr945lte`, `fr955`, `fenix7`, `fenix7pro`, `fenix7pronowifi`, `fenix7x`, `fenix7xpro`, `fenix7xpronowifi`, `fenix7s`, `fenix7spro`, `marq2`, `marq2aviator`, `marqadventurer`, `marqathlete`, `marqaviator`, `marqcaptain`, `marqcommander`, `marqdriver`, `marqexpedition`, `marqgolfer`, `venu3`, `venu441mm`, `venu445mm`, `venu3s`, `vivoactive4`, `vivoactive4s`, `vivoactive5`, and `vivoactive6`
+- Validated targets today: `descentmk2`, `descentmk2s`, `epix2pro42mm`, `fenix6`, `fenix6pro`, `fenix6s`, `fenix6spro`, `fenix6xpro`, `fr55`, `fr165`, `fr165m`, `fr245`, `fr245m`, `fr255`, `fr255m`, `fr255s`, `fr255sm`, `fr745`, `fr945`, `fr945lte`, `fr955`, `fenix7`, `fenix7pro`, `fenix7pronowifi`, `fenix7x`, `fenix7xpro`, `fenix7xpronowifi`, `fenix7s`, `fenix7spro`, `marq2`, `marq2aviator`, `marqadventurer`, `marqathlete`, `marqaviator`, `marqcaptain`, `marqcommander`, `marqdriver`, `marqexpedition`, `marqgolfer`, `venu3`, `venu441mm`, `venu445mm`, `venu3s`, `vivoactive5`, and `vivoactive6`
 - Current profiles: round `208x208`, `218x218`, `240x240`, `260x260`, `280x280`, `390x390`, and `454x454`
 - Display/input mix: MIP button-first layouts across `208-280` buckets plus shared AMOLED buckets for `390x390` and `454x454`, with swipe paging parity and no new touch-only workflows
 - `fr165` maps to `Forerunner® 165`: round `390x390`, AMOLED, API 5.2, launcher icon `54x54`

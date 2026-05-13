@@ -6,7 +6,6 @@ PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SDK_CFG="$HOME/Library/Application Support/Garmin/ConnectIQ/current-sdk.cfg"
 SDK_ROOT="${CONNECTIQ_SDK_ROOT:-}"
 PRIVATE_KEY_PATH="${1:-${PRIVATE_KEY:-}}"
-JAVA_BIN="${JAVA_BIN:-/opt/homebrew/opt/openjdk@17/bin/java}"
 OUT_DIR="$PROJECT_ROOT/bin/device-builds"
 
 if [[ -z "$SDK_ROOT" && -f "$SDK_CFG" ]]; then
@@ -24,8 +23,9 @@ if [[ -z "$PRIVATE_KEY_PATH" || ! -f "$PRIVATE_KEY_PATH" ]]; then
   exit 1
 fi
 
-if [[ ! -x "$JAVA_BIN" ]]; then
-  echo "Missing Java executable: $JAVA_BIN" >&2
+MONKEYC_BIN="$SDK_ROOT/bin/monkeyc"
+if [[ ! -x "$MONKEYC_BIN" ]]; then
+  echo "Missing Connect IQ compiler: $MONKEYC_BIN" >&2
   exit 1
 fi
 
@@ -40,16 +40,12 @@ fi
 for DEVICE_ID in "${DEVICE_IDS[@]}"; do
   echo "Building $DEVICE_ID..."
   LOG_FILE="$OUT_DIR/anticipate-$DEVICE_ID.log"
-  "$JAVA_BIN" \
-      -Xms1g \
-      -Dfile.encoding=UTF-8 \
-      -Dapple.awt.UIElement=true \
-      -jar "$SDK_ROOT/bin/monkeybrains.jar" \
+  "$MONKEYC_BIN" \
       -o "$OUT_DIR/anticipate-$DEVICE_ID.prg" \
       -f "$PROJECT_ROOT/monkey.jungle" \
       -y "$PRIVATE_KEY_PATH" \
       -d "$DEVICE_ID" \
-      -r -w -l 2 -w 2>&1 | tee "$LOG_FILE"
+      -r -w -l 2 2>&1 | tee "$LOG_FILE"
 
   if grep -Eiq '(^|[^[:alpha:]])warning([^[:alpha:]]|$)' "$LOG_FILE"; then
     echo "Compiler warnings found for $DEVICE_ID." >&2

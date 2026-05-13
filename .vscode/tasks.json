@@ -65,20 +65,6 @@
       "problemMatcher": []
     },
     {
-      "label": "monkeyc: build fr645",
-      "type": "shell",
-      "command": "${workspaceFolder}/scripts/build-device.sh",
-      "args": ["fr645"],
-      "problemMatcher": []
-    },
-    {
-      "label": "monkeyc: build fr645m",
-      "type": "shell",
-      "command": "${workspaceFolder}/scripts/build-device.sh",
-      "args": ["fr645m"],
-      "problemMatcher": []
-    },
-    {
       "label": "monkeyc: build fr245",
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",
@@ -118,13 +104,6 @@
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",
       "args": ["fr255sm"],
-      "problemMatcher": []
-    },
-    {
-      "label": "monkeyc: build fr935",
-      "type": "shell",
-      "command": "${workspaceFolder}/scripts/build-device.sh",
-      "args": ["fr935"],
       "problemMatcher": []
     },
     {
@@ -321,20 +300,6 @@
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",
       "args": ["venu445mm"],
-      "problemMatcher": []
-    },
-    {
-      "label": "monkeyc: build vivoactive4",
-      "type": "shell",
-      "command": "${workspaceFolder}/scripts/build-device.sh",
-      "args": ["vivoactive4"],
-      "problemMatcher": []
-    },
-    {
-      "label": "monkeyc: build vivoactive4s",
-      "type": "shell",
-      "command": "${workspaceFolder}/scripts/build-device.sh",
-      "args": ["vivoactive4s"],
       "problemMatcher": []
     },
     {
