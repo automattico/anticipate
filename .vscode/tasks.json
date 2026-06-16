@@ -135,6 +135,13 @@
       "problemMatcher": []
     },
     {
+      "label": "monkeyc: build fr965",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-device.sh",
+      "args": ["fr965"],
+      "problemMatcher": []
+    },
+    {
       "label": "monkeyc: build fenix7",
       "type": "shell",
       "command": "${workspaceFolder}/scripts/build-device.sh",

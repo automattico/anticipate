@@ -22,6 +22,7 @@ Use this as the pre-submit verification flow for supported simulator targets.
 - `fr255s` - Forerunner 255S, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fr255sm` - Forerunner 255S Music, round `218x218`, MIP 8-bit color, API 5.2, launcher icon `40x40`
 - `fr955` - Forerunner® 955 / Solar, round `260x260`, MIP 64 colors, API 5.2, launcher icon `40x40`
+- `fr965` - Forerunner® 965, round `454x454`, AMOLED, API 5.2, glance memory `65536`, launcher icon `65x65`
 - `fr745` - Forerunner 745, round `240x240`, MIP 8-bit color, API 3.3, widget memory `1048576`, launcher icon `40x40`
 - `fr945` - Forerunner 945, round `240x240`, MIP 8-bit color, API 3.3, widget memory `1048576`, launcher icon `40x40`
 - `fr945lte` - Forerunner 945 LTE, round `240x240`, MIP 8-bit color, API 3.4, widget memory `1048576`, launcher icon `40x40`

@@ -252,6 +252,14 @@
     {
       "type": "monkeyc",
       "request": "launch",
+      "name": "Run App: Forerunner 965",
+      "stopAtLaunch": false,
+      "device": "fr965",
+      "preLaunchTask": "monkeyc: build fr965"
+    },
+    {
+      "type": "monkeyc",
+      "request": "launch",
       "name": "Run App: MARQ (Gen 2)",
       "stopAtLaunch": false,
       "device": "marq2",
@@ -512,6 +520,10 @@
         {
           "label": "Forerunner 955",
           "value": "fr955"
+        },
+        {
+          "label": "Forerunner 965",
+          "value": "fr965"
         },
         {
           "label": "MARQ (Gen 2)",
