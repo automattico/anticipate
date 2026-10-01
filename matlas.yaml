@@ -1,0 +1,22 @@
+id: anticipate
+name: anticipate
+kind: project
+portfolio: public-product
+scope:
+  - personal
+type: app
+lifecycle: live
+activity: active
+icon_image: /entry-icons/anticipate.svg
+summary: Garmin watch widget for up to five event countdowns.
+description: >
+  Offers configurable countdowns for up to five upcoming events on Garmin Connect IQ
+  watches, including optional times and all-day date views. It pins saved targets to the
+  user's local timezone and supports paging across a broad set of validated round watch
+  displays.
+source_host: github
+repo: https://github.com/automattico/anticipate
+local_path: /Users/mwieland/dev/anticipate
+docs: README.md
+stack:
+  - Garmin Connect IQ
