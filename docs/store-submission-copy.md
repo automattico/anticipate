@@ -56,6 +56,13 @@ Highlights:
 
 ## What's New / Release Notes
 
+### Version 1.3.2 — Local-Time Fix
+
+- Fixed countdowns treating entered dates and times as UTC instead of the watch's local time.
+- Widget and glance now share the same saved target, including when the glance is opened first.
+- Existing targets matching the UTC bug are repaired with a retained backup; custom targets are preserved.
+- Saved targets stay fixed after timezone or daylight-saving changes. Repairs use the current watch offset because the original timezone was not stored. If you previously adjusted an event to compensate, check its date and time after updating.
+
 ### Version Notes
 
 - Added support for up to 5 countdowns

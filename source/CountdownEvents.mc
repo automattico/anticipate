@@ -1,5 +1,4 @@
 import Toybox.Application.Properties;
-import Toybox.Application.Storage;
 import Toybox.Lang;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
@@ -21,15 +20,6 @@ class CountdownEvents {
         return events;
     }
 
-    static function firstConfiguredEvent() as EventConfig or Null {
-        var events = configuredEvents();
-        if (events.size() == 0) {
-            return null;
-        }
-
-        return events[0] as EventConfig;
-    }
-
     static function _eventForSlot(slot as Lang.Number) as EventConfig or Null {
         try {
             var targetParts = _targetPartsForSlot(slot);
@@ -40,10 +30,19 @@ class CountdownEvents {
             var targetYear = targetParts[:year] as Lang.Number;
             var targetMonth = targetParts[:month] as Lang.Number;
             var targetDay = targetParts[:day] as Lang.Number;
+            if (!_validModeProperty(_slotKey(slot, "use_specific_time"))
+                || !_validModeProperty(_slotKey(slot, "all_day"))) {
+                return null;
+            }
+
             var targetHour = _boundedNumber(_slotKey(slot, "target_hour"), 0, 23, 0);
             var targetMinute = _boundedNumber(_slotKey(slot, "target_minute"), 0, 59, 0);
             var useSpecificTime = _useSpecificTime(slot, targetHour, targetMinute);
             var allDay = !useSpecificTime;
+            if (!allDay && (!_validTimeProperty(_slotKey(slot, "target_hour"), 23)
+                || !_validTimeProperty(_slotKey(slot, "target_minute"), 59))) {
+                return null;
+            }
             var name = _propertyText(_slotKey(slot, "name"));
 
             if (name == null || name.length() == 0) {
@@ -64,56 +63,20 @@ class CountdownEvents {
         }
     }
 
-    static function resolveTargetEpoch(targetDate as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
-        var selectedDate = new Time.Moment(targetDate);
-        var dateInfo = Gregorian.utcInfo(selectedDate, Time.FORMAT_SHORT);
-        return resolveTargetEpochForDate(dateInfo.year, dateInfo.month as Lang.Number, dateInfo.day, targetHour, targetMinute);
-    }
-
-    static function resolveTargetEpochForDate(year as Lang.Number, month as Lang.Number, day as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
-        return Gregorian.moment({
-            :year => year,
-            :month => month,
-            :day => day,
-            :hour => targetHour,
-            :minute => targetMinute,
-            :second => 0
-        }).value() as Lang.Number;
-    }
-
-    static function targetSignature(year as Lang.Number, month as Lang.Number, day as Lang.Number, isAllDay as Lang.Boolean, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.String {
-        if (isAllDay) {
-            return year.toString() + "-" + month.toString() + "-" + day.toString() + "|1";
-        }
-
-        return year.toString() + "-" + month.toString() + "-" + day.toString() + "|0|" + targetHour.toString() + "|" + targetMinute.toString();
-    }
-
     static function _storedTargetEpoch(slot as Lang.Number, targetYear as Lang.Number, targetMonth as Lang.Number, targetDay as Lang.Number, allDay as Lang.Boolean, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
-        var resolvedEpoch = resolveTargetEpochForDate(targetYear, targetMonth, targetDay, targetHour, targetMinute);
-        var signature = targetSignature(targetYear, targetMonth, targetDay, allDay, targetHour, targetMinute);
-        var storedSignature = _storageText(_slotKey(slot, "target_signature"));
-        var storedEpoch = _storageNumber(_slotKey(slot, "target_epoch"));
-        if (storedEpoch != null && storedEpoch > 0 && storedSignature == signature && _isPlausibleStoredEpoch(storedEpoch, resolvedEpoch)) {
-            return storedEpoch;
-        }
-
-        return resolvedEpoch;
-    }
-
-    static function _isPlausibleStoredEpoch(storedEpoch as Lang.Number, resolvedEpoch as Lang.Number) as Lang.Boolean {
-        var delta = storedEpoch - resolvedEpoch;
-        if (delta < 0) {
-            delta = -delta;
-        }
-
-        return delta <= (2 * SECONDS_PER_DAY);
+        return CountdownTargetTime.forSlot(slot, targetYear, targetMonth, targetDay, allDay, targetHour, targetMinute);
     }
 
     static function _targetPartsForSlot(slot as Lang.Number) as Lang.Dictionary or Null {
         var year = _propertyNumber(_slotKey(slot, "target_year"));
         var month = _propertyNumber(_slotKey(slot, "target_month"));
         var day = _propertyNumber(_slotKey(slot, "target_day"));
+
+        if (!_validDateProperty(_slotKey(slot, "target_year"))
+            || !_validDateProperty(_slotKey(slot, "target_month"))
+            || !_validDateProperty(_slotKey(slot, "target_day"))) {
+            return null;
+        }
 
         if (_hasExplicitDateParts(year, month, day)) {
             if (_isValidDate(year, month, day)) {
@@ -176,6 +139,25 @@ class CountdownEvents {
         return year % 4 == 0;
     }
 
+    static function _validModeProperty(key as String) as Lang.Boolean {
+        var value = _propertyValue(key);
+        return value == null || _booleanOrNull(value) != null;
+    }
+
+    static function _validDateProperty(key as String) as Lang.Boolean {
+        var value = _propertyValue(key);
+        return value == null || (value instanceof Lang.String && value.length() == 0) || CountdownTargetTime.number(value) != null;
+    }
+
+    static function _validTimeProperty(key as String, maximum as Lang.Number) as Lang.Boolean {
+        var value = _propertyValue(key);
+        if (value == null) {
+            return true;
+        }
+        var parsed = CountdownTargetTime.number(value);
+        return parsed != null && parsed >= 0 && parsed <= maximum;
+    }
+
     static function _slotKey(slot as Lang.Number, suffix as String) as String {
         return "event" + slot.toString() + "_" + suffix;
     }
@@ -217,40 +199,7 @@ class CountdownEvents {
             return null;
         }
 
-        return text.toNumber();
-    }
-
-    static function _storageNumber(key as String) as Lang.Number or Null {
-        var value = Storage.getValue(key);
-        if (value == null) {
-            return null;
-        }
-
-        return value.toString().toNumber();
-    }
-
-    static function _storageText(key as String) as String or Null {
-        var value = Storage.getValue(key);
-        if (value == null) {
-            return null;
-        }
-
-        var text = value.toString();
-        if (text.length() == 0) {
-            return null;
-        }
-
-        return text;
-    }
-
-    static function _propertyBoolean(key as String, defaultValue as Lang.Boolean) as Lang.Boolean {
-        var value = _propertyValue(key);
-        var parsed = _booleanOrNull(value);
-        if (parsed != null) {
-            return parsed as Lang.Boolean;
-        }
-
-        return defaultValue;
+        return CountdownTargetTime.number(text);
     }
 
     static function _propertyBooleanOrNull(key as String) as Lang.Boolean or Null {
@@ -285,23 +234,23 @@ class CountdownEvents {
         }
 
         var text = value.toString();
-        if (text == "true") {
+        if (text.equals("true")) {
             return true;
         }
 
-        if (text == "1") {
+        if (text.equals("1")) {
             return true;
         }
 
-        if (text == "false") {
+        if (text.equals("false")) {
             return false;
         }
 
-        if (text == "0") {
+        if (text.equals("0")) {
             return false;
         }
 
-        var numericValue = text.toNumber();
+        var numericValue = CountdownTargetTime.number(text);
         if (numericValue != null) {
             return numericValue != 0;
         }

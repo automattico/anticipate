@@ -1,0 +1,2 @@
+# Combine with monkey.jungle using monkeyc -f 'monkey.jungle;tests.jungle'.
+base.sourcePath = $(base.sourcePath);tests
