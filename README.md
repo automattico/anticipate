@@ -11,7 +11,7 @@ This project was built with help from OpenAI Codex.
 - Up to 5 countdowns configured in Connect IQ app settings
 - Optional specific hour and minute for timed events
 - All-day countdowns with date-only display
-- Countdown targets pinned to the user's local timezone when saved
+- Countdown targets use the watch's local UTC offset when saved, then stay pinned to that instant
 - Horizontal paging between configured countdowns
 
 ## Current Device Support
@@ -118,6 +118,14 @@ Each countdown slot stores:
 Legacy installs may also have `eventN_target_date`, `eventN_all_day`, and `eventN_target_epoch` in Application.Properties. These are kept as hidden compatibility inputs only.
 
 The app stores internal `eventN_target_epoch` and `eventN_target_signature` values in Application.Storage so it can detect real countdown-input changes without repinning saved epochs on every startup or rename.
+
+Timezone conversion is shared by the widget and glance, including glance-first use. All-day events use local midnight. The effective UTC offset includes daylight saving at save time and fractional-hour timezones. A saved instant does not move when the watch changes timezone or daylight-saving offset; change the event's date/time to pin it again. Future daylight-saving rules are not predicted.
+
+Optional Application.Storage fields `eventN_target_time_version` (currently `1`) and `eventN_target_time_backup` track the local-time fix. Old cached targets are corrected automatically only when their signature matches the configured inputs and their epoch exactly matches the former UTC calculation. Before correction, the original epoch, signature, and conversion offset are backed up once. Interrupted repairs resume using that offset. Custom or mismatched targets are preserved, with the observed input signature recorded in the backup so a later date/time edit can create a new target. Existing backups are never replaced. Malformed or incomplete caches are retained without deletion.
+
+Historical save-time timezone information was not stored. Repairs use the watch's current offset, so events saved in another timezone or manually adjusted to compensate for the old UTC bug may need a date/time adjustment after upgrading. Names, dates, time settings, legacy properties, and the app ID remain unchanged.
+
+See [timezone verification](docs/timezone-testing.md) for regression tests and the upgrade release gate.
 
 `eventN_use_specific_time` is shown to users as `Add a time`. Hour and minute remain editable in settings, but the app ignores them when `Add a time` is off. On first launch after upgrading from an older release, the app migrates legacy `eventN_target_date` values into numeric year/month/day settings and migrates legacy `eventN_all_day` into `eventN_use_specific_time` when needed.
 

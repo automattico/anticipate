@@ -80,7 +80,12 @@ class CountdownGlanceSupport {
 
     static function _firstConfiguredEvent() as Lang.Dictionary or Null {
         for (var slot = 1; slot <= 5; slot += 1) {
-            var event = _eventForSlot(slot);
+            var event;
+            try {
+                event = _eventForSlot(slot);
+            } catch (e) {
+                event = null;
+            }
             if (event != null) {
                 return event;
             }
@@ -95,10 +100,19 @@ class CountdownGlanceSupport {
             return null;
         }
 
+        if (!_validModeProperty(_slotKey(slot, "use_specific_time"))
+            || !_validModeProperty(_slotKey(slot, "all_day"))) {
+            return null;
+        }
+
         var targetHour = _boundedNumber(_slotKey(slot, "target_hour"), 0, 23, 0);
         var targetMinute = _boundedNumber(_slotKey(slot, "target_minute"), 0, 59, 0);
         var useSpecificTime = _useSpecificTime(slot, targetHour, targetMinute);
         var allDay = !useSpecificTime;
+        if (!allDay && (!_validTimeProperty(_slotKey(slot, "target_hour"), 23)
+            || !_validTimeProperty(_slotKey(slot, "target_minute"), 59))) {
+            return null;
+        }
         var epochHour = targetHour;
         var epochMinute = targetMinute;
         if (allDay) {
@@ -114,7 +128,7 @@ class CountdownGlanceSupport {
             :targetDay => dateParts[:day] as Lang.Number,
             :targetHour => targetHour,
             :targetMinute => targetMinute,
-            :targetEpoch => _resolveTargetEpochForDate(dateParts[:year] as Lang.Number, dateParts[:month] as Lang.Number, dateParts[:day] as Lang.Number, epochHour, epochMinute)
+            :targetEpoch => CountdownTargetTime.forSlot(slot, dateParts[:year] as Lang.Number, dateParts[:month] as Lang.Number, dateParts[:day] as Lang.Number, allDay, epochHour, epochMinute)
         };
     }
 
@@ -131,6 +145,12 @@ class CountdownGlanceSupport {
         var year = _propertyNumber(_slotKey(slot, "target_year"));
         var month = _propertyNumber(_slotKey(slot, "target_month"));
         var day = _propertyNumber(_slotKey(slot, "target_day"));
+
+        if (!_validDateProperty(_slotKey(slot, "target_year"))
+            || !_validDateProperty(_slotKey(slot, "target_month"))
+            || !_validDateProperty(_slotKey(slot, "target_day"))) {
+            return null;
+        }
 
         if (_hasDateParts(year, month, day)) {
             if (_isValidDate(year, month, day)) {
@@ -186,15 +206,23 @@ class CountdownGlanceSupport {
         };
     }
 
-    static function _resolveTargetEpochForDate(year as Lang.Number, month as Lang.Number, day as Lang.Number, targetHour as Lang.Number, targetMinute as Lang.Number) as Lang.Number {
-        return Gregorian.moment({
-            :year => year,
-            :month => month,
-            :day => day,
-            :hour => targetHour,
-            :minute => targetMinute,
-            :second => 0
-        }).value() as Lang.Number;
+    static function _validModeProperty(key as String) as Lang.Boolean {
+        var value = _propertyValue(key);
+        return value == null || _booleanOrNull(value) != null;
+    }
+
+    static function _validDateProperty(key as String) as Lang.Boolean {
+        var value = _propertyValue(key);
+        return value == null || (value instanceof Lang.String && value.length() == 0) || CountdownTargetTime.number(value) != null;
+    }
+
+    static function _validTimeProperty(key as String, maximum as Lang.Number) as Lang.Boolean {
+        var value = _propertyValue(key);
+        if (value == null) {
+            return true;
+        }
+        var parsed = CountdownTargetTime.number(value);
+        return parsed != null && parsed >= 0 && parsed <= maximum;
     }
 
     static function _slotKey(slot as Lang.Number, suffix as String) as String {
@@ -229,7 +257,7 @@ class CountdownGlanceSupport {
             return null;
         }
 
-        return text.toNumber();
+        return CountdownTargetTime.number(text);
     }
 
     static function _boundedNumber(key as String, minValue as Lang.Number, maxValue as Lang.Number, defaultValue as Lang.Number) as Lang.Number {
@@ -273,23 +301,23 @@ class CountdownGlanceSupport {
         }
 
         var text = value.toString();
-        if (text == "true") {
+        if (text.equals("true")) {
             return true;
         }
 
-        if (text == "1") {
+        if (text.equals("1")) {
             return true;
         }
 
-        if (text == "false") {
+        if (text.equals("false")) {
             return false;
         }
 
-        if (text == "0") {
+        if (text.equals("0")) {
             return false;
         }
 
-        var numericValue = text.toNumber();
+        var numericValue = CountdownTargetTime.number(text);
         if (numericValue != null) {
             return numericValue != 0;
         }
